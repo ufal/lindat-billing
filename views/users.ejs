@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title><%= title %></title>
+        <link rel='stylesheet' href='/stylesheets/style.css' />
+    </head>
+    <body>
+        <h3>Displaying logs of <%= user %></h3>
+        <ul>
+            <% for(var i=0; i<logs.length; i++) {%>
+            <li><%= logs[i] %></li>
+            <% } %>
+        </ul>
+    </body>
+</html>
