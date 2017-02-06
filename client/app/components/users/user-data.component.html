@@ -1,0 +1,13 @@
+<form class="well" (submit)="searchUser($event)">
+    <div class="form-group">
+        <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
+    </div>
+</form>
+
+<div class="data-list">
+    <div *ngFor="let log of user?.data">
+        <div class="col-md-12">
+            {{log}}
+        </div>
+    </div>
+</div>
