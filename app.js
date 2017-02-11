@@ -29,6 +29,11 @@ app.use('/', index);
 //app.use('/*', users);
 app.use('/api', users);
 
+
+var lo = require('./logs/manage-logs');
+lo('./public/logs');
+
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

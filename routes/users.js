@@ -1,45 +1,28 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
+var url = require('url');
+var database = require('../logs/database');
 
 var logs = [];
-/*var id = "";
 
-router.get('/', function(req, res, next) {
-    logs = [];
-    fs.readFileSync('./public/access_short.log').toString().split('\n').forEach(function (line) {
-        id = req.baseUrl.substr(1);
-        var logId = line.substr(0,line.indexOf(' '));
-        if (id == logId)
-        {
-            logs.push(line + "\n");
-        }
-    });
-    res.render('users', { title: 'lindat-billing', user: id, logs: logs });
-});*/
+var db = new database();
+
+//logs = parser('195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /Shibboleth.sso/DiscoFeed HTTP/1.1" 200 389353 "-" "Java/1.8.0_45"');
+//db.insert();
+//console.log(logs);
 
 router.get('/users/*', function (req, res, next) {
-    logs = [];
-    fs.readFileSync('./public/access_short.log').toString().split('\n').forEach(function (line) {
-        id = req.url.substr(7);
-        var logId = line.substr(0, line.indexOf(' '));
-        if (id == logId) {
-            console.log(line);
-            logs.push(line + "\n");
-        }
-    })
+    // select relevant data from database
+    var id = req.url.substr(7);
+    logs = db.select(" WHERE ip = '" + id + "'::cidr");
     res.json(logs);
 })
 
 // get all data
 router.get('/users', function (req, res, next) {
-    logs = [];
-    fs.readFileSync('./public/access_short.log').toString().split('\n').forEach(function (line) {
-        logs.push(line + "\n");
-    });
+    logs = db.select("");
     res.json(logs);
 })
-
-
 
 module.exports = router;

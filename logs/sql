@@ -1,0 +1,9 @@
+CREATE TABLE Logs
+(
+id bigint NOT NULL DEFAULT nextval('logs_id_seq'::regclass),
+ip inet,
+datetime timestamp with time zone,
+request text,
+CONSTRAINT logs_pkey PRIMARY KEY (id)
+);
+
