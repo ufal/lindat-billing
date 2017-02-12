@@ -5,7 +5,7 @@ var db = new database();
 
 function parser (data) {
     data.toString().split('\n').forEach(function (line) {
-        parseLine(line, addLine);
+        if (line.length > 0) parseLine(line, addLine);
     });
 }
 

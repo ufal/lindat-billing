@@ -1,6 +1,7 @@
 var fs = require('fs');
 var path = require('path');
-
+var jsonName = './log-files.json';
+var info = require(jsonName);
 var parser = require('./parser');
 
 /**
@@ -34,10 +35,12 @@ function tailFile(filePath, bytesToRead, follow, callback) {
      */
     function readFile(start, end) {
         var fileStream = fs.createReadStream(filePath, {start: start, end: end});
-        console.log("reading from $1 to $2", [start, end]);
+        console.log("reading from ", start, " to ", end);
         fileStream.on('data', function(data) {
             parser(data);
             //callback(null, data, unsubscribe);
+            info[filePath.substr(filePath.lastIndexOf('/')+1)] = end;
+            write();
         });
 
         fileStream.on('error', function(err) {
@@ -62,7 +65,8 @@ function tailFile(filePath, bytesToRead, follow, callback) {
         var mtimeCurr = curr.mtime.valueOf();
         var mtimePrev = prev.mtime.valueOf();
 
-        if ((inodeCurr !== inodePrev) || (sizeDiff < 0) || (sizeDiff === 0 && mtimeCurr !== mtimePrev)) {
+        //if ((inodeCurr !== inodePrev) || (sizeDiff < 0) || (sizeDiff === 0 && mtimeCurr !== mtimePrev)) {
+        if ((sizeDiff < 0) || (sizeDiff === 0 && mtimeCurr !== mtimePrev)) {
             // Log file was rotated or truncated
             start = 0;
             end = (bytesToRead > sizeCurr) ? sizeCurr : bytesToRead;
@@ -100,11 +104,19 @@ function tailFile(filePath, bytesToRead, follow, callback) {
 
         if (end === 0) {
             // Empty file
-            callback(null, '', (follow) ? unsubscribe : null);
+            //callback(null, '', (follow) ? unsubscribe : null);
             return;
         }
         console.log("read: " + start + " " + end);
         readFile(start, end);
+    });
+}
+
+function write() {
+    fs.writeFile('./logs/' + jsonName, JSON.stringify(info), function (err) {
+        if (err) return console.log(err);
+        //console.log(JSON.stringify(info));
+        //console.log('writing to ' + jsonName);
     });
 }
 
