@@ -26,20 +26,29 @@ db.prototype.insert = function (address, date, request) {
             if (err) {
                 console.log(err);
             } else {
-                console.log('Insert Successful');
+                console.log('Inserted ', address, date, request);
             }
         });
     }
 
-db.prototype.select = function (what) {
+db.prototype.select = function (what, callback) {
     client.query("SELECT * FROM logs" + what,
+        function(err, result)
+        {
+            if (err)
+                callback(err,null);
+            else
+                callback(null,result.rows);
+        /*
     function(err, result) {
         if (err) {
             console.log(err);
         } else {
             console.log('Select Successful');
-            return result;
-        }
+            console.log(result.rows);
+            callback(result.rows);
+            //return result;
+        }*/
     });
 }
 

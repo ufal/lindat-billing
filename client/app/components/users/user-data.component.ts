@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { UserDataService } from '../../services/user-data.service';
-import {UserData} from '../../../user-data';
 
 @Component({
     moduleId: module.id,
@@ -9,31 +8,27 @@ import {UserData} from '../../../user-data';
 })
 
 export class UserDataComponent  {
-    user: UserData;
     title: string;
+    data: Object[];
 
     constructor(private userDataService:UserDataService){
         this.userDataService.getUser("")
             .subscribe(user => {
-                this.user = user;
+                //console.log(user);
+                //this.user = user;
             });
     }
 
     searchUser(event: Event) {
         event.preventDefault();
 
-        var newLogs = {
-            //userName: this.title,
-            //text: "a"
-        }
-
         this.userDataService.getUser(this.title)
             .subscribe(log => {
-                this.user.data = log;
-                this.user.userName = this.title;
+                console.log(log);
                 this.title = '';
+                this.data = log;
+                console.log("zde");
+                console.log(this.data);
             });
-        console.log(this.user.userName);
-    //console.log(this.user.data);
     }
 }

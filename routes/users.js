@@ -15,8 +15,20 @@ var db = new database();
 router.get('/users/*', function (req, res, next) {
     // select relevant data from database
     var id = req.url.substr(7);
-    logs = db.select(" WHERE ip = '" + id + "'::cidr");
-    res.json(logs);
+    //console.log(" WHERE ip = '" + id + "'::inet");
+    //logs = db.select(" WHERE ip = '" + id + "'::inet", res.json);
+    //console.log("router prints logs: " + logs);
+    //res.json(logs);
+    db.select(" WHERE ip = '" + id + "'::inet", function(err,data) {
+        if (err) {
+            // error handling code goes here
+            console.log("ERROR : ", err);
+        } else {
+            // code to execute on data retrieval
+            //console.log("result from db is : ", data);
+            res.json(data);
+        }
+    });
 })
 
 // get all data
