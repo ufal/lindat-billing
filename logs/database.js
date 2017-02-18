@@ -1,33 +1,27 @@
-var pg = require('pg');
+var pgp = require('pg-promise')();
 var conString =  "postgres://postgres:12345@localhost:5432/lindat-billing";
 //"postgres://YourUserName:YourPassword@localhost:5432/YourDatabase";
 
-var client = new pg.Client(conString);
+var client = new pgp(conString);
 client.connect();
 
 function db () {}
-/*
-var update = function () {
-    console.log(Date());
-}
 
-setInterval(function() {
-    var date = new Date();
-    if ( date.getSeconds() === 0 ) {
-        update();
-    }
-}, 1000);
-*/
-//insert("195.113.20.155", "[08/Mar/2016:14:48:43 +0100]", 'GET /Shibboleth.sso/DiscoFeed HTTP/1.1" 200 389353 "-" "Java/1.8.0_45');
-db.prototype.insert = function (address, date, request) {
-    client.query("INSERT INTO logs(ip, datetime, request) values($1, $2, $3)",
-        [address,date,request],
-        function(err, result) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log('Inserted ', address, date, request);
-            }
+db.prototype.insert = (values) => {
+    var cs = new pgp.helpers.ColumnSet(['ip', 'datetime', 'request'], {table: 'logs'});
+
+    // generating a multi-row insert query:
+    var query = pgp.helpers.insert(values, cs);
+    //=> INSERT INTO "tmp"("col_a","col_b") VALUES('a1','b1'),('a2','b2')
+
+    // executing the query:
+    client.any(query)
+        .then(data => {
+            console.log('Inserted', values.length, 'values');
+            if (data.length > 0) console.log('Failed to insert: ', data);
+        })
+        .catch(error => {
+            console.log(error);
         });
     }
 
