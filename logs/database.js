@@ -1,5 +1,6 @@
-var pgp = require('pg-promise')();
-var conString =  "postgres://postgres:12345@localhost:5432/lindat-billing";
+var pgp = require('pg\-promise')();
+//var conString = //"postgres://localhost:5433/lindat-billing-test";
+var conString = "postgres://postgres:12345@localhost:5432/lindat-billing";
 //"postgres://YourUserName:YourPassword@localhost:5432/YourDatabase";
 
 var client = new pgp(conString);
@@ -21,7 +22,8 @@ db.prototype.insert = (values) => {
             if (data.length > 0) console.log('Failed to insert: ', data);
         })
         .catch(error => {
-            console.log(error);
+            //console.log(error);
+            console.log('Insert FAILED');
         });
     }
 
