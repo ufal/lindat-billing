@@ -1,9 +1,21 @@
 var pgp = require('pg\-promise')();
-var conString = "postgres://dkubon@localhost:5433/lindat-billing-test";
+//var conString = "postgres://dkubon@localhost:5433/lindat-billing-test";
 //var conString = "postgres://postgres:12345@localhost:5432/lindat-billing";
 //"postgres://YourUserName:YourPassword@localhost:5432/YourDatabase";
 
-var client = new pgp(conString);
+
+// Database connection details;
+var connectionDetails = {
+    host: 'localhost', // 'localhost' is the default;
+    port: 5433, // 5432 is the default;
+    //database: 'lindat-billing',
+    database: 'lindat-billing-test',
+    //user: 'postgres',
+    user: 'dkubon',
+    //password: '12345'
+};
+
+var client = pgp(connectionDetails);
 client.connect();
 
 function db () {}
