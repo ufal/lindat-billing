@@ -4,9 +4,9 @@ var jsonName = './log-files.json';
 var info = require(jsonName);
 var parser = require('./parser');
 
-var blocLimit = 700;
+var blocLimit = 100000000; //700;
 
-function readFiles(dirname, fileContent, onError) {
+function readFiles(dirname, fileContent) {
     fs.readdir(dirname, (err, filenames) => {
         if (err) {
             onError(err);
@@ -40,7 +40,7 @@ function onFileContent(filePath) {
     // the size of the file in bytes
     var size = fs.statSync(filePath)["size"];
 
-    recursiveAdd(filePath, alreadyRead, size)
+    recursiveAdd(filePath, alreadyRead, size, 0)
         .then(() => {
             info[filename] = size;
             write();
@@ -56,7 +56,7 @@ function onFileContent(filePath) {
         })
 }
 
-function recursiveAdd(filePath, alreadyRead, size) {
+function recursiveAdd(filePath, alreadyRead, size, depth) {
     return new Promise((resolve, reject) => {
         var end = (size - alreadyRead > blocLimit) ? alreadyRead + blocLimit : size;
         var fileStream = fs.createReadStream(filePath, {start: alreadyRead, end: end});
@@ -67,21 +67,23 @@ function recursiveAdd(filePath, alreadyRead, size) {
                     info[filename] = alreadyRead + blocLimit - lastLineLength + 1;
                     alreadyRead += blocLimit - lastLineLength + 1;
                     if (alreadyRead < size) {
-                        recursiveAdd(filePath, alreadyRead, size)
-                            .then(() => {
-                                resolve();
+                        return recursiveAdd(filePath, alreadyRead, size, depth+1);
+                        /*    .then(() => {
+                                console.log("if:", depth);
+                                return resolve();
                             })
                             .catch((err) => {
                                 console.log(err);
-                                reject(err);
-                            })
+                                return reject(err);
+                            })*/
                     } else {
+                        console.log("else:", depth);
                         resolve();
                     }
                 })
                 .catch((err) => {
                     console.log(err);
-                    reject(err);
+                    return reject(err);
                 })
         })
     });

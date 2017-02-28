@@ -19,7 +19,7 @@ var parser = require('./parser');
 function tailFile(filePath, bytesToRead, beggining, follow, callback) {
     var stat, watchFileListener;
     var filename = filePath.substr(filePath.lastIndexOf('/')+1);
-    console.log("should read: " + bytesToRead);
+    //console.log("should read: " + bytesToRead);
 
     /**
      * Read a file.
@@ -110,7 +110,7 @@ function tailFile(filePath, bytesToRead, beggining, follow, callback) {
             callback(null, filename, '', (follow) ? unsubscribe : null);
             return;
         }
-        console.log("read: " + start + " " + end);
+        //console.log("read: " + start + " " + end);
         readFile(start, end);
     });
 }

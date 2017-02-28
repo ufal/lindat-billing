@@ -32,10 +32,12 @@ db.prototype.insert = (values) => {
         .then(data => {
             console.log('Inserted', values.length, 'values');
             if (data.length > 0) console.log('Failed to insert: ', data);
+            resolve();
         })
         .catch(error => {
             //console.log(error);
             console.log('Insert FAILED');
+            reject();
         });
     }
 
