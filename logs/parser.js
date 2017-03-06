@@ -14,9 +14,7 @@ function parser (data) {
                 else {
                     //console.log("last line length ", Buffer.byteLength(line,'utf-8'));
                     if (lines.length > 0) {
-                        db.insert(lines, (err) => {
-                            if (err) return reject(err);
-                        });
+                        db.insert(lines);
                     }
                     return resolve(Buffer.byteLength(line,'utf-8'));
                 }
@@ -28,10 +26,17 @@ var parseLine = (line) => {
     var ip = line.substr(0, line.indexOf(' '));
     var time = line.substr(line.indexOf('[')+1, line.indexOf(']')-line.indexOf('[')-1);
     var request = line.substr(line.indexOf('"'));
+    var service = false;
+    if (request.substr(1,3) == "GET") {
+        var arrRequest = request.substr(5).split(['/']);
+        if (arrRequest[1] == "services")
+            service = true;
+    }
 
     var logEntry = {
         'ip': ip,
         'datetime': time,
+        'service' : service,
         'request': request
     };
     return logEntry;
