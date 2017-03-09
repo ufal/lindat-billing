@@ -14,10 +14,13 @@ var db = new database();
 
 router.get('/users/*', function (req, res, next) {
     // select relevant data from database
-    var id = req.url.substr(7);
+    var request = req.url.split(['/']);
+    var id = request[2];
+    var from = request[3].substr(5);
+    var to = request[4].substr(3);
     if (validateIPaddress(id)) {
-        console.log("SELECT * from logs WHERE ip = '" + id + "'::inet");
-        db.select(" WHERE ip = '" + id + "'::inet")
+        console.log("SELECT * from logs WHERE ip = '" + id + "'::inet and datetime > '" + from + "' and datetime <= '" + to + "'");
+        db.select(" WHERE ip = '" + id + "'::inet and datetime > '" + from + "' and datetime <= '" + to + "'")
             .then(data => {
                 res.json(data);
             })
