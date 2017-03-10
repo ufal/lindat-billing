@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { UserDataService } from '../../services/user-data.service';
+import { DateRangeComponent } from '../date-range-picker.component';
 
 @Component({
     moduleId: module.id,
@@ -12,7 +13,7 @@ export class UserDataComponent  {
     data: Object[];
     errorMessage: string;
 
-    constructor(private userDataService:UserDataService){
+    constructor(private userDataService:UserDataService, private dateRangeComponent:DateRangeComponent){
         this.userDataService.getUser("","","")
             .subscribe(user => {
                 //console.log(user);
@@ -27,8 +28,8 @@ export class UserDataComponent  {
     searchUser(event: Event) {
         event.preventDefault();
 
-        var from = "";// + this.model.beginDate.year + "-" + this.model.beginDate.month + "-" + this.model.beginDate.day;
-        var to = "";// + this.model.endDate.year + "-" + this.model.endDate.month + "-" + this.model.endDate.day;
+        var from = this.dateRangeComponent.getStart();
+        var to = this.dateRangeComponent.getEnd();
 
         console.log(from, "to", to);
 

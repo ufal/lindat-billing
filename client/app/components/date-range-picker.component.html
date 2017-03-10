@@ -2,5 +2,6 @@
     <my-date-range-picker
             name="mydaterange"
             [options]="myDateRangePickerOptions"
+            (dateRangeChanged)="onDateRangeChanged($event)"
             [(ngModel)]="model" required></my-date-range-picker>
 </form>
