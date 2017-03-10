@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgModule, OnInit } from '@angular/core';
 import { IMyOptions, IMyDateRangeModel } from 'mydaterangepicker';
 
 @Component({
@@ -34,9 +34,9 @@ export class DateRangeComponent implements  OnInit {
         beginDate: {year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate()},
         endDate: {year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate()}
     };
-
+/*
     onDateRangeChanged(event: IMyDateRangeModel) {
         this.model = {beginDate: event.beginDate, endDate: event.endDate};
         console.log('onDateRangeChanged(): Formatted: ', event.formatted);
-    }
+    }*/
 }
