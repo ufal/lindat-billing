@@ -12,11 +12,13 @@ var connectionDetails = {
     database: 'lindat-billing-test',
     //user: 'postgres',
     user: 'dkubon',
-    //password: '12345'
+    password: '123'
 };
 
 var client = pgp(connectionDetails);
-client.connect();
+client.connect().catch(error=> {
+    console.log('Error:', error);
+});
 
 function db () {}
 
