@@ -13,9 +13,15 @@ export class UserDataService{
         return this.http.get('http://localhost:3000/api/users')
             .map(res => res.json());
     }
-*/
+*//*
     getUser(name: string) {
-        return this.http.get('http://localhost:3000/api/users/' + name)
+        return this.http.get('http://localhost:3020/api/users/' + name)
+            .map(res => res.json());
+    }*/
+
+    getUser(name: string, from: string, to: string) {
+        return this.http.get('http://localhost:3020/api/users/' + name + '/from=' + from + "/to=" + to)
             .map(res => res.json());
     }
+
 }

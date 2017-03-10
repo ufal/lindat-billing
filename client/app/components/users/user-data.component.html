@@ -1,8 +1,23 @@
-<form class="well" (submit)="searchUser($event)">
+<form class="row" (submit)="searchUser($event)">
     <div class="form-group">
-        <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
+        <div class="col-md-6">
+            <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
+        </div>
+        <div class="col-md-3">
+            <my-date-range-picker
+                    name="mydaterange"
+                    [options]="options"
+                    (dateRangeChanged)="onDateRangeChanged($event)"
+                    [(ngModel)]="model" required>
+            </my-date-range-picker>
+        </div>
+        <div class="col-md-2">
+            <button (click)="onClickMe()">Search</button>
+        </div>
     </div>
 </form>
+<hr>
+<span ng-show="errorMessage">{{errorMessage}}</span>
 <div class="data-list">
     <div *ngFor="let log of data">
         <div class="col-md-12">

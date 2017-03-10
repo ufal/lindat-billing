@@ -14,27 +14,36 @@ var db = new database();
 
 router.get('/users/*', function (req, res, next) {
     // select relevant data from database
-    var id = req.url.substr(7);
-    //console.log(" WHERE ip = '" + id + "'::inet");
-    //logs = db.select(" WHERE ip = '" + id + "'::inet", res.json);
-    //console.log("router prints logs: " + logs);
-    //res.json(logs);
-    db.select(" WHERE ip = '" + id + "'::inet", function(err,data) {
-        if (err) {
-            // error handling code goes here
-            console.log("ERROR : ", err);
-        } else {
-            // code to execute on data retrieval
-            //console.log("result from db is : ", data);
-            res.json(data);
-        }
-    });
+    var request = req.url.split(['/']);
+    var id = request[2];
+    var from = request[3].substr(5);
+    var to = request[4].substr(3);
+    if (validateIPaddress(id)) {
+        console.log("SELECT * from logs WHERE ip = '" + id + "'::inet and datetime > '" + from + "' and datetime <= '" + to + "'");
+        db.select(" WHERE ip = '" + id + "'::inet and datetime > '" + from + "' and datetime <= '" + to + "'")
+            .then(data => {
+                res.json(data);
+            })
+            .catch(err => {
+                res.json(["ERROR", err.message]);
+            });
+    } else {
+        if (id.length > 0) res.json(["ERROR", "Your input is not a valid IP address"]);
+        else res.json(["EMPTY", ""]);
+    }
 })
 
+function validateIPaddress(ipAddress) {
+    if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipAddress)) {
+        return (true);
+    }
+    return (false);
+}
+
 // get all data
-router.get('/users', function (req, res, next) {
+/*router.get('/users', function (req, res, next) {
     logs = db.select("");
     res.json(logs);
-})
+})*/
 
 module.exports = router;
