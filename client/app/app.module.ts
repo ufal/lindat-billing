@@ -8,8 +8,17 @@ import { DateRangeComponent } from './components/date-range-picker.component';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 @NgModule({
-  imports:      [ BrowserModule, HttpModule, FormsModule, MyDateRangePickerModule ],
-  declarations: [ AppComponent, UserDataComponent, DateRangeComponent ],
+  imports:      [
+      BrowserModule,
+      HttpModule,
+      FormsModule,
+      MyDateRangePickerModule
+  ],
+  declarations: [
+      AppComponent,
+      UserDataComponent,
+      DateRangeComponent
+  ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

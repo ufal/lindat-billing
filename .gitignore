@@ -1,6 +1,7 @@
 .idea
 node_modules
 client/node_modules
+client/app/*.js*
 
 #################
 ## Eclipse
