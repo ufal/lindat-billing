@@ -3,5 +3,10 @@
             name="mydaterange"
             [options]="myDateRangePickerOptions"
             (dateRangeChanged)="onDateRangeChanged($event)"
-            [(ngModel)]="model" required></my-date-range-picker>
+            (inputFieldChanged)="onInputFieldChanged($event)"
+            (calendarViewChanged)="onCalendarViewChanged($event)"
+            (dateSelected)="onDateSelected($event)"
+            [selDateRange]="selectedRange"
+            [placeholder]="placeholderTxt"
+            [(ngModel)]="selectedRange" required></my-date-range-picker>
 </form>
