@@ -4,7 +4,15 @@
             <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
         </div>
         <div class="col-md-3">
-            <date-range-picker></date-range-picker>
+            <form #myForm="ngForm" novalidate>
+                <my-date-range-picker
+                        name="mydaterange"
+                        [options]="myDateRangePickerOptions"
+                        (dateRangeChanged)="onDateRangeChanged($event)"
+                        [placeholder]="placeholderTxt"
+                        [(ngModel)]="model" required>
+                </my-date-range-picker>
+            </form>
         </div>
         <div class="col-md-2">
             <button (click)="onClickMe()">Search</button>

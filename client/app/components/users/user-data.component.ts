@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
 import { UserDataService } from '../../services/user-data.service';
-import { DataRangePickerService } from '../../services/data-range-picker.service';
+import { IMyOptions, IMyDateRangeModel, IMyDateRange, IMyDateSelected, IMyCalendarViewChanged, IMyInputFieldChanged } from 'mydaterangepicker';
 
 @Component({
     moduleId: module.id,
     selector: 'user-data',
     templateUrl: 'user-data.component.html',
+    styleUrls: [ 'user-data.component.css' ],
 })
 
 export class UserDataComponent  {
@@ -13,7 +14,13 @@ export class UserDataComponent  {
     data: Object[];
     errorMessage: string;
 
-    constructor(private userDataService:UserDataService, private dataRangePickerService:DataRangePickerService){
+    model: IMyDateRange = {
+        beginDate: {year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate()},
+        endDate: {year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate()}
+    }
+    placeholderTxt: string = 'Insert timespan';
+
+    constructor(private userDataService:UserDataService){
         this.userDataService.getUser("","","")
             .subscribe(user => {
                 //console.log(user);
@@ -21,15 +28,21 @@ export class UserDataComponent  {
             });
     }
 
-     onClickMe() {
-     //this.searchUser();
-     }
+    onClickMe() {
+        //this.searchUser();
+    }
 
     searchUser(event: Event) {
         event.preventDefault();
 
-        var from = this.dataRangePickerService.getStart();
-        var to = this.dataRangePickerService.getEnd();
+        if (typeof this.model === undefined || !this.model)
+        {
+            this.errorMessage = 'The dates you entered are not valid. Check them and try again.';
+            return;
+        }
+
+        var from = this.getStart();
+        var to = this.getEnd();
 
         console.log(from, "to", to);
 
@@ -44,10 +57,43 @@ export class UserDataComponent  {
                     this.title = '';
                 } else {
                     this.errorMessage = '';
-                    this.title = '';
+                    //this.title = '';
                     this.data = log;
                     console.log(this.data);
                 }
             });
+    }
+
+    getStart = () => {
+        var date = this.model.beginDate;
+        return date.day + "-" + date.month + "-" + date.year;
+    }
+
+    getEnd() {
+        var date = this.model.endDate;
+        return date.day + "-" + date.month + "-" + date.year;
+    }
+
+    private myDateRangePickerOptions: IMyOptions = {
+        quickRangeSelect: true,
+        dateFormat: 'dd.mm.yyyy',
+        showClearBtn: false,
+        acceptBtnTxt: "Apply",
+        markCurrentDay: true,
+        minYear: 2015,
+        maxYear: new Date().getFullYear(),
+        inline: false,
+        showClearDateRangeBtn: false,
+    };
+
+
+    onDateRangeChanged(event: IMyDateRangeModel) {
+        this.model = {beginDate: event.beginDate, endDate: event.endDate};
+        console.log('onDateRangeChanged(): ', event.formatted, 'with model', this.model);
+    }
+
+    clearDateRange() {
+        this.model = null;
+        console.log('DateRange Cleared');
     }
 }
