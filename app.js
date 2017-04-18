@@ -12,14 +12,15 @@ var cors = require('cors');
 
 var app = express();
 
-var allowCrossDomain = function(req, res, next) {
+app.use(cors({origin: 'http://localhost:3020'}));
+
+/*var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'example.com');
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     next();
 }
-
-app.use(allowCrossDomain);
+app.use(allowCrossDomain);*/
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
