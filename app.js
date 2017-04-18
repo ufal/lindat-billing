@@ -12,7 +12,7 @@ var cors = require('cors');
 
 var app = express();
 
-app.use(cors({origin: 'http://localhost:3020'}));
+app.use(cors({origin: 'https://ufal-point-dev.ms.mff.cuni.cz/services/lindat-billing/'}));
 
 /*var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'example.com');
