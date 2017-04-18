@@ -1,12 +1,14 @@
-.search-result{
+.search-result {
     border-bottom: 1px solid gray;
     border-left: 1px solid gray;
     border-right: 1px solid gray;
-    width:195px;
-    height: 16px;
+    border-top: 1px solid gray;
+    /*width:195px;
+    height: 16px;*/
     padding: 5px;
     background-color: white;
     cursor: pointer;
+    margin: 3px;
 }
 .search-result:hover {
     color: #eee;
