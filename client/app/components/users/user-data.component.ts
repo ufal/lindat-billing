@@ -38,6 +38,7 @@ export class UserDataComponent  {
         if (typeof this.model === undefined || !this.model)
         {
             this.errorMessage = 'The dates you entered are not valid. Check them and try again.';
+            this.data = [];
             return;
         }
 
