@@ -28,3 +28,16 @@ Run and fix
 ```
 npm run lint
 ```
+
+# Deployment
+
+## ufal-point-dev
+
+Initial:
+1. create new user (node), copy ssh keys
+2. ``` pm2 deploy pm2.json ufal-point-dev setup ```
+3. ``` pm2 deploy pm2.json ufal-point-dev ```
+4. create database, secrets file or ENV variables
+5. setup proxy
+
+

@@ -22,7 +22,7 @@ app.use(allowCrossDomain);*/
 
 // static files
 app.use(express.static(path.join(__dirname, '..', 'src')));
-app.use('/node_modules', express.static(path.join(__dirname, '..', 'node_modules/')));
+app.use('/node_modules', express.static(path.join(__dirname, '..', 'node_modules')));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

@@ -4,3 +4,5 @@
 node_modules
 src/**/*.js*
 src/**/*.map
+
+!src/systemjs.config.js
