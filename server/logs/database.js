@@ -1,20 +1,16 @@
+var config = require('../../settings/backend');
 var pgp = require('pg\-promise')();
+
+
 //var conString = "postgres://dkubon@localhost:5433/lindat-billing-test";
 //var conString = "postgres://postgres:12345@localhost:5432/lindat-billing";
 //"postgres://YourUserName:YourPassword@localhost:5432/YourDatabase";
 
 
 // Database connection details;
-var connectionDetails = {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    database: process.env.DB_NAME,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASS
-};
-var client = pgp(connectionDetails);
+var client = pgp(config.db);
 client.connect().catch(error=> {
-    console.log('Error:', error);
+    console.log('Error connecting to database [%s:%s]:', config.db.host, config.db.port, error);
 });
 
 
