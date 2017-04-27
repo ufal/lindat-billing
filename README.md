@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/ufal/lindat-billing.svg?branch=master)](https://travis-ci.org/ufal/lindat-billing)
+
 ## Installation
 
 1. clone
@@ -38,6 +40,6 @@ Initial:
 2. ``` pm2 deploy pm2.json ufal-point-dev setup ```
 3. ``` pm2 deploy pm2.json ufal-point-dev ```
 4. create database, secrets file or ENV variables
-5. setup proxy
+5. setup proxy, careful with '/' at the end, expecting relative paths to node
 
 
