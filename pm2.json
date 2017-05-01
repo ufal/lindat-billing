@@ -1,0 +1,26 @@
+{
+  "apps": [
+    {
+      "exec_mode": "fork_mode",
+      "cwd": "./",
+      "script": "server/bin/www",
+      "name": "lindat-billing",
+      "autorestart": true,
+
+      "env_production" : {
+        "NODE_ENV": "production",
+        "SECRETS_FILE_PATH": "/opt/lindat-billing/secrets.json"
+      }
+    }
+  ],
+  "deploy" : {
+    "ufal-point-dev" : {
+      "user" : "node",
+      "host" : "ufal-point-dev.ms.mff.cuni.cz",
+      "repo" : "https://github.com/ufal/lindat-billing.git",
+      "ref"  : "origin/minor_do",
+      "path" : "/opt/lindat-billing/installation/",
+      "post-deploy" : "npm install && npm run compile && PORT=3021 pm2 startOrRestart pm2.json --env production"
+    }
+  }
+}

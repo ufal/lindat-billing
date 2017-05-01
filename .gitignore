@@ -1,28 +1,8 @@
 .idea
 .env
+
 node_modules
-client/node_modules
-client/app/*.js*
-client/app/*/*.js*
-client/app/*/*/*.js*
-client/main.js*
-public
+src/**/*.js*
+src/**/*.map
 
-
-#############
-## Windows detritus
-#############
-
-# Windows image file caches
-Thumbs.db
-ehthumbs.db
-
-# Folder config file
-Desktop.ini
-
-# Recycle Bin used on file shares
-$RECYCLE.BIN/
-
-# Mac crap
-.DS_Store
-
+!src/systemjs.config.js

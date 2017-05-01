@@ -1,3 +1,11 @@
+
+CREATE SEQUENCE logs_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 10000000
+    CACHE 1;
+
 CREATE TABLE Logs
 (
 id bigint NOT NULL DEFAULT nextval('logs_id_seq'::regclass),
