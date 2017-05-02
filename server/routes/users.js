@@ -2,15 +2,15 @@ var express = require('express');
 var router = express.Router();
 var fs = require('fs');
 var url = require('url');
-var database = require('../logs/database');
+var database = require('../log_management/database');
 
 var logs = [];
 
 var db = new database();
 
-//logs = parser('195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /Shibboleth.sso/DiscoFeed HTTP/1.1" 200 389353 "-" "Java/1.8.0_45"');
+//log_management = parser('195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /Shibboleth.sso/DiscoFeed HTTP/1.1" 200 389353 "-" "Java/1.8.0_45"');
 //db.insert();
-//console.log(logs);
+//console.log(log_management);
 
 router.get('/users/*', function (req, res, next) {
     // select relevant data from database
@@ -42,8 +42,8 @@ function validateIPaddress(ipAddress) {
 
 // get all data
 /*router.get('/users', function (req, res, next) {
-    logs = db.select("");
-    res.json(logs);
+    log_management = db.select("");
+    res.json(log_management);
 })*/
 
 module.exports = router;

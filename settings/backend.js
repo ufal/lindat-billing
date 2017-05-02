@@ -6,7 +6,7 @@ const fs = require('fs');
 let _this_dir = __dirname;
 
 var settings = {
-    "input_dir": path.join(_this_dir, '..', 'input_logs'),
+    "input_dir": path.join(_this_dir, '..', process.env.INPUT_LOGS_PATH || 'input_logs'),
 
     "db": {
         host: process.env.LB_DB_HOST,

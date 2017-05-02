@@ -90,7 +90,7 @@ function recursiveAdd(filePath, alreadyRead, size, depth) {
 }
 
 function write() {
-    fs.writeFile('./logs/' + jsonName, JSON.stringify(info), (err) => {
+    fs.writeFile('./log_management/' + jsonName, JSON.stringify(info), (err) => {
         if (err) return console.log(err);
         //console.log(JSON.stringify(info));
         console.log('writing', info, 'to', jsonName);

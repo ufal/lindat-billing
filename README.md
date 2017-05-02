@@ -43,3 +43,20 @@ Initial:
 5. setup proxy, careful with '/' at the end, expecting relative paths to node
 
 
+
+# Notes on running
+
+## Environmental variables
+
+The following environmental variables are recommended to be set before running the code.
+
+```
+LB_DB_HOST=databasehost
+LB_DB_USER=username
+LB_DB_PASS=password
+LB_DB_PORT=databaseport
+LB_DB_NAME=databasename
+INPUT_LOGS_PATH=pathtoinput
+```
+
+An easy way to do so is include them in exactly this manner in a `.env` file in the main project directory.

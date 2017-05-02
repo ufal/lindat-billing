@@ -2,15 +2,14 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var cors = require('cors');
-
 var config = require('../settings/backend');
 var users = require('./routes/users');
-var logmanager = require('./logs/manage-logs');
+var logmanager = require('./log_management/manage-logs');
 
 var app = express();
 
 // TODO(jm) use e.g., env.variable
-app.use(cors({origin: 'https://ufal-point-dev.ms.mff.cuni.cz/services/lindat-billing/'}));
+app.use(cors({origin: process.env.CORS || 'https://ufal-point-dev.ms.mff.cuni.cz/services/lindat-billing/'}));
 
 /*var allowCrossDomain = function(req, res, next) {
     res.header('Access-Control-Allow-Origin', 'example.com');

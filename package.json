@@ -9,7 +9,7 @@
   },
 
   "scripts": {
-    "start": "node server/app.js",
+    "start": "node server/bin/www",
     "startlite": "tsc && concurrently \"tsc -w\" \"lite-server\"",
     "e2e": "tsc && concurrently \"http-server -s\" \"protractor protractor.config.js\" --kill-others --success first",
     "lint": "tslint -t verbose --exclude=src/app/components --exclude=src/app/services ./src/app/*.ts",
