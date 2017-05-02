@@ -17,7 +17,7 @@ export class UserDataComponent  {
     model: IMyDateRange = {
         beginDate: {year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate()},
         endDate: {year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate()}
-    }
+    };
     placeholderTxt: string = 'Insert timespan';
 
     constructor(private userDataService:UserDataService){
@@ -68,7 +68,7 @@ export class UserDataComponent  {
     getStart = () => {
         var date = this.model.beginDate;
         return date.day + "-" + date.month + "-" + date.year;
-    }
+    };
 
     getEnd() {
         var date = this.model.endDate;

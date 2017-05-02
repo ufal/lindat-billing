@@ -1,8 +1,17 @@
-//var regex = require('regex');
+/**
+ * Parsing the logs into a json object.
+ * @type {db}
+ */
+
 var database = require('./database');
 
 var db = new database();
 
+/**
+ *
+ * @param data The data do be parsed.
+ * @returns {Promise}
+ */
 function parser (data) {
     return new Promise((resolve, reject) => {
         var lines = [];
@@ -22,6 +31,11 @@ function parser (data) {
     })});
 }
 
+/**
+ *
+ * @param line
+ * @returns {{ip: string, datetime: string, service: boolean, request: string}}
+ */
 var parseLine = (line) => {
     var ip = line.substr(0, line.indexOf(' '));
     var time = line.substr(line.indexOf('[')+1, line.indexOf(']')-line.indexOf('[')-1);
@@ -40,6 +54,6 @@ var parseLine = (line) => {
         'request': request
     };
     return logEntry;
-}
+};
 
 module.exports = parser;

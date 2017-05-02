@@ -36,7 +36,7 @@ db.prototype.insert = (values) => {
             console.log(error);
             //reject();
         });
-    }
+    };
 
 db.prototype.select = (what) => {
     return new Promise((resolve, reject) => {
@@ -51,16 +51,16 @@ db.prototype.select = (what) => {
                 reject(error);
             });
     });
-}
+};
 
-db.prototype.delete = function () {}
+db.prototype.delete = function () {};
 
 //client.query("DELETE from logs WHERE id < 3");
 
 
 db.prototype.update = function () {
 
-}
+};
 
 /*
 query.on('row', function(row) {

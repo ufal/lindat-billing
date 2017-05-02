@@ -29,7 +29,7 @@ export class DateRangeComponent implements  OnInit {
         DateRangeComponent.selectedRange = {
             beginDate: {year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate()},
             endDate: {year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate()}
-        }
+        };
         //var event = new Event(onDateRangeChanged, EventInit())
     }
 
@@ -51,7 +51,7 @@ export class DateRangeComponent implements  OnInit {
     getStart = () => {
         var date = DateRangeComponent.selectedRange.beginDate;
         return date.day + "-" + date.month + "-" + date.year;
-    }
+    };
 
     getEnd() {
         var date = DateRangeComponent.selectedRange.endDate;

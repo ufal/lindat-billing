@@ -47,7 +47,6 @@ function onFileContent(filePath) {
             tail.tailFile(filePath, fs.statSync(filePath)["size"] - size, size, true, (err, filename, data, unsubscribe) => {
                 if (err) {
                     console.log(err);
-                    return;
                 }
             });
         })
