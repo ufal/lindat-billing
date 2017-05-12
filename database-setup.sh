@@ -1,7 +1,7 @@
 #!/bin/sh
 dropdb -p 5433 lindat-billing-test
 createdb -p 5433 lindat-billing-test
-psql -p 5433 lindat-billing-test << EOF
+psql -p 5433 -q -v "ON_ERROR_STOP=1" lindat-billing-test << EOF
 
 CREATE SEQUENCE logs_id_seq
     START WITH 1
@@ -37,4 +37,7 @@ CONSTRAINT logs_pkey PRIMARY KEY (id_l)
 
 \q
 EOF
-echo "Database is set up"
+if [ $? -gt 0 ];
+then "Error in database setup"
+else echo "Database is set up"
+fi
