@@ -10,9 +10,16 @@ CREATE SEQUENCE logs_id_seq
     MAXVALUE 10000000
     CACHE 1;
 
+CREATE SEQUENCE users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    MAXVALUE 10000000
+    CACHE 1;
+
 CREATE TABLE Users
 (
-id_u bigint NOT NULL DEFAULT nextval('logs_id_seq'::regclass),
+id_u bigint NOT NULL DEFAULT nextval('users_id_seq'::regclass),
 ip inet,
 CONSTRAINT users_pkey PRIMARY KEY (id_u)
 );
@@ -20,7 +27,7 @@ CONSTRAINT users_pkey PRIMARY KEY (id_u)
 
 CREATE TABLE Logs
 (
-id_l SERIAL PRIMARY KEY,
+id_l bigint NOT NULL DEFAULT nextval('logs_id_seq'::regclass),
 id_u int,
 id_s int,
 datetime timestamp with time zone,
