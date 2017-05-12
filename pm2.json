@@ -20,7 +20,8 @@
       "repo" : "https://github.com/ufal/lindat-billing.git",
       "ref"  : "origin/master",
       "path" : "/opt/lindat-billing/installation/",
-      "post-deploy" : "npm install && npm run compile && PORT=3021 pm2 startOrRestart pm2.json --env production"
+      "post-deploy" : "npm install && npm run compile && PORT=3021 pm2 startOrRestart pm2.json --env production",
+      "post-setup" : "./database-setup.sh"
     }
   }
 }

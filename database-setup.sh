@@ -30,3 +30,4 @@ CONSTRAINT logs_pkey PRIMARY KEY (id_l)
 
 \q
 EOF
+echo "Database is set up"
