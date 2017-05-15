@@ -1,3 +1,8 @@
+/**
+ *  Tailing of log files handling.
+ *      Whenever a watched file is changed, it gets the new data to parser
+ */
+
 var fs = require('fs');
 var path = require('path');
 var jsonName = './log-files.json';

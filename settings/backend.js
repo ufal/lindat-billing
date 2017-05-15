@@ -1,3 +1,7 @@
+/**
+ * Backend setting.
+ * Handles environmental variables.
+ */
 "use strict";
 
 const path = require('path');

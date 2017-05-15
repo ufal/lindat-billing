@@ -1,3 +1,7 @@
+/**
+ * Database operations management.
+ */
+
 var config = require('../../settings/backend');
 var pgp = require('pg\-promise')();
 var id_s = require('./services.json');

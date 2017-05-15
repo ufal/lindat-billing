@@ -1,3 +1,7 @@
+/**
+ * Tests.
+ */
+
 var assert = require('assert');
 var should = require('chai').should();
 var rewire = require('rewire');

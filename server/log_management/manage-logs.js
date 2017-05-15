@@ -1,3 +1,10 @@
+/**
+ * Takes care of logs management.
+ *  Checks current state of log processing.
+ *  Sets watcher on log files.
+ *  Processes new logs.
+ */
+
 var fs = require('fs');
 var tail = require('./tail');
 var jsonName = './log-files.json';
