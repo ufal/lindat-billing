@@ -39,5 +39,8 @@ CONSTRAINT logs_pkey PRIMARY KEY (id_l)
 EOF
 if [ $? -gt 0 ];
 then "Error in database setup"
-else echo "Database is set up"
+else
+    echo "Database is set up"
+    truncate -s 0 "./server/log_management/log-files.json"
+    echo "Log reading has been reset"
 fi
