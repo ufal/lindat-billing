@@ -20,8 +20,11 @@ export class UserDataService{
     }*/
 
     getUser(name: string, from: string, to: string) {
-        return this.http.get('http://localhost:3020/api/users/' + name + '/from=' + from + "/to=" + to)
+        console.log('Routing to:' + './api/users/' + name + '/from=' + from + "/to=" + to);
+        return this.http.get('./api/users/' + name + '/from=' + from + "/to=" + to)
             .map(res => res.json());
+        //return this.http.get('http://localhost:3020/api/users/' + name + '/from=' + from + "/to=" + to)
+        //    .map(res => res.json());
     }
 
 }
