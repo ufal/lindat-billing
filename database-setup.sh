@@ -42,5 +42,6 @@ then "Error in database setup"
 else
     echo "Database is set up"
     truncate -s 0 "./server/log_management/log-files.json"
+    echo "{}" > "./server/log_management/log-files.json"
     echo "Log reading has been reset"
 fi
