@@ -19,6 +19,8 @@ function readFiles(dirname, fileContent) {
             onError(err);
             return;
         }
+        console.log("Log files present: " + filenames.length);
+
         filenames.forEach(function(filename) {
             console.log(dirname + '/' + filename);
             fs.readFile(dirname + '/' + filename, 'utf-8', (err, content) => {
@@ -96,7 +98,7 @@ function recursiveAdd(filePath, alreadyRead, size, depth) {
 }
 
 function write() {
-    fs.writeFile('./log_management/' + jsonName, JSON.stringify(info), (err) => {
+    fs.writeFile('./server/log_management/' + jsonName, JSON.stringify(info), (err) => {
         if (err) return console.log(err);
         //console.log(JSON.stringify(info));
         console.log('writing', info, 'to', jsonName);
