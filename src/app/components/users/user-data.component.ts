@@ -21,11 +21,6 @@ export class UserDataComponent  {
     placeholderTxt: string = 'Insert timespan';
 
     constructor(private userDataService:UserDataService){
-        this.userDataService.getUser("","","")
-            .subscribe(user => {
-                //console.log(user);
-                //this.user = user;
-            });
     }
 
     onClickMe() {
