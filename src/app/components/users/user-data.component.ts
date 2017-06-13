@@ -27,6 +27,11 @@ export class UserDataComponent  {
         //this.searchUser();
     }
 
+    test(ip: string, from: string, to: string) {
+        console.log('Showing prepared sample');
+        this.getData(ip, from, to);
+    }
+
     searchUser(event: Event) {
         event.preventDefault();
 
@@ -42,7 +47,12 @@ export class UserDataComponent  {
 
         console.log(from, "to", to);
 
-        this.userDataService.getUser(this.title, from, to)
+        this.getData(this.title, from, to);
+    }
+
+    getData(ip: string, from: string, to: string)
+    {
+        this.userDataService.getUser(ip, from, to)
             .subscribe(log => {
                 if (log[0] == "ERROR") {
                     this.errorMessage = log[1];
