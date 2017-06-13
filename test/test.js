@@ -1,20 +1,21 @@
 /**
  * Tests.
  */
-
+require('dotenv').config();
 var assert = require('assert');
 var should = require('chai').should();
 var rewire = require('rewire');
 var parser = rewire("../server/log_management/parser");
 var users = rewire("../server/routes/users");
 
+/*
 describe('Default', function() {
     describe('#indexOf()', function() {
         it('should return -1 when the value is not present', function() {
             assert.equal(-1, [1,2,3].indexOf(4));
         });
     });
-});
+});*/
 
 describe('Parser', function () {
     describe('#parseLine()', function () {
@@ -24,6 +25,7 @@ describe('Parser', function () {
 
         it('ip is valid', function () {
             (parsed.ip).should.be.a('string');
+            //(parsed.ip).should.be.equal.to('195.113.20.155');
         })
 
         it('datetime is valid', function () {
@@ -37,6 +39,7 @@ describe('Parser', function () {
 
         it('request is valid', function () {
             (parsed.request).should.be.a('string');
+            //(parsed.ip).should.be.equal.to('/services/test/nesmysly');
         })
     })
 })
