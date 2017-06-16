@@ -30,7 +30,7 @@ describe('Parser', function () {
 
         it('datetime is valid', function () {
             //TODO dk: look up how to check if it's a valid timestamp
-            //(parsed.datetime).should.be.a('time');
+            // ... that is not really the point of it, is it?
         })
 
         it('service is valid', function () {
