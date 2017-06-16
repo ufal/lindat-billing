@@ -11,7 +11,7 @@ var jsonName = './log-files.json';
 var info = require(jsonName);
 var parser = require('./parser');
 
-var blocLimit = 100000000; //700;
+var blocLimit = 100000000; //700; 100MB
 
 function readFiles(dirname, fileContent) {
     fs.readdir(dirname, (err, filenames) => {
