@@ -14,3 +14,9 @@
     color: #eee;
     background-color: #607D8B;
 }
+.search-result-detail {
+    padding: 5px;
+    background-color: white;
+    cursor: text;
+    margin: 3px;
+}

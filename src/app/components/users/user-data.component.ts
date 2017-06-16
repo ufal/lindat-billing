@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { UserDataService } from '../../services/user-data.service';
 import { IMyOptions, IMyDateRangeModel, IMyDateRange, IMyDateSelected, IMyCalendarViewChanged, IMyInputFieldChanged } from 'mydaterangepicker';
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     moduleId: module.id,
@@ -27,8 +28,14 @@ export class UserDataComponent  {
         //this.searchUser();
     }
 
+    expand(p: any) {
+        p.expanded = !p.expanded;
+        //console.log(p, 'expanded:', p.expanded);
+    }
+
     test(ip: string, from: string, to: string) {
         console.log('Showing prepared sample');
+        this.title = ip;
         this.getData(ip, from, to);
     }
 
@@ -59,8 +66,9 @@ export class UserDataComponent  {
                     this.data = [];
                     console.log(log[1]);
                 } else if (log[0] == "EMPTY") {
-                    this.errorMessage = '';
-                    this.title = '';
+                    this.errorMessage = 'User ' + this.title
+                        + ' has no relevant data for the period between ' + from + ' and ' + to;
+                    this.data = [];
                 } else {
                     this.errorMessage = '';
                     //this.title = '';

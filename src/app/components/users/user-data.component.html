@@ -1,8 +1,8 @@
 <p>
     To run a few samples click on the following buttons:
     <button (click)="test('195.113.20.155','13-5-2015', '13-6-2017')">Sample 1</button>
-    <button (click)="test('91.234.162.125','13-5-2015', '13-6-2017')">Sample 2</button>
-    <button (click)="test('undefined','13-5-2015', '13-6-2017')">Error IP</button>
+    <button (click)="test('91.234.162.125','13-5-2015', '13-6-2017')">Sample 2 (error)</button>
+    <button (click)="test('12.34.56.789','13-5-2015', '13-6-2017')">Error IP</button>
 </p>
 <hr>
 <form class="row" (submit)="searchUser($event)">
@@ -27,11 +27,24 @@
     </div>
 </form>
 <hr>
+
 <span ng-show="errorMessage">{{errorMessage}}</span>
+
 <div class="data-list">
-    <div *ngFor="let log of data">
-        <div class="col-md-12">
-            <div class = "search-result">{{log.request}}</div>
+    <div *ngFor="let service of data">
+        <div *ngIf="service.total > 0">
+            <div class="col-md-12">
+                <div class = "search-result" (click)="expand(service)">
+                    {{service.name}} (total of {{service.total}} requests)
+                </div>
+                <div *ngIf="service.expanded">
+                    <ul *ngFor="let data of service.logData">
+                        <div class="search-result-detail">
+                            {{data.datetime}} {{data.request}}
+                        </div>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 </div>

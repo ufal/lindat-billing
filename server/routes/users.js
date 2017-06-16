@@ -28,7 +28,25 @@ router.get('/users/*', function (req, res, next) {
         db.select(" WHERE ip = '" + id + "'::inet and datetime > to_timestamp('" + from
             + "', 'DD-MM-YYYY') and datetime <= to_timestamp('" + to + "', 'DD-M-YYYY')")
             .then(data => {
-                res.json(data);
+                var dataModified = [];
+                var empty = true;
+                for(var i = 0; i < db.getServiceCount(); i++) {
+                    dataModified.push({
+                        name: db.getServiceName(i+1),
+                        logData: [],
+                        expanded: false,
+                        total: 0
+                    });
+                }
+                data.forEach(function (item) {
+                    dataModified[item.id_s].logData.push(item);
+                });
+                dataModified.forEach(function (item) {
+                    item.total = item.logData.length;
+                    if (item.total > 0) empty = false;
+                });
+                if (empty) res.json(["EMPTY", ""]);
+                else res.json(dataModified);
             })
             .catch(err => {
                 res.json(["ERROR", err.message]);
