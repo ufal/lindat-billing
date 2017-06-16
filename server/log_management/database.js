@@ -2,8 +2,8 @@
  * Database operations management.
  */
 
-var config = require('../../settings/backend');
-var pgp = require('pg\-promise')();
+const config = require('../../settings/backend');
+const pgp = require('pg\-promise')();
 var id_s = require('./services.json');
 
 //var conString = "postgres://dkubon@localhost:5433/lindat-billing-test";
@@ -54,7 +54,7 @@ db.prototype.insert = (values) => {
     client.any("SELECT * FROM users")
         .then(data => {
             // prepare a table to look up id
-            var id_u = {};0
+            var id_u = {};
             for(var i = 0; i < data.length; i++){
                 id_u[data[i].ip] = data[i].id_u;
             }
@@ -135,5 +135,8 @@ db.prototype.delete = function () {};
 
 db.prototype.update = function () {};
 
+
+db.prototype.getServiceCount = () => {return Object.keys(id_s).length / 2;};
+db.prototype.getServiceName = (id) => {return id_s[id];};
 
 module.exports = db;
