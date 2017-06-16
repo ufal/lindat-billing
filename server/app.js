@@ -2,15 +2,15 @@
  * The core taking care of routing.
  */
 
-var express = require('express');
-var path = require('path');
-var bodyParser = require('body-parser');
-var cors = require('cors');
-var config = require('../settings/backend');
-var users = require('./routes/users');
-var logmanager = require('./log_management/manage-logs');
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const config = require('../settings/backend');
+const users = require('./routes/users');
+const logmanager = require('./log_management/manage-logs');
 
-var app = express();
+const app = express();
 
 // TODO(jm) use e.g., env.variable
 app.use(cors({origin: process.env.CORS || 'https://ufal-point-dev.ms.mff.cuni.cz/services/lindat-billing/'}));
@@ -46,7 +46,7 @@ logmanager(config.input_dir);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
+  let err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
