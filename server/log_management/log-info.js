@@ -10,7 +10,7 @@ readInfo = () => {
     if (fs.existsSync(path.join(__dirname, jsonName))) {
         try {
             let content = fs.readFileSync(path.join(__dirname, jsonName), 'utf8');
-            infoFile = JSON.parse(content);
+            if (content != "\"{}\"") infoFile = JSON.parse(content);
         } catch (err) {
             console.log('Log reading info was invalid and thus reset');
         }
