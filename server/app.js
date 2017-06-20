@@ -9,6 +9,7 @@ const cors = require('cors');
 const config = require('../settings/backend');
 const users = require('./routes/users');
 const logmanager = require('./log_management/manage-logs');
+const logger = require('winston');
 
 const app = express();
 
@@ -35,7 +36,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 //app.use(cookieParser());
 
 // configuration
-console.log("Using [%s] as input path", config.input_dir);
+logger.info("Using [%s] as input path", config.input_dir);
 
 // API
 app.use('/api', users);

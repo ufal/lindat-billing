@@ -4,7 +4,8 @@
 
 const config = require('../../settings/backend');
 const pgp = require('pg\-promise')();
-var id_s = require('./services.json');
+const logger = require('winston');
+let id_s = require('./services.json');
 
 //var conString = "postgres://dkubon@localhost:5433/lindat-billing-test";
 //var conString = "postgres://postgres:12345@localhost:5432/lindat-billing";
@@ -14,7 +15,7 @@ var id_s = require('./services.json');
 // Database connection details;
 var client = pgp(config.db);
 client.connect().catch(error=> {
-    console.log('Error connecting to database [%s:%s]:', config.db.host, config.db.port, error);
+    logger.error('Error connecting to database [%s:%s]:', config.db.host, config.db.port, error);
 });
 
 // database constructor
@@ -22,28 +23,27 @@ function db () {}
 
 // Retrieves all the data of a user with specified id
 getUser = (ip) => {
-    console.log("SELECT * FROM users WHERE ip = '" + ip + "'::inet");
+    logger.debug("SELECT * FROM users WHERE ip = '" + ip + "'::inet");
     client.any("SELECT * FROM users WHERE ip = '" + ip + "'::inet")
         .then(data => {
             if (data.Length > 0) {
-                console.log(data[0].id_u);
                 return data[0].id_u;
             }
             else return "";
         })
         .catch(error => {
-            console.log(error);
+            logger.error(error);
         });
 };
 
 // Adds a user with ip and id to the database
 addUser = (ip, id) => {
-    console.log("INSERT INTO Users VALUES('" + id + "','" + ip + "')");
+    logger.debug("INSERT INTO Users VALUES('" + id + "','" + ip + "')");
     client.any("INSERT INTO Users VALUES('" + id + "','" + ip + "')")
         .catch(error => {
-            console.log(error);
+            logger.error(error);
         });
-    console.log("New User:", id);
+    logger.verbose("New User:", id);
 };
 
 // Insert a new log entry into the database
@@ -83,7 +83,7 @@ db.prototype.insert = (values) => {
             // executing the query:
             client.any(query)
                 .then(data => {
-                    console.log('Inserted', values.length, 'values');
+                    logger.info('Inserted', values.length, 'values');
                     if (data.length > 0) console.log('Failed to insert: ', data);
                     //TODO dk: checking if there's no overusage of services
                     /*else {
@@ -101,13 +101,13 @@ db.prototype.insert = (values) => {
                 })
                 .catch(error => {
                     //console.log(error);
-                    console.log('Insert FAILED');
-                    console.log(error);
+                    logger.info('Insert FAILED');
+                    logger.error(error);
                     //reject();
                 });
         })
         .catch(error => {
-            console.log(error);
+            logger.error(error);
         });
 };
 
@@ -117,12 +117,12 @@ db.prototype.select = (what) => {
     return new Promise((resolve, reject) => {
         client.any("SELECT ip, id_s, datetime, request FROM logs l INNER JOIN users u on l.id_u = u.id_u " + what)
             .then(data => {
-                console.log("Select succesful", data.length);
+                logger.info("Select succesful", data.length);
                 resolve(data);
             })
             .catch(error => {
-                console.log('Select FAILED');
-                console.log(error);
+                logger.info('Select FAILED');
+                logger.error(error);
                 reject(error);
             });
     });

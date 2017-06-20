@@ -6,6 +6,7 @@
 const fs = require('fs');
 const path = require('path');
 const parser = require('./parser');
+const logger = require('winston');
 
 /**
  * Return bytesToRead bytes of data from the end of the file and optionally calls the provided callback with the new data
@@ -31,7 +32,7 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
      */
     function readFile(start, end) {
         const fileStream = fs.createReadStream(filePath, {start: start, end: end});
-        if (start < end) console.log("Reading from ", start, " to ", end);
+        if (start < end) logger.verbose("Reading from ", start, " to ", end);
         fileStream.on('data', function(data) {
             // tady to neco chce vylepsit nejak
             parser(data);
@@ -51,7 +52,7 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
         if (Object.keys(stat._events).length === 0) {
             // No more listeners left, unwatch the file
             fs.unwatchFile(filePath);
-            console.log("stopped watching " + filePath);
+            logger.verbose("Stopped watching " + filePath);
         }
     }
 
@@ -87,7 +88,7 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
     };
 
     if (follow) {
-        console.log("Watching " + filePath);
+        logger.verbose("Watching " + filePath);
         stat = fs.watchFile(filePath, watchFileListener);
     }
 
@@ -110,7 +111,6 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
             callback(null, filename, '', (follow) ? unSubscribe : null);
             return;
         }
-        //console.log("read: " + start + " " + end);
         readFile(start, end);
     });
 }

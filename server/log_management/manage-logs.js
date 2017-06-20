@@ -8,6 +8,7 @@ const fs = require('fs');
 const tail = require('./tail');
 const parser = require('./parser');
 const info = require('./log-info');
+const logger = require('winston');
 
 let infoFile = {
     data: []
@@ -20,10 +21,10 @@ function readFiles(dirName) {
             onError(err);
             return;
         }
-        console.log("Log files present: " + fileNames.length);
+        logger.verbose("Log files present: " + fileNames.length);
 
         fileNames.forEach(function(filename) {
-            console.log(dirName + '/' + filename);
+            logger.debug(dirName + '/' + filename);
             fs.readFile(dirName + '/' + filename, 'utf-8', (err, content) => {
                 if (err) {
                     onError(err);
@@ -37,7 +38,7 @@ function readFiles(dirName) {
 
 function onError(error) {
     // handle specific listen errors with friendly messages
-    console.log(error);
+    logger.error(error);
 }
 
 function onFileContent(filePath) {
@@ -54,11 +55,11 @@ function onFileContent(filePath) {
         infoFile.data.push({name: filename, bytesRead: size});
         info.setInfo(infoFile);
     } else {
-        console.log('File', filename, 'is up to date');
+        logger.verbose('File', filename, 'is up to date');
     }
     tail.tailFile(filePath, fs.statSync(filePath)["size"] - size, size, true, (err, filename, data, unsubscribe) => {
         if (err) {
-            console.log(err);
+            logger.error(err);
         }});
 }
 

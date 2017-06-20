@@ -1,6 +1,7 @@
 const path = require('path');
 const fs = require('fs');
 const jsonName = './log-files.json';
+const logger = require('winston');
 
 let infoFile = {
     data: []
@@ -12,16 +13,15 @@ readInfo = () => {
             let content = fs.readFileSync(path.join(__dirname, jsonName), 'utf8');
             if (content != "\"{}\"") infoFile = JSON.parse(content);
         } catch (err) {
-            console.log('Log reading info was invalid and thus reset');
+            logger.info('Log reading info was invalid and thus reset');
         }
     }
 };
 
 writeInfo = () => {
     fs.writeFile('./server/log_management/' + jsonName, JSON.stringify(infoFile), (err) => {
-        if (err) return console.log(err);
-        //console.log(JSON.stringify(infoFile));
-        console.log('writing', infoFile, 'to', jsonName);
+        if (err) return logger.error(err);
+        logger.verbose('Writing', infoFile, 'to', jsonName);
     });
 };
 

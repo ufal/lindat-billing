@@ -6,6 +6,7 @@
 
 const path = require('path');
 const fs = require('fs');
+const logger = require('winston');
 
 let _this_dir = __dirname;
 
@@ -35,8 +36,8 @@ if (path.extname(secret_file_path) === ".json") {
         console.log("Using secrets from file [%s]", secret_file_path);
         let s = require(secret_file_path);
         settings.db = s;
-    }else {
-        console.log("Secrets file [%s] does not exist!", secret_file_path);
+    } else {
+        logger.info("Secrets file [%s] does not exist!", secret_file_path);
     }
 }
 

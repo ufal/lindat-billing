@@ -7,15 +7,17 @@
  * Module dependencies.
  */
 require('dotenv').config();
+var logger = require('../logger');
 var app = require('../app');
 var debug = require('debug')('lindat-billing:server');
 var http = require('http');
+
 
 /**
  * Get port from environment and store in Express.
  */
 var port = normalizePort(process.env.PORT || '3020');
-console.log("Starting app at port [%s]", port);
+logger.info("Starting app at port [%s]", port);
 app.set('port', port);
 
 /**

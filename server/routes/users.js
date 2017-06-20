@@ -23,7 +23,7 @@ router.get('/users/*', function (req, res, next) {
     var from = request[3].substr(5);
     var to = request[4].substr(3);
     if (validateIPaddress(id)) {
-        console.log("SELECT * from logs WHERE ip = '" + id + "'::inet and datetime > to_timestamp('"
+        logger.debug("SELECT * from logs WHERE ip = '" + id + "'::inet and datetime > to_timestamp('"
             + from + "', 'DD-MM-YYYY') and datetime <= to_timestamp('" + to + "', 'DD-M-YYYY')");
         db.select(" WHERE ip = '" + id + "'::inet and datetime > to_timestamp('" + from
             + "', 'DD-MM-YYYY') and datetime <= to_timestamp('" + to + "', 'DD-M-YYYY')")
