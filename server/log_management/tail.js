@@ -3,11 +3,9 @@
  *      Whenever a watched file is changed, it gets the new data to parser
  */
 
-var fs = require('fs');
-var path = require('path');
-var jsonName = './log-files.json';
-var info = require(jsonName);
-var parser = require('./parser');
+const fs = require('fs');
+const path = require('path');
+const parser = require('./parser');
 
 /**
  * Return bytesToRead bytes of data from the end of the file and optionally calls the provided callback with the new data
@@ -15,16 +13,15 @@ var parser = require('./parser');
  *
  * @param  {String} filePath Absolute path to a file.
  * @param  {Number} bytesToRead How many bytes from the end of the file to read.
- * @param  {Number} beggining
+ * @param  {Number} beginning
  * @param  {Boolean} follow If true, the provided callback will be continuously called (until un-subscribed) with the new data
  *                          as the file is modified and new data is available (aka tail -F).
  * @param  {Function} callback Callback which is called with an error as the first argument, data with as the second one
  *                              and the un-subscribe function as the third one.
  */
-function tailFile(filePath, bytesToRead, beggining, follow, callback) {
-    var stat, watchFileListener;
-    var filename = filePath.substr(filePath.lastIndexOf('/')+1);
-    //console.log("should read: " + bytesToRead);
+function tailFile(filePath, bytesToRead, beginning, follow, callback) {
+    let stat, watchFileListener;
+    const filename = filePath.substr(filePath.lastIndexOf('/')+1);
 
     /**
      * Read a file.
@@ -33,24 +30,22 @@ function tailFile(filePath, bytesToRead, beggining, follow, callback) {
      * @param {Number} end End offset.
      */
     function readFile(start, end) {
-        var fileStream = fs.createReadStream(filePath, {start: start, end: end});
-        console.log("reading from ", start, " to ", end);
+        const fileStream = fs.createReadStream(filePath, {start: start, end: end});
+        if (start < end) console.log("Reading from ", start, " to ", end);
         fileStream.on('data', function(data) {
             // tady to neco chce vylepsit nejak
-            parser(data, function () {} );
-            callback(null, filename, data, unsubscribe);
+            parser(data);
+            callback(null, filename, data, unSubscribe);
         });
-
         fileStream.on('error', function(err) {
             if (follow) {
-                unsubscribe();
+                unSubscribe();
             }
-
             callback(err, filename, null, null);
         });
     }
 
-    function unsubscribe() {
+    function unSubscribe() {
         stat.removeListener('change', watchFileListener);
 
         if (Object.keys(stat._events).length === 0) {
@@ -61,20 +56,20 @@ function tailFile(filePath, bytesToRead, beggining, follow, callback) {
     }
 
     watchFileListener = function(curr, prev) {
-        var start, end;
+        let start, end;
 
-        var inodeCurr = curr.ino;
-        var inodePrev = prev.ino;
+        const inodeCurr = curr.ino;
+        const inodePrev = prev.ino;
 
-        var sizeCurr = curr.size;
-        var sizePrev = prev.size;
-        var sizeDiff = sizeCurr - sizePrev;
+        const sizeCurr = curr.size;
+        const sizePrev = prev.size;
+        const sizeDiff = sizeCurr - sizePrev;
 
-        var mtimeCurr = curr.mtime.valueOf();
-        var mtimePrev = prev.mtime.valueOf();
+        const mTimeCurr = curr.mtime.valueOf();
+        const mTimePrev = prev.mtime.valueOf();
 
-        //if ((inodeCurr !== inodePrev) || (sizeDiff < 0) || (sizeDiff === 0 && mtimeCurr !== mtimePrev)) {
-        if ((sizeDiff < 0) || (sizeDiff === 0 && mtimeCurr !== mtimePrev)) {
+        //if ((inodeCurr !== inodePrev) || (sizeDiff < 0) || (sizeDiff === 0 && mTimeCurr !== mTimePrev)) {
+        if ((sizeDiff < 0) || (sizeDiff === 0 && mTimeCurr !== mTimePrev)) {
             // Log file was rotated or truncated
             start = 0;
             end = (bytesToRead > sizeCurr) ? sizeCurr : bytesToRead;
@@ -92,27 +87,27 @@ function tailFile(filePath, bytesToRead, beggining, follow, callback) {
     };
 
     if (follow) {
-        console.log("watching " + filePath);
+        console.log("Watching " + filePath);
         stat = fs.watchFile(filePath, watchFileListener);
     }
 
     fs.stat(filePath, function(err, stats) {
-        var start, end;
+        let start, end;
         if (err) {
             if (follow) {
-                unsubscribe();
+                unSubscribe();
             }
             callback(err, filename, null, null);
             return;
         }
 
         //start = (bytesToRead >= stats.size) ? 0 : (stats.size - bytesToRead);
-        start = beggining;
+        start = beginning;
         end = stats.size;
 
         if (end === 0) {
             // Empty file
-            callback(null, filename, '', (follow) ? unsubscribe : null);
+            callback(null, filename, '', (follow) ? unSubscribe : null);
             return;
         }
         //console.log("read: " + start + " " + end);

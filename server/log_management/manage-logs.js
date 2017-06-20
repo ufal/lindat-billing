@@ -4,31 +4,32 @@
  *  Sets watcher on log files.
  *  Processes new logs.
  */
+const fs = require('fs');
+const tail = require('./tail');
+const parser = require('./parser');
+const info = require('./log-info');
 
-var fs = require('fs');
-var tail = require('./tail');
-var jsonName = './log-files.json';
-var info = require(jsonName);
-var parser = require('./parser');
+let infoFile = {
+    data: []
+};
 
-var blocLimit = 100000000; //700; 100MB
-
-function readFiles(dirname, fileContent) {
-    fs.readdir(dirname, (err, filenames) => {
+function readFiles(dirName) {
+    infoFile = info.getInfo();
+    fs.readdir(dirName, (err, fileNames) => {
         if (err) {
             onError(err);
             return;
         }
-        console.log("Log files present: " + filenames.length);
+        console.log("Log files present: " + fileNames.length);
 
-        filenames.forEach(function(filename) {
-            console.log(dirname + '/' + filename);
-            fs.readFile(dirname + '/' + filename, 'utf-8', (err, content) => {
+        fileNames.forEach(function(filename) {
+            console.log(dirName + '/' + filename);
+            fs.readFile(dirName + '/' + filename, 'utf-8', (err, content) => {
                 if (err) {
                     onError(err);
                     return;
                 }
-                onFileContent(dirname + '/' + filename, content);
+                onFileContent(dirName + '/' + filename, content);
             });
         });
     });
@@ -40,69 +41,25 @@ function onError(error) {
 }
 
 function onFileContent(filePath) {
-    filename = filePath.substr(filePath.lastIndexOf('/') + 1);
-    var alreadyRead = info[filename];
-    if (typeof alreadyRead == 'undefined') {
-        alreadyRead = 0;
-        info[filename] = 0;
-    }
+    const filename = filePath.substr(filePath.lastIndexOf('/') + 1);
+    let alreadyRead = 0;
+    infoFile.data.forEach(function (item) {
+        if (item.name == filename) alreadyRead = item.bytesRead;
+    });
     // the size of the file in bytes
-    var size = fs.statSync(filePath)["size"];
-
-    recursiveAdd(filePath, alreadyRead, size, 0)
-        .then(() => {
-            info[filename] = size;
-            write();
-            tail.tailFile(filePath, fs.statSync(filePath)["size"] - size, size, true, (err, filename, data, unsubscribe) => {
-                if (err) {
-                    console.log(err);
-                }
-            });
-        })
-        .catch((err) => {
+    const size = fs.statSync(filePath)["size"];
+    if (alreadyRead < size) {
+        const file = fs.readFileSync(filePath);
+        parser(file.toString());
+        infoFile.data.push({name: filename, bytesRead: size});
+        info.setInfo(infoFile);
+    } else {
+        console.log('File', filename, 'is up to date');
+    }
+    tail.tailFile(filePath, fs.statSync(filePath)["size"] - size, size, true, (err, filename, data, unsubscribe) => {
+        if (err) {
             console.log(err);
-        })
-}
-
-function recursiveAdd(filePath, alreadyRead, size, depth) {
-    return new Promise((resolve, reject) => {
-        var end = (size - alreadyRead > blocLimit) ? alreadyRead + blocLimit : size;
-        var fileStream = fs.createReadStream(filePath, {start: alreadyRead, end: end});
-        console.log("reading from ", alreadyRead, " to ", end);
-        fileStream.on('data', (data) => {
-            parser(data)
-                .then((lastLineLength) => {
-                    info[filename] = alreadyRead + blocLimit - lastLineLength + 1;
-                    alreadyRead += blocLimit - lastLineLength + 1;
-                    if (alreadyRead < size) {
-                        return recursiveAdd(filePath, alreadyRead, size, depth+1);
-                        /*    .then(() => {
-                                console.log("if:", depth);
-                                return resolve();
-                            })
-                            .catch((err) => {
-                                console.log(err);
-                                return reject(err);
-                            })*/
-                    } else {
-                        console.log("else:", depth);
-                        resolve();
-                    }
-                })
-                .catch((err) => {
-                    console.log(err);
-                    return reject(err);
-                })
-        })
-    });
-}
-
-function write() {
-    fs.writeFile('./server/log_management/' + jsonName, JSON.stringify(info), (err) => {
-        if (err) return console.log(err);
-        //console.log(JSON.stringify(info));
-        console.log('writing', info, 'to', jsonName);
-    });
+        }});
 }
 
 module.exports = readFiles;
