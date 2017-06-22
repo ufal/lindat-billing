@@ -7,6 +7,7 @@ const fs = require('fs');
 const path = require('path');
 const parser = require('./parser');
 const logger = require('winston');
+const info = require('./log-info');
 
 /**
  * Return bytesToRead bytes of data from the end of the file and optionally calls the provided callback with the new data
@@ -23,6 +24,7 @@ const logger = require('winston');
 function tailFile(filePath, bytesToRead, beginning, follow, callback) {
     let stat, watchFileListener;
     const filename = filePath.substr(filePath.lastIndexOf('/')+1);
+    infoFile = info.getInfo();
 
     /**
      * Read a file.
@@ -36,6 +38,7 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
         fileStream.on('data', function(data) {
             // tady to neco chce vylepsit nejak
             parser(data);
+            infoFile.setSingleInfo(filename, end);
             callback(null, filename, data, unSubscribe);
         });
         fileStream.on('error', function(err) {

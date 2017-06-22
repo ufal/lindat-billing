@@ -136,7 +136,12 @@ db.prototype.delete = function () {};
 db.prototype.update = function () {};
 
 
-db.prototype.getServiceCount = () => {return Object.keys(id_s).length / 2;};
-db.prototype.getServiceName = (id) => {return id_s[id];};
+db.prototype.getServiceCount = () => {
+    return Object.keys(id_s).length / 2;
+};
+
+db.prototype.getServiceName = (id) => {
+    return id_s[id];
+};
 
 module.exports = db;

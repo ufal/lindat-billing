@@ -35,4 +35,13 @@ setInfo = (data) => {
     writeInfo();
 };
 
-module.exports = {getInfo, setInfo};
+setSingleInfo = (filename, alreadyRead) => {
+    infoFile.data.forEach(function (item) {
+        if (item.name == filename && item.bytesRead < alreadyRead)
+            item.bytesRead = alreadyRead;
+        }
+    );
+    writeInfo();
+};
+
+module.exports = {getInfo, setInfo, setSingleInfo};
