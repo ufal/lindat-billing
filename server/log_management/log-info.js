@@ -11,7 +11,8 @@ let reset;
 
 readInfo = () => {
     // else part also sets the default value when not set
-    if (process.env.RESET_LOGS.toLowerCase() == 'false')
+    if ("undefined" !== typeof process.env.RESET_LOGS
+            && process.env.RESET_LOGS.toLowerCase() == 'false')
         reset = false;
     else reset = true;
 
