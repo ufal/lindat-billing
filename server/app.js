@@ -7,9 +7,11 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const config = require('../settings/backend');
-const users = require('./routes/users');
 const logmanager = require('./log_management/manage-logs');
 const logger = require('winston');
+
+const users = require('./routes/users');
+const login = require('./routes/login');
 
 const app = express();
 
@@ -40,6 +42,7 @@ logger.info("Using [%s] as input path", config.input_dir);
 
 // API
 app.use('/api', users);
+app.use('/api', login);
 
 // initiate logmanager
 logmanager(config.input_dir);
