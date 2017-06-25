@@ -5,18 +5,27 @@ import { FormsModule }    from '@angular/forms';
 import { AppComponent }   from './app.component';
 import { UserDataComponent } from './components/users/user-data.component';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { AlertComponent } from './directives/index';
+import { AlertService } from './services/index';
+import { routing }        from './app.routing';
 
 @NgModule({
   imports:      [
       BrowserModule,
       HttpModule,
       FormsModule,
-      MyDateRangePickerModule
+      MyDateRangePickerModule,
+      routing
   ],
   declarations: [
       AppComponent,
       UserDataComponent,
+      AlertComponent
+  ],
+  providers: [
+      AlertService
   ],
   bootstrap:    [ AppComponent ]
 })
+
 export class AppModule { }
