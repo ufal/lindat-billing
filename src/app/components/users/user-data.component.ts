@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { UserDataService } from '../../services/user-data.service';
 import { IMyOptions, IMyDateRangeModel, IMyDateRange, IMyDateSelected, IMyCalendarViewChanged, IMyInputFieldChanged } from 'mydaterangepicker';
 import {forEach} from "@angular/router/src/utils/collection";
+import { AlertService } from '../../services/index';
 
 @Component({
     moduleId: module.id,
@@ -21,8 +22,10 @@ export class UserDataComponent  {
     };
     placeholderTxt: string = 'Insert timespan';
 
-    constructor(private userDataService:UserDataService){
-    }
+    constructor(
+        private userDataService:UserDataService,
+        private alertService: AlertService
+    ) { }
 
     onClickMe() {
         //this.searchUser();
@@ -62,15 +65,16 @@ export class UserDataComponent  {
         this.userDataService.getUser(ip, from, to)
             .subscribe(log => {
                 if (log[0] == "ERROR") {
-                    this.errorMessage = log[1];
+                    this.alertService.error(log[1]);
                     this.data = [];
                     console.log(log[1]);
                 } else if (log[0] == "EMPTY") {
-                    this.errorMessage = 'User ' + this.title
+                    let message = 'User ' + this.title
                         + ' has no relevant data for the period between ' + from + ' and ' + to;
+                    this.alertService.error(message);
                     this.data = [];
                 } else {
-                    this.errorMessage = '';
+                    this.alertService.nothing();
                     //this.title = '';
                     this.data = log;
                     console.log(this.data);
