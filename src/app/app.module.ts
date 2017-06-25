@@ -8,9 +8,10 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { AlertComponent } from './directives/index';
 import { AlertService } from './services/index';
 import { routing }        from './app.routing';
+import { APP_BASE_HREF } from '@angular/common';
 
 @NgModule({
-  imports:      [
+  imports: [
       BrowserModule,
       HttpModule,
       FormsModule,
@@ -23,7 +24,8 @@ import { routing }        from './app.routing';
       AlertComponent
   ],
   providers: [
-      AlertService
+      AlertService,
+      {provide: APP_BASE_HREF, useValue: './'}
   ],
   bootstrap:    [ AppComponent ]
 })
