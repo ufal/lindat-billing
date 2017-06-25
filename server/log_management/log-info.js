@@ -7,7 +7,21 @@ let infoFile = {
     data: []
 };
 
+let reset;
+
 readInfo = () => {
+    // else part also sets the default value when not set
+    if (process.env.RESET_LOGS.toLowerCase() == 'false')
+        reset = false;
+    else reset = true;
+
+    if (reset) {
+        reset = false;
+        logger.info('Log reading info was reset as requested');
+        writeInfo();
+        return;
+    }
+
     if (fs.existsSync(path.join(__dirname, jsonName))) {
         try {
             let content = fs.readFileSync(path.join(__dirname, jsonName), 'utf8');
