@@ -57,6 +57,8 @@ LB_DB_PASS=password
 LB_DB_PORT=databaseport
 LB_DB_NAME=databasename
 INPUT_LOGS_PATH=pathtoinput
+SECRETS_FILE_PATH=pathtosecretsfile
+RESET_LOGS=true / false
 ```
 
 An easy way to do so is include them in exactly this manner in a `.env` file in the main project directory.
