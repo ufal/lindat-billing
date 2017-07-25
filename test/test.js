@@ -6,7 +6,11 @@ var assert = require('assert');
 var should = require('chai').should();
 var rewire = require('rewire');
 var parser = rewire("../server/log_management/parser");
-var users = rewire("../server/routes/users");
+//var users = rewire("../server/routes/users");
+const tools = require('../server/tools');
+const database = require('../server/log_management/database');
+
+const db = new database();
 
 /*
 describe('Default', function() {
@@ -44,9 +48,34 @@ describe('Parser', function () {
     })
 })
 
+describe('Database', function () {
+    describe('#authenticate', function () {
+        const user = '195.113.20.155';
+        it('valid result is an array of length 1 with requested user', (done) => {
+            db.authenticate(user, 'heslo')
+                .then(data => {
+                    console.log(data);
+                    data.should.be.a('Array');
+                    data.should.have.lengthOf(1);
+                    data[0].ip.should.equal(user);
+                })
+                .then(done, done);
+        });
+        it('wrong password gets empty result', (done) => {
+            db.authenticate(user, 'aaa')
+                .then(data => {
+                })
+                .catch(data => {
+                    data.should.to.be.a('string');
+                })
+                .then(done, done);
+        });
+    });
+})
+
 describe('Others', function () {
     describe('#validateIPaddress @routes/users', function () {
-        var validate = users.__get__('validateIPaddress');
+        const validate = tools.validateIPaddress;
         it('valid ip should be true', function() {
             validate('127.0.0.1').should.be.true;
         });

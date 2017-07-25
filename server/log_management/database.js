@@ -6,6 +6,7 @@ const config = require('../../settings/backend');
 const pgp = require('pg\-promise')();
 const logger = require('winston');
 let id_s = require('./services.json');
+const tools = require('../tools');
 
 //var conString = "postgres://dkubon@localhost:5433/lindat-billing-test";
 //var conString = "postgres://postgres:12345@localhost:5432/lindat-billing";
@@ -128,6 +129,23 @@ db.prototype.select = (what) => {
     });
 };
 
+db.prototype.authenticate = (username, password) => {
+    return new Promise((resolve, reject) => {
+        if (!tools.validateIPaddress(username)) reject('Authentication failed. Invalid username.');
+        else {
+            //console.log("SELECT * from Users where ip = '" + username + "'::inet and pass = crypt('" + password + "', pass)");
+            client.any("SELECT * from Users where ip = '" + username + "'::inet and pass = crypt('" + password + "', pass)")
+                .then(data => {
+                    if (data.length > 0) resolve(data); // data
+                    else reject('Authentication failed.');
+                })
+                .catch(error => {
+                    logger.error(error);
+                    reject('Authentication failed. User not found.');
+                });
+        }
+    });
+};
 
 
 db.prototype.delete = function () {};
@@ -143,5 +161,6 @@ db.prototype.getServiceCount = () => {
 db.prototype.getServiceName = (id) => {
     return id_s[id];
 };
+
 
 module.exports = db;
