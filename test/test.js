@@ -51,10 +51,9 @@ describe('Parser', function () {
 describe('Database', function () {
     describe('#authenticate', function () {
         const user = '195.113.20.155';
-        it('valid result is an array of length 1 with requested user', (done) => {
+        it('database provides valid info', (done) => {
             db.authenticate(user, 'heslo')
                 .then(data => {
-                    console.log(data);
                     data.should.be.a('Array');
                     data.should.have.lengthOf(1);
                     data[0].ip.should.equal(user);
@@ -66,7 +65,7 @@ describe('Database', function () {
                 .then(data => {
                 })
                 .catch(data => {
-                    data.should.to.be.a('string');
+                    data.state.should.equal('failure');
                 })
                 .then(done, done);
         });

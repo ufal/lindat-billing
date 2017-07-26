@@ -137,11 +137,19 @@ db.prototype.authenticate = (username, password) => {
             client.any("SELECT * from Users where ip = '" + username + "'::inet and pass = crypt('" + password + "', pass)")
                 .then(data => {
                     if (data.length > 0) resolve(data); // data
-                    else reject('Authentication failed.');
+                    else reject({
+                        state: 'failure',
+                        reason: 'No matching line',
+                        extra: null
+                        });
                 })
                 .catch(error => {
                     logger.error(error);
-                    reject('Authentication failed. User not found.');
+                    reject({
+                        state: 'failure',
+                        reason: 'database error',
+                        extra: error
+                    });
                 });
         }
     });
