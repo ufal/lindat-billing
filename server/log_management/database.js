@@ -129,6 +129,19 @@ db.prototype.select = (what) => {
     });
 };
 
+db.prototype.addUser = (username, password) => {
+    return new Promise((resolve, reject) => {
+        client.any("INSERT INTO Accounts (username, password) VALUES('" + username + "',crypt('" + password + "',  gen_salt('bf')))")
+            .then(data => {
+                resolve(data);
+            })
+            .catch(error => {
+                logger.error(error);
+                reject();
+            });
+    });
+}
+
 db.prototype.authenticate = (username, password) => {
     return new Promise((resolve, reject) => {
         if (!tools.validateIPaddress(username)) reject('Authentication failed. Invalid username.');
@@ -147,7 +160,7 @@ db.prototype.authenticate = (username, password) => {
                     logger.error(error);
                     reject({
                         state: 'failure',
-                        reason: 'database error',
+                        reason: 'Database error',
                         extra: error
                     });
                 });
