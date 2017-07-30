@@ -3,6 +3,7 @@ import { UserDataService } from '../../services/user-data.service';
 import { IMyOptions, IMyDateRangeModel, IMyDateRange, IMyDateSelected, IMyCalendarViewChanged, IMyInputFieldChanged } from 'mydaterangepicker';
 import {forEach} from "@angular/router/src/utils/collection";
 import { AlertService } from '../../services/index';
+import { JwtHelper } from 'angular2-jwt';
 
 @Component({
     moduleId: module.id,
@@ -15,6 +16,9 @@ export class UserDataComponent  {
     title: string;
     data: Object[];
     errorMessage: string;
+    isAdmin: boolean;
+
+    jwtHelper: JwtHelper = new JwtHelper();
 
     model: IMyDateRange = {
         beginDate: {year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate()},
@@ -25,7 +29,16 @@ export class UserDataComponent  {
     constructor(
         private userDataService:UserDataService,
         private alertService: AlertService
-    ) { }
+    ) {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const token = this.jwtHelper.decodeToken(currentUser.token);
+        if (token.admin) this.isAdmin = true;
+        else
+        {
+            this.isAdmin = false;
+            this.title = token.username;
+        }
+    }
 
     onClickMe() {
         //this.searchUser();
@@ -52,8 +65,8 @@ export class UserDataComponent  {
             return;
         }
 
-        var from = this.getStart();
-        var to = this.getEnd();
+        const from = this.getStart();
+        const to = this.getEnd();
 
         console.log(from, "to", to);
 
@@ -83,12 +96,12 @@ export class UserDataComponent  {
     }
 
     getStart = () => {
-        var date = this.model.beginDate;
+        const date = this.model.beginDate;
         return date.day + "-" + date.month + "-" + date.year;
     };
 
     getEnd() {
-        var date = this.model.endDate;
+        const date = this.model.endDate;
         return date.day + "-" + date.month + "-" + date.year;
     }
 

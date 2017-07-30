@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
         private alertService: AlertService) { }
 
     ngOnInit() {
-        console.log('Login Component Initialization');
+        console.log('Login Component - Initialization');
         // reset login status
         this.authenticationService.logout();
 
@@ -29,18 +29,16 @@ export class LoginComponent implements OnInit {
     }
 
     login() {
-        console.log('Login Component Login');
+        console.log('Login Component - Login');
         this.loading = true;
         this.authenticationService.login(this.model.username, this.model.password)
             .subscribe(
                 data => {
-                    console.log('login succesful');
+                    this.alertService.success('Login succesful')
                     this.router.navigate([this.returnUrl]);
                 },
                 error => {
-                    console.log('login error');
-                    console.log(error.text().message);
-                    this.alertService.error(error._body.message);
+                    this.alertService.error(error.json().message.reason);
                     this.loading = false;
                 });
     }

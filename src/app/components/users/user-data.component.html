@@ -7,8 +7,10 @@
 <hr>
 <form class="row" (submit)="searchUser($event)">
     <div class="form-group">
-        <div class="col-md-6">
-            <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
+        <div *ngIf="isAdmin">
+            <div class="col-md-6">
+                <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
+            </div>
         </div>
         <div class="col-md-3">
             <form #myForm="ngForm" novalidate>

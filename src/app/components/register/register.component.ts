@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-
-import { AlertService, UserDataService } from '../../services/index';
+import { AlertService, AuthenticationService } from '../../services/index';
 
 @Component({
     moduleId: module.id,
@@ -14,21 +13,20 @@ export class RegisterComponent {
 
     constructor(
         private router: Router,
-        private userService: UserDataService,
+        private authenticationService: AuthenticationService,
         private alertService: AlertService) { }
 
     register() {
         if (this.isValid(this.model.password)) {
             this.loading = true;
-            this.userService.addUser(this.model)
+            this.authenticationService.addAccount(this.model)
                 .subscribe(
                     data => {
-                        // set success message and pass true paramater to persist the message after redirecting to the login page
                         this.alertService.success('Registration successful', true);
                         this.router.navigate(['/login']);
                     },
                     error => {
-                        this.alertService.error(error);
+                        this.alertService.error(error.json().message.reason);
                         this.loading = false;
                     });
         }
