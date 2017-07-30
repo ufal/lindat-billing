@@ -21,9 +21,9 @@ CREATE TABLE Users
 (
 id_u bigint NOT NULL DEFAULT nextval('users_id_seq'::regclass),
 ip inet,
+owner text,
 CONSTRAINT users_pkey PRIMARY KEY (id_u)
 );
-
 
 CREATE TABLE Logs
 (
@@ -33,7 +33,15 @@ id_s int,
 datetime timestamp with time zone,
 request text,
 CONSTRAINT logs_pkey PRIMARY KEY (id_l)
-)
+);
+
+CREATE TABLE Accounts
+(
+username text,
+pass text,
+admin boolean,
+CONSTRAINT accounts_pkey PRIMARY KEY (username)
+);
 
 \q
 EOF

@@ -129,9 +129,9 @@ db.prototype.select = (what) => {
     });
 };
 
-db.prototype.addUser = (username, password) => {
+db.prototype.addAccount = (username, password) => {
     return new Promise((resolve, reject) => {
-        client.any("INSERT INTO Accounts (username, password) VALUES('" + username + "',crypt('" + password + "',  gen_salt('bf')))")
+        client.any("INSERT INTO Accounts (username, pass, admin) VALUES('" + username.toLowerCase() + "',crypt('" + password + "',  gen_salt('bf')), True)")
             .then(data => {
                 resolve(data);
             })
@@ -144,27 +144,23 @@ db.prototype.addUser = (username, password) => {
 
 db.prototype.authenticate = (username, password) => {
     return new Promise((resolve, reject) => {
-        if (!tools.validateIPaddress(username)) reject('Authentication failed. Invalid username.');
-        else {
-            //console.log("SELECT * from Users where ip = '" + username + "'::inet and pass = crypt('" + password + "', pass)");
-            client.any("SELECT * from Users where ip = '" + username + "'::inet and pass = crypt('" + password + "', pass)")
-                .then(data => {
-                    if (data.length > 0) resolve(data); // data
-                    else reject({
-                        state: 'failure',
-                        reason: 'No matching line',
-                        extra: null
-                        });
-                })
-                .catch(error => {
-                    logger.error(error);
-                    reject({
-                        state: 'failure',
-                        reason: 'Database error',
-                        extra: error
+        client.any("SELECT * from Accounts where username = '" + username.toLowerCase() + "' and pass = crypt('" + password + "', pass)")
+            .then(data => {
+                if (data.length > 0) resolve(data); // data
+                else reject({
+                    state: 'failure',
+                    reason: 'Invalid username or password',
+                    extra: null
                     });
+            })
+            .catch(error => {
+                logger.error(error);
+                reject({
+                    state: 'failure',
+                    reason: 'Database error',
+                    extra: error
                 });
-        }
+            });
     });
 };
 
