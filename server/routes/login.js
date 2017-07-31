@@ -1,5 +1,5 @@
 /**
- * Backend of the login page
+ * Backend of the login and registration pages
  */
 
 const express = require('express');
@@ -26,15 +26,27 @@ router.post('/accounts', function (req, res, next) {
     logger.debug('Adding new user', req.body.username);
     db.addAccount(req.body.username, req.body.password)
         .then(data => {
-            onSuccess(data, res);
+            onAddSuccess(req.body.username, res);
         })
         .catch(error => {
             onFailure(error, res);
         });
 });
 
+onAddSuccess = (data, res) => {
+    logger.verbose('Registration successful');
+    const token = getToken(data, true); // change to false once not needed!
+    logger.info('Issued token');
+    res.status(200);
+    res.json({
+        success: true,
+        message: 'Enjoy the token!',
+        token: token
+    });
+};
+
 onSuccess = (data, res) => {
-    const token = getToken(data);
+    const token = getToken(data[0].username, data[0].admin);
     logger.info('Issued token');
     res.status(200);
     res.json({
@@ -45,8 +57,6 @@ onSuccess = (data, res) => {
 };
 
 onFailure = (error, res) => {
-    console.log(error);
-    //res.send(error);
     res.status(401);
     res.json({
         success: false,
@@ -54,10 +64,10 @@ onFailure = (error, res) => {
     });
 }
 
-getToken = (data) => {
+getToken = (username, admin) => {
     const token = jwt.sign({
-            username: data[0].username,
-            admin: data[0].admin
+            username: username,
+            admin: admin
         },
         'secret',
         { expiresIn: 15 }
