@@ -137,7 +137,11 @@ db.prototype.addAccount = (username, password) => {
             })
             .catch(error => {
                 logger.error(error);
-                reject();
+                reject({
+                    state: 'failure',
+                    reason: 'Username already exists',
+                    extra: null
+                });
             });
     });
 }
