@@ -22,10 +22,12 @@ export class RegisterComponent {
             this.authenticationService.addAccount(this.model)
                 .subscribe(
                     data => {
+                        console.log(data); // debug
                         this.alertService.success('Registration successful', true);
                         this.router.navigate(['/login']);
                     },
                     error => {
+                        console.log(error); // debug
                         this.alertService.error(error.json().message.reason);
                         this.loading = false;
                     });

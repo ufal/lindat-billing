@@ -25,7 +25,9 @@ export class AuthenticationService {
 
     addAccount(user: User) {
         console.log('register');
-        return this.http.post('/api/accounts', user, this.jwt()).map((response: Response) => response.json());
+        return this.http.post('./api/accounts', user, this.jwt())
+            .map((response: Response) =>
+                response.json());
     }
 
     logout() {
