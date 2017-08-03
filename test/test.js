@@ -50,13 +50,13 @@ describe('Parser', function () {
 
 describe('Database', function () {
     describe('#authenticate', function () {
-        const user = '195.113.20.155';
+        const user = 'david';
         it('database provides valid info', (done) => {
             db.authenticate(user, 'heslo')
                 .then(data => {
                     data.should.be.a('Array');
                     data.should.have.lengthOf(1);
-                    data[0].ip.should.equal(user);
+                    data[0].username.should.equal(user);
                 })
                 .then(done, done);
         });
@@ -66,6 +66,21 @@ describe('Database', function () {
                 })
                 .catch(data => {
                     data.state.should.equal('failure');
+                })
+                .then(done, done);
+        });
+    });
+    describe('#addAccount', function () {
+        it('user already exists', (done) => {
+            const username = 'johndoe';
+            const password = 'password';
+            db.addAccount(username, password)
+                .then(data => {
+                    should.fail;
+                })
+                .catch(data => {
+                    data.state.should.equal('failure');
+                    data.reason.should.equal('Username already exists');
                 })
                 .then(done, done);
         });
