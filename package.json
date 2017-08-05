@@ -15,7 +15,7 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "compile": "tsc",
-    "test": "mocha"
+    "test": "mocha && karma run"
   },
   "dependencies": {
     "@angular/common": "~2.4.9",
@@ -52,7 +52,7 @@
     "zone.js": "^0.7.8"
   },
   "devDependencies": {
-    "@types/jasmine": "2.5.44",
+    "@types/jasmine": "^2.5.44",
     "@types/node": "^7.0.8",
     "canonical-path": "0.0.2",
     "chai": "^3.5.0",
@@ -64,6 +64,7 @@
     "karma-cli": "^1.0.1",
     "karma-jasmine": "^1.1.0",
     "karma-jasmine-html-reporter": "^0.2.2",
+    "karma-typescript-preprocessor": "^0.3.1",
     "lite-server": "^2.3.0",
     "lodash": "^4.17.4",
     "mocha": "^3.3.0",

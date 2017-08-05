@@ -2,10 +2,10 @@
  * Tests.
  */
 require('dotenv').config();
-var assert = require('assert');
-var should = require('chai').should();
-var rewire = require('rewire');
-var parser = rewire("../server/log_management/parser");
+const assert = require('assert');
+const should = require('chai').should();
+const rewire = require('rewire');
+const parser = rewire("../server/log_management/parser");
 //var users = rewire("../server/routes/users");
 const tools = require('../server/tools');
 const database = require('../server/log_management/database');
@@ -23,30 +23,30 @@ describe('Default', function() {
 
 describe('Parser', function () {
     describe('#parseLine()', function () {
-        var line = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /services/test/nesmysly"';
-        var parseLine = parser.__get__('parseLine');
-        var parsed = parseLine(line);
+        const line = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /services/test/nesmysly"';
+        const parseLine = parser.__get__('parseLine');
+        const parsed = parseLine(line);
 
         it('ip is valid', function () {
             (parsed.ip).should.be.a('string');
             //(parsed.ip).should.be.equal.to('195.113.20.155');
-        })
+        });
 
         it('datetime is valid', function () {
             //TODO dk: look up how to check if it's a valid timestamp
             // ... that is not really the point of it, is it?
-        })
+        });
 
         it('service is valid', function () {
             (parsed.service).should.be.a('boolean');
-        })
+        });
 
         it('request is valid', function () {
             (parsed.request).should.be.a('string');
             //(parsed.ip).should.be.equal.to('/services/test/nesmysly');
-        })
+        });
     })
-})
+});
 
 describe('Database', function () {
     describe('#authenticate', function () {
@@ -85,7 +85,7 @@ describe('Database', function () {
                 .then(done, done);
         });
     });
-})
+});
 
 describe('Others', function () {
     describe('#validateIPaddress @routes/users', function () {

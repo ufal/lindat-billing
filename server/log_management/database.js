@@ -14,7 +14,7 @@ const tools = require('../tools');
 
 
 // Database connection details;
-var client = pgp(config.db);
+let client = pgp(config.db);
 client.connect().catch(error=> {
     logger.error('Error connecting to database [%s:%s]:', config.db.host, config.db.port, error);
 });
@@ -55,14 +55,14 @@ db.prototype.insert = (values) => {
     client.any("SELECT * FROM users")
         .then(data => {
             // prepare a table to look up id
-            var id_u = {};
-            for(var i = 0; i < data.length; i++){
+            let id_u = {};
+            for(let i = 0; i < data.length; i++){
                 id_u[data[i].ip] = data[i].id_u;
             }
             // if the current user is not in the table, add him both into the table and into the database
-            for (var i = 0; i < values.length; i++) {
+            for (let i = 0; i < values.length; i++) {
                 if ("undefined" === typeof id_u[values[i].ip]) {
-                    var idx = Object.keys(id_u).length+1;
+                    const idx = Object.keys(id_u).length+1;
                     addUser(values[i].ip, idx);
                     id_u[values[i].ip] = idx;
                 }
@@ -70,7 +70,7 @@ db.prototype.insert = (values) => {
                 values[i]['id_u'] = id_u[values[i].ip];
 
                 // looks up service id
-                var serviceId = 0;
+                let serviceId = 0;
                 if (values[i].isService && "undefined" !== typeof id_s[values[i].service]) {
                     serviceId = id_s[values[i].service];
                 }
@@ -78,7 +78,7 @@ db.prototype.insert = (values) => {
             }
 
             // generating a multi-row insert query:
-            var query = pgp.helpers.insert(values, cs);
+            let query = pgp.helpers.insert(values, cs);
             // vzor: => INSERT INTO "tmp"("col_a","col_b") VALUES('a1','b1'),('a2','b2')
 
             // executing the query:
