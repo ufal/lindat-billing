@@ -16,29 +16,30 @@ export class RegisterComponent {
         private authenticationService: AuthenticationService,
         private alertService: AlertService) { }
 
+    // register new account
     register() {
+        console.log('Registration Component - Register');
         if (this.isValid(this.model.password)) {
             this.loading = true;
             this.authenticationService.addAccount(this.model)
                 .subscribe(
                     data => {
-                        console.log('data: ' + data); // debug
                         this.alertService.success('Registration successful', true);
                         this.router.navigate(['/login']);
                     },
                     error => {
-                        console.log('error: ' + error); // debug
                         this.alertService.error(error.json().message.reason);
                         this.loading = false;
                     });
         }
     }
 
+    // password validation
     isValid(password: string)
     {
-        if (password.length < 6)
+        if (password.length < 5)
         {
-            this.alertService.error('Password must be at least 6 characters long!');
+            this.alertService.error('Password must be at least 5 characters long!');
             return false;
         }
         return true;
