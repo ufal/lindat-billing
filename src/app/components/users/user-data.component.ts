@@ -44,17 +44,20 @@ export class UserDataComponent  {
         //this.searchUser();
     }
 
+    // expanding details of a service summary
     expand(p: any) {
         p.expanded = !p.expanded;
         //console.log(p, 'expanded:', p.expanded);
     }
 
+    // debug only - testing data
     test(ip: string, from: string, to: string) {
         console.log('Showing prepared sample');
         this.title = ip;
         this.getData(ip, from, to);
     }
 
+    // prepare information to get data of a specific user
     searchUser(event: Event) {
         event.preventDefault();
 
@@ -73,6 +76,7 @@ export class UserDataComponent  {
         this.getData(this.title, from, to);
     }
 
+    //  get data of a specific user
     getData(ip: string, from: string, to: string)
     {
         this.userDataService.getUser(ip, from, to)
@@ -95,16 +99,19 @@ export class UserDataComponent  {
             });
     }
 
+    // get the starting date of a period
     getStart = () => {
         const date = this.model.beginDate;
         return date.day + "-" + date.month + "-" + date.year;
     };
 
+    // get the ending date of a period
     getEnd() {
         const date = this.model.endDate;
         return date.day + "-" + date.month + "-" + date.year;
     }
 
+    // daterangepicker options
     private myDateRangePickerOptions: IMyOptions = {
         quickRangeSelect: true,
         dateFormat: 'dd.mm.yyyy',
@@ -117,7 +124,7 @@ export class UserDataComponent  {
         showClearDateRangeBtn: false,
     };
 
-
+    // dates changed
     onDateRangeChanged(event: IMyDateRangeModel) {
         this.model = {beginDate: event.beginDate, endDate: event.endDate};
         console.log('onDateRangeChanged(): ', event.formatted, 'with model', this.model);

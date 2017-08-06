@@ -8,8 +8,9 @@ import { User } from '../models/user';
 export class AuthenticationService {
     constructor(private http: Http) { }
 
+    // login into the app - get the JWT
     login(username: string, password: string) {
-        console.log('Auth Service Login');
+        console.log('Auth Service - Login');
         var body = {username: username, password: password};
         return this.http.post('./api/authenticate', body)
             .map((response: Response) => {
@@ -23,23 +24,19 @@ export class AuthenticationService {
             });
     }
 
+    // handle registration
     addAccount(user: User) {
-        console.log('register');
-        return this.http.post('./api/accounts', user, this.jwt());/*
-            .map((response: Response) => {
-                console.log(response);
-                response.json();
-            });*/
+        console.log('Auth Service - Registration');
+        return this.http.post('./api/accounts', user, this.jwt());
     }
 
+    // remove user from local storage to log user out
     logout() {
-        console.log('logout');
-        // remove user from local storage to log user out
         localStorage.removeItem('currentUser');
     }
 
+    // create authorization header with jwt token
     private jwt() {
-        // create authorization header with jwt token
         let currentUser = JSON.parse(localStorage.getItem('currentUser'));
         if (currentUser && currentUser.token) {
             let headers = new Headers({ 'Authorization': 'Bearer ' + currentUser.token });

@@ -8,11 +8,6 @@ const logger = require('winston');
 let id_s = require('./services.json');
 const tools = require('../tools');
 
-//var conString = "postgres://dkubon@localhost:5433/lindat-billing-test";
-//var conString = "postgres://postgres:12345@localhost:5432/lindat-billing";
-//"postgres://YourUserName:YourPassword@localhost:5432/YourDatabase";
-
-
 // Database connection details;
 let client = pgp(config.db);
 client.connect().catch(error=> {
@@ -131,7 +126,8 @@ db.prototype.select = (what) => {
 
 db.prototype.addAccount = (username, password) => {
     return new Promise((resolve, reject) => {
-        client.any("INSERT INTO Accounts (username, pass, admin) VALUES('" + username.toLowerCase() + "',crypt('" + password + "',  gen_salt('bf')), True)")
+        client.any("INSERT INTO Accounts (username, pass, admin) " +
+            "VALUES('" + username.toLowerCase() + "',crypt('" + password + "',  gen_salt('bf')), False)")
             .then(data => {
                 resolve(data);
             })

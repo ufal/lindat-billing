@@ -23,21 +23,25 @@ export class AlertService {
         });
     }
 
+    // display success
     success(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.subject.next({ type: 'success', text: message });
     }
 
+    // display error
     error(message: string, keepAfterNavigationChange = false) {
         this.keepAfterNavigationChange = keepAfterNavigationChange;
         this.subject.next({ type: 'error', text: message });
     }
 
+    // keep silent
     nothing() {
         this.keepAfterNavigationChange = false;
         this.subject.next({ type: 'none', text: '' });
     }
 
+    // get the message
     getMessage(): Observable<any> {
         return this.subject.asObservable();
     }
