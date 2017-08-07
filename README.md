@@ -39,7 +39,7 @@ Initial:
 1. create new user (node), copy ssh keys
 2. ``` pm2 deploy pm2.json ufal-point-dev setup ```
 3. ``` pm2 deploy pm2.json ufal-point-dev ```
-4. create database, secrets file or ENV variables
+4. create database and secrets file or ENV variables
 5. setup proxy, careful with '/' at the end, expecting relative paths to node
 
 
