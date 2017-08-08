@@ -3,15 +3,18 @@ import { BrowserModule }  from '@angular/platform-browser';
 import { HttpModule }     from '@angular/http';
 import { FormsModule }    from '@angular/forms';
 import { AppComponent }   from './app.component';
+import { Routing }        from './app.routing';
+import { APP_BASE_HREF } from '@angular/common';
+
 import { UserDataComponent } from './components/users/user-data.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
-import { MyDateRangePickerModule } from 'mydaterangepicker';
 import { AlertComponent } from './directives/index';
+import { AdminInfoComponent } from "./components/users/admin-info.component";
+
 import { AlertService, AuthenticationService } from './services/index';
 import { AuthGuard } from './guards/index';
-import { routing }        from './app.routing';
-import { APP_BASE_HREF } from '@angular/common';
+import { MyDateRangePickerModule } from 'mydaterangepicker';
 
 @NgModule({
   imports: [
@@ -19,11 +22,12 @@ import { APP_BASE_HREF } from '@angular/common';
       HttpModule,
       FormsModule,
       MyDateRangePickerModule,
-      routing
+      Routing
   ],
   declarations: [
       AppComponent,
       UserDataComponent,
+      AdminInfoComponent,
       AlertComponent,
       LoginComponent,
       RegisterComponent

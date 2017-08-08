@@ -5,46 +5,56 @@
     <button (click)="test('12.34.56.789','13-5-2015', '13-6-2017')">Error IP</button>
 </p>
 <hr>
-<form class="row" (submit)="searchUser($event)">
-    <div class="form-group">
+<div class="row">
+    <div class="col-md-2">
         <div *ngIf="isAdmin">
-            <div class="col-md-6">
-                <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
-            </div>
-        </div>
-        <div class="col-md-3">
-            <form #myForm="ngForm" novalidate>
-                <my-date-range-picker
-                        name="mydaterange"
-                        [options]="myDateRangePickerOptions"
-                        (dateRangeChanged)="onDateRangeChanged($event)"
-                        [placeholder]="placeholderTxt"
-                        [(ngModel)]="model" required>
-                </my-date-range-picker>
-            </form>
-        </div>
-        <div class="col-md-2">
-            <button (click)="onClickMe()">Search</button>
+            <admin-info></admin-info>
         </div>
     </div>
-</form>
-<hr>
 
-<div class="data-list">
-    <div *ngFor="let service of data">
-        <div *ngIf="service.total > 0">
-            <div class="col-md-12">
-                <div class = "search-result" (click)="expand(service)">
-                    {{service.name}} (total of {{service.total}} requests)
+    <div class="col-md-10">
+    <form class="row" (submit)="searchUser($event)">
+        <div class="form-group">
+            <div *ngIf="isAdmin">
+                <div class="col-md-4">
+                    <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
                 </div>
-                <div *ngIf="service.expanded">
-                    <ul *ngFor="let data of service.logData">
-                        <div class="search-result-detail">
-                            {{data.datetime}} {{data.request}}
-                        </div>
-                    </ul>
+            </div>
+            <div class="col-md-4">
+                <form #myForm="ngForm" novalidate>
+                    <my-date-range-picker
+                            name="mydaterange"
+                            [options]="myDateRangePickerOptions"
+                            (dateRangeChanged)="onDateRangeChanged($event)"
+                            [placeholder]="placeholderTxt"
+                            [(ngModel)]="model" required>
+                    </my-date-range-picker>
+                </form>
+            </div>
+            <div class="col-md-2">
+                <button (click)="onClickMe()">Search</button>
+            </div>
+        </div>
+    </form>
+    <hr>
+
+    <div class="data-list">
+        <div *ngFor="let service of data">
+            <div *ngIf="service.total > 0">
+                <div class="col-md-10">
+                    <div class = "search-result" (click)="expand(service)">
+                        {{service.name}} (total of {{service.total}} requests)
+                    </div>
+                    <div *ngIf="service.expanded">
+                        <ul *ngFor="let data of service.logData">
+                            <div class="search-result-detail">
+                                {{data.datetime}} {{data.request}}
+                            </div>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </div>

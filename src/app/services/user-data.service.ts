@@ -12,4 +12,8 @@ export class UserDataService{
         return this.http.get('./api/users/' + name + '/from=' + from + "/to=" + to)
             .map(res => res.json());
     }
+
+    getVersion() {
+        return this.http.get('./api/version').map(res => res.json());
+    }
 }
