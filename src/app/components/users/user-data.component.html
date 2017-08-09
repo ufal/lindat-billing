@@ -10,6 +10,9 @@
         <div *ngIf="isAdmin">
             <admin-info></admin-info>
         </div>
+        <div *ngIf="!isAdmin">
+            <account-info></account-info>
+        </div>
     </div>
 
     <div class="col-md-10">

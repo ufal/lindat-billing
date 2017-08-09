@@ -14,10 +14,6 @@ let logs = [];
 
 const db = new database();
 
-//log_management = parser('195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /Shibboleth.sso/DiscoFeed HTTP/1.1" 200 389353 "-" "Java/1.8.0_45"');
-//db.insert();
-//console.log(log_management);
-
 router.get('/users/*', function (req, res, next) {
     // select relevant data from database
     const request = req.url.split(['/']);

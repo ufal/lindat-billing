@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
-import { Http } from '@angular/http';
 import { UserDataService } from '../../services/user-data.service';
 import { IMyOptions, IMyDateRangeModel, IMyDateRange, IMyDateSelected, IMyCalendarViewChanged, IMyInputFieldChanged } from 'mydaterangepicker';
-import {forEach} from "@angular/router/src/utils/collection";
 import { AlertService } from '../../services/index';
 import { JwtHelper } from 'angular2-jwt';
-import { AdminInfoComponent } from './admin-info.component';
 
 @Component({
     moduleId: module.id,
