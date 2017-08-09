@@ -6,11 +6,11 @@ import { AuthenticationService } from "../../services/authentication.service";
 @Component({
     moduleId: module.id,
     selector: 'account-info',
-    templateUrl: 'account-info.component.html'
+    templateUrl: 'account-info.component.html',
+    styleUrls: ['info-box.component.css']
 })
 
 export class AccountInfoComponent {
-
     isAdmin: boolean;
     username: string;
 

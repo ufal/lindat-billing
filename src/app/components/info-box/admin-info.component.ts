@@ -7,7 +7,7 @@ import {Router} from "@angular/router";
     moduleId: module.id,
     selector: 'admin-info',
     templateUrl: 'admin-info.component.html',
-    styleUrls: ['admin-info.component.css']
+    styleUrls: ['info-box.component.css']
 })
 
 export class AdminInfoComponent {
