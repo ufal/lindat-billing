@@ -23,6 +23,14 @@ export class AccountInfoComponent {
         this.isAdmin = token.isAdmin;
     }
 
+    addNewIP() {
+        console.log('not implemented yet');
+    }
+
+    report() {
+        console.log('not implemented yet');
+    }
+
     logout() {
         this.authenticationService.logout();
         this.router.navigate(['/login']);
