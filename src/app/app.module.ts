@@ -6,7 +6,7 @@ import { AppComponent }   from './app.component';
 import { Routing }        from './app.routing';
 import { APP_BASE_HREF }  from '@angular/common';
 
-import { UserDataComponent, AccountInfoComponent, AdminInfoComponent, LoginComponent, RegisterComponent } from './components/index';
+import { UserDataComponent, AccountInfoComponent, AdminInfoComponent, LoginComponent, RegisterComponent, NavBarComponent } from './components/index';
 import { AlertComponent }    from './directives/index';
 
 import { AlertService, AuthenticationService } from './services/index';
@@ -28,7 +28,8 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
       AccountInfoComponent,
       AlertComponent,
       LoginComponent,
-      RegisterComponent
+      RegisterComponent,
+      NavBarComponent
   ],
   providers: [
       AuthGuard,

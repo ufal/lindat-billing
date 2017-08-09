@@ -12,6 +12,12 @@ const appRoutes: Routes = [
     // registration of new user
     { path: 'register', component: RegisterComponent },
 
+    { path: 'home', redirectTo: '' },
+
+    { path: 'data', component: UserDataComponent, canActivate: [AuthGuard]},
+
+    { path: 'accounts', component: UserDataComponent, canActivate: [AuthGuard]},
+
     // otherwise redirect to home
     { path: '**', redirectTo: '' }
 ];
