@@ -6,7 +6,8 @@ import {Router} from "@angular/router";
 @Component({
     moduleId: module.id,
     selector: 'admin-info',
-    templateUrl: 'admin-info.component.html'
+    templateUrl: 'admin-info.component.html',
+    styleUrls: ['admin-info.component.css']
 })
 
 export class AdminInfoComponent {
