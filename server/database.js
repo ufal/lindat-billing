@@ -2,11 +2,11 @@
  * Database operations management.
  */
 
-const config = require('../../settings/backend');
+const config = require('../settings/backend');
 const pgp = require('pg\-promise')();
 const logger = require('winston');
-let id_s = require('./services.json');
-const tools = require('../tools');
+let id_s = require('./log_management/services.json');
+const tools = require('./tools');
 
 // Database connection details;
 let client = pgp(config.db);
@@ -107,6 +107,20 @@ db.prototype.insert = (values) => {
         });
 };
 
+db.prototype.getIPs = (what) => {
+    return new Promise((resolve, reject) => {
+        client.any(what)
+            .then(data => {
+                logger.info('Select succesful', data.length);
+                resolve(data);
+            })
+            .catch(error => {
+                logger.info('Select FAILED');
+                logger.error(error);
+                reject(error);
+            });
+    });
+};
 
 // Select of a specific IP (what)
 db.prototype.select = (what) => {

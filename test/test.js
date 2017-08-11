@@ -8,7 +8,7 @@ const rewire = require('rewire');
 const parser = rewire("../server/log_management/parser");
 //var users = rewire("../server/routes/users");
 const tools = require('../server/tools');
-const database = require('../server/log_management/database');
+const database = require('../server/database');
 
 const db = new database();
 

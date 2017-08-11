@@ -5,7 +5,7 @@
 const express = require('express');
 const router = express.Router();
 //const url = require('url');
-const database = require('../log_management/database');
+const database = require('../database');
 const logger = require('winston');
 const jwt = require('jsonwebtoken');
 
@@ -70,7 +70,7 @@ getToken = (username, admin) => {
             admin: admin
         },
         'secret',
-        { expiresIn: 15 }
+        { expiresIn: 15 * 60 }
     );
     return token;
 };

@@ -12,7 +12,7 @@ const logger = require('winston');
 
 const users = require('./routes/users');
 const login = require('./routes/login');
-const tools = require('./routes/tools');
+const tools = require('./routes/other');
 
 const app = express();
 

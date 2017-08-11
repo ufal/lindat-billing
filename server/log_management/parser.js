@@ -3,7 +3,7 @@
  * @type {db}
  */
 
-var database = require('./database');
+var database = require('../database');
 
 var db = new database();
 
