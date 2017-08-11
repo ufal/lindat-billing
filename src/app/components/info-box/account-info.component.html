@@ -1,6 +1,13 @@
 <div class="info-box">
     <p>Welcome {{username}}!</p>
-    <p>Registered IPs</p>
+    <div class="data-list">
+        <p>Registered IPs</p>
+        <ul *ngFor="let ip of data">
+            <div class="ip-list-item">
+                {{ip.ip}}
+            </div>
+        </ul>
+    </div>
     <p>Registered tokens</p>
     <div class="btn-group-vertical">
         <button type="button" class="btn btn-default btn-block" (click)="addNewIP()">Add</button>

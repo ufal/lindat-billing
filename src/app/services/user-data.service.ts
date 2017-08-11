@@ -13,7 +13,7 @@ export class UserDataService{
             .map(res => res.json());
     }
 
-    getVersion() {
-        return this.http.get('./api/version').map(res => res.json());
+    getAccount(name: string) {
+        return this.http.get('./api/users/account/' + name).map(res => res.json());
     }
 }

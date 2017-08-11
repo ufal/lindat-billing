@@ -6,13 +6,26 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 const url = require('url');
-const database = require('../log_management/database');
+const database = require('../database');
 const logger = require('winston');
 const validateIPaddress = require('../tools').validateIPaddress;
 
 let logs = [];
 
 const db = new database();
+
+router.get('/users/account/*', function (req, res, next) {
+    const request = req.url.split(['/']);
+    const owner = request[3];
+    console.log(owner);
+    db.getIPs("SELECT * from Users WHERE owner = '" + owner + "'")
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.json(["ERROR", err]);
+        });
+});
 
 router.get('/users/*', function (req, res, next) {
     // select relevant data from database
