@@ -10,7 +10,11 @@ const tools = require('./tools');
 
 // Database connection details;
 let client = pgp(config.db);
-client.connect().catch(error=> {
+client.connect()
+    .then(obj => {
+        obj.done(); // release the connection
+    })
+    .catch(error=> {
     logger.error('Error connecting to database [%s:%s]:', config.db.host, config.db.port, error);
 });
 
@@ -20,7 +24,7 @@ function db () {}
 // Retrieves all the data of a user with specified id
 getUser = (ip) => {
     logger.debug("SELECT * FROM users WHERE ip = '" + ip + "'::inet");
-    client.any("SELECT * FROM users WHERE ip = '" + ip + "'::inet")
+    client.any('SELECT * FROM users WHERE ip = $1::inet', ip)
         .then(data => {
             if (data.Length > 0) {
                 return data[0].id_u;
@@ -35,7 +39,7 @@ getUser = (ip) => {
 // Adds a user with ip and id to the database
 addUser = (ip, id) => {
     logger.debug("INSERT INTO Users VALUES('" + id + "','" + ip + "')");
-    client.any("INSERT INTO Users VALUES('" + id + "','" + ip + "')")
+    client.any('INSERT INTO Users VALUES($1, $2)', [id, ip])
         .catch(error => {
             logger.error(error);
         });
