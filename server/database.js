@@ -6,11 +6,14 @@ const config = require('../settings/backend');
 const pgp = require('pg\-promise')();
 const logger = require('winston');
 let id_s = require('./log_management/services.json');
-const tools = require('./tools');
 
 // Database connection details;
 let client = pgp(config.db);
-client.connect().catch(error=> {
+client.connect()
+    .then(obj => {
+        obj.done(); // release the connection
+    })
+    .catch(error=> {
     logger.error('Error connecting to database [%s:%s]:', config.db.host, config.db.port, error);
 });
 
@@ -20,7 +23,7 @@ function db () {}
 // Retrieves all the data of a user with specified id
 getUser = (ip) => {
     logger.debug("SELECT * FROM users WHERE ip = '" + ip + "'::inet");
-    client.any("SELECT * FROM users WHERE ip = '" + ip + "'::inet")
+    client.any('SELECT * FROM users WHERE ip = $1::inet', ip)
         .then(data => {
             if (data.Length > 0) {
                 return data[0].id_u;
@@ -35,7 +38,7 @@ getUser = (ip) => {
 // Adds a user with ip and id to the database
 addUser = (ip, id) => {
     logger.debug("INSERT INTO Users VALUES('" + id + "','" + ip + "')");
-    client.any("INSERT INTO Users VALUES('" + id + "','" + ip + "')")
+    client.any('INSERT INTO Users VALUES($1, $2)', [id, ip])
         .catch(error => {
             logger.error(error);
         });
@@ -141,7 +144,7 @@ db.prototype.select = (what) => {
 db.prototype.addAccount = (username, password) => {
     return new Promise((resolve, reject) => {
         client.any("INSERT INTO Accounts (username, pass, admin) " +
-            "VALUES('" + username.toLowerCase() + "',crypt('" + password + "',  gen_salt('bf')), False)")
+            "VALUES($1, crypt($2, gen_salt('bf')), $3)", [username.toLowerCase(), password, false])
             .then(data => {
                 resolve(data);
             })
@@ -158,7 +161,8 @@ db.prototype.addAccount = (username, password) => {
 
 db.prototype.authenticate = (username, password) => {
     return new Promise((resolve, reject) => {
-        client.any("SELECT * from Accounts where username = '" + username.toLowerCase() + "' and pass = crypt('" + password + "', pass)")
+        client.any('SELECT * from Accounts where username = $1 and pass = crypt($2, pass)',
+            [username.toLowerCase(), password])
             .then(data => {
                 if (data.length > 0) resolve(data); // data
                 else reject({
