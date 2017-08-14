@@ -29,6 +29,11 @@
                     <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
                 </div>
             </div>
+            <div *ngIf="!isAdmin">
+                <div class="col-md-4">
+                    <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
+                </div>
+            </div>
             <div class="col-md-4">
                 <form #myForm="ngForm" novalidate>
                     <my-date-range-picker

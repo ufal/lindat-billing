@@ -35,7 +35,7 @@ export class UserDataComponent  {
         else
         {
             this.isAdmin = false;
-            this.title = token.username;
+            //this.title = token.username;
         }
     }
 
