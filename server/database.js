@@ -45,6 +45,14 @@ addUser = (ip, id) => {
     logger.verbose("New User:", id);
 };
 
+addLogin = (userID) => {
+    client.any('INSERT INTO Logins VALUES($1, $2)', [userID, Date.now()])
+        .catch(error => {
+            logger.error(error);
+        });
+    logger.verbose("New login from", username);
+};
+
 // Insert a new log entry into the database
 db.prototype.insert = (values) => {
     // column headers
@@ -164,7 +172,10 @@ db.prototype.authenticate = (username, password) => {
         client.any('SELECT * from Accounts where username = $1 and pass = crypt($2, pass)',
             [username.toLowerCase(), password])
             .then(data => {
-                if (data.length > 0) resolve(data); // data
+                if (data.length > 0) {
+                    addLogin(username.toLowerCase());
+                    resolve(data); // data
+                }
                 else reject({
                     state: 'failure',
                     reason: 'Invalid username or password',

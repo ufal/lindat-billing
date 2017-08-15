@@ -43,6 +43,12 @@ admin boolean,
 CONSTRAINT accounts_pkey PRIMARY KEY (username)
 );
 
+CREATE TABLE Logins
+(
+    username text,
+    datetime bigint
+);
+
 \q
 EOF
 if [ $? -gt 0 ];

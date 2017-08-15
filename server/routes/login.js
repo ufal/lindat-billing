@@ -62,7 +62,7 @@ onFailure = (error, res) => {
         success: false,
         message: error
     });
-}
+};
 
 getToken = (username, admin) => {
     const token = jwt.sign({
