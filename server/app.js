@@ -13,6 +13,7 @@ const logger = require('winston');
 const users = require('./routes/users');
 const login = require('./routes/login');
 const tools = require('./routes/other');
+const logging = require('./routes/logging');
 
 const app = express();
 
@@ -45,6 +46,7 @@ logger.info("Using [%s] as input path", config.input_dir);
 app.use('/api', users);
 app.use('/api', login);
 app.use('/api', tools);
+app.use('/api', logging);
 
 // initiate logmanager
 logmanager(config.input_dir);
