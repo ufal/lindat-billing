@@ -1,5 +1,5 @@
 /**
- * Logger for forntend
+ * Logger for frontend
  */
 
 const express = require('express');
