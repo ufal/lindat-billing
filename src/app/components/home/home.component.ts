@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertService, HomeDataService  } from '../../services/index';
+import { AlertService, HomeDataService, LoggerService  } from '../../services/index';
 import { JwtHelper } from 'angular2-jwt';
 
 @Component({
@@ -16,7 +16,8 @@ export class HomeComponent {
 
     constructor(
         private homeDataService: HomeDataService,
-        private alertService: AlertService) {
+        private alertService: AlertService,
+        private loggerService: LoggerService) {
         this.getData();
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         const token = this.jwtHelper.decodeToken(currentUser.token);
@@ -35,7 +36,7 @@ export class HomeComponent {
                 if (log[0] == "ERROR") {
                     this.alertService.error(log[1]);
                     this.data = [];
-                    console.log(log[1]);
+                    this.loggerService.log('error',log[1]);
                 } else {
                     this.alertService.nothing();
                     this.data = log;

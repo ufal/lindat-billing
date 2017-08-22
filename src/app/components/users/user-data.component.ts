@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { UserDataService } from '../../services/user-data.service';
 import { IMyOptions, IMyDateRangeModel, IMyDateRange, IMyDateSelected, IMyCalendarViewChanged, IMyInputFieldChanged } from 'mydaterangepicker';
-import { AlertService } from '../../services/index';
+import { UserDataService, AlertService, LoggerService } from '../../services/index';
 import { JwtHelper } from 'angular2-jwt';
 
 @Component({
@@ -27,7 +26,8 @@ export class UserDataComponent  {
 
     constructor(
         private userDataService: UserDataService,
-        private alertService: AlertService
+        private alertService: AlertService,
+        private loggerService: LoggerService
     ) {
         const currentUser = JSON.parse(localStorage.getItem('currentUser'));
         const token = this.jwtHelper.decodeToken(currentUser.token);
@@ -82,7 +82,7 @@ export class UserDataComponent  {
                 if (log[0] == "ERROR") {
                     this.alertService.error(log[1]);
                     this.data = [];
-                    console.log(log[1]);
+                    this.loggerService.log('debug',log[1]);
                 } else if (log[0] == "EMPTY") {
                     let message = 'User ' + this.title
                         + ' has no relevant data for the period between ' + from + ' and ' + to;
