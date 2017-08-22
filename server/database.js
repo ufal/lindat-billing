@@ -50,7 +50,20 @@ addLogin = (userID) => {
         .catch(error => {
             logger.error(error);
         });
-    logger.verbose("New login from", username);
+    logger.verbose("New login from", userID);
+};
+
+db.prototype.getLogins = () => {
+    return new Promise((resolve, reject) => {
+        client.any('SELECT * FROM Logins')
+            .then(data => {
+                resolve(data);
+            })
+            .catch(error => {
+                logger.error(error);
+                reject(error);
+            });
+    });
 };
 
 // Insert a new log entry into the database

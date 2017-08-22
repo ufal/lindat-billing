@@ -12,6 +12,9 @@ import { AlertComponent }    from './directives/index';
 import { AlertService, AuthenticationService } from './services/index';
 import { AuthGuard } from './guards/index';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
+import {HomeComponent} from "./components/home/home.component";
+import {HomeDataService} from "./services/home-data.service";
+import {LoggerService} from "./services/logger.service";
 
 @NgModule({
   imports: [
@@ -29,12 +32,15 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
       AlertComponent,
       LoginComponent,
       RegisterComponent,
-      NavBarComponent
+      NavBarComponent,
+      HomeComponent
   ],
   providers: [
       AuthGuard,
       AlertService,
       AuthenticationService,
+      HomeDataService,
+      LoggerService,
       {provide: APP_BASE_HREF, useValue: './'}
   ],
   bootstrap:    [ AppComponent ]

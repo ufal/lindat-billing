@@ -1,10 +1,10 @@
 import { Routes, RouterModule } from '@angular/router';
-import { UserDataComponent, LoginComponent, RegisterComponent } from './components/index';
+import { UserDataComponent, LoginComponent, RegisterComponent, HomeComponent } from './components/index';
 import { AuthGuard } from './guards/index';
 
 const appRoutes: Routes = [
     // intro site
-    { path: '', component: UserDataComponent, canActivate: [AuthGuard] },
+    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
 
     // login page (intro side + not logged in)
     { path: 'login', component: LoginComponent},
@@ -12,7 +12,7 @@ const appRoutes: Routes = [
     // registration of new user
     { path: 'register', component: RegisterComponent },
 
-    { path: 'home', redirectTo: '' },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 
     { path: 'data', component: UserDataComponent, canActivate: [AuthGuard]},
 
