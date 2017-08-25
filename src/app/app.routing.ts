@@ -1,10 +1,11 @@
 import { Routes, RouterModule } from '@angular/router';
-import { UserDataComponent, LoginComponent, RegisterComponent, HomeComponent } from './components/index';
+import { UserDataComponent, LoginComponent, RegisterComponent, HomeComponent, PageNotFoundComponent } from './components/index';
 import { AuthGuard } from './guards/index';
 
 const appRoutes: Routes = [
     // intro site
-    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    //{ path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
 
     // login page (intro side + not logged in)
     { path: 'login', component: LoginComponent},
@@ -12,14 +13,14 @@ const appRoutes: Routes = [
     // registration of new user
     { path: 'register', component: RegisterComponent },
 
-    { path: './home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 
     { path: 'data', component: UserDataComponent, canActivate: [AuthGuard]},
 
     { path: 'accounts', component: UserDataComponent, canActivate: [AuthGuard]},
 
-    // otherwise redirect to home
-    { path: '**', redirectTo: '' }
+    // otherwise redirect to not found
+    { path: '**', component: PageNotFoundComponent }
 ];
 
 export const Routing = RouterModule.forRoot(appRoutes);

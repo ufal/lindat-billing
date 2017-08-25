@@ -5,3 +5,4 @@ export * from './info-box/admin-info.component';
 export * from './users/user-data.component';
 export * from './navigation_bar/nav-bar.component';
 export * from './home/home.component';
+export * from './not-found.component';
