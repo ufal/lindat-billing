@@ -16,7 +16,7 @@
         <div class="data-list">
             <div *ngFor="let login of data">
                 <div class = "search-result">
-                    {{login.username}} logged in at {{login.datetime}}
+                    {{login.username}} logged in at {{login.datetime | date: 'H:mm on d-M-yyyy'}}
                 </div>
             </div>
         </div>
