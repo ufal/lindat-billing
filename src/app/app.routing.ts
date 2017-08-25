@@ -12,7 +12,7 @@ const appRoutes: Routes = [
     // registration of new user
     { path: 'register', component: RegisterComponent },
 
-    { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: './home', component: HomeComponent, canActivate: [AuthGuard] },
 
     { path: 'data', component: UserDataComponent, canActivate: [AuthGuard]},
 
