@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { JwtHelper } from 'angular2-jwt';
 import { Router } from "@angular/router";
 import { AuthenticationService, UserDataService, AlertService } from "../../services/index";
 
@@ -15,18 +14,14 @@ export class AccountInfoComponent {
     username: string;
     data: Object[];
 
-    jwtHelper: JwtHelper = new JwtHelper();
-
     constructor(
         private router: Router,
         private authenticationService: AuthenticationService,
         private userDataService: UserDataService,
         private alertService: AlertService
     ) {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        const token = this.jwtHelper.decodeToken(currentUser.token);
-        this.username = token.username;
-        this.isAdmin = token.isAdmin;
+        this.username = authenticationService.getUsername();
+        this.isAdmin = authenticationService.isAdmin();
         this.getIPs();
     }
 

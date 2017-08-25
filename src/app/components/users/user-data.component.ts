@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IMyOptions, IMyDateRangeModel, IMyDateRange, IMyDateSelected, IMyCalendarViewChanged, IMyInputFieldChanged } from 'mydaterangepicker';
-import { UserDataService, AlertService, LoggerService } from '../../services/index';
-import { JwtHelper } from 'angular2-jwt';
+import { UserDataService, AlertService, LoggerService, AuthenticationService } from '../../services/index';
 
 @Component({
     moduleId: module.id,
@@ -16,8 +15,6 @@ export class UserDataComponent  {
     errorMessage: string;
     isAdmin: boolean;
 
-    jwtHelper: JwtHelper = new JwtHelper();
-
     model: IMyDateRange = {
         beginDate: {year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate()},
         endDate: {year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate()}
@@ -27,16 +24,10 @@ export class UserDataComponent  {
     constructor(
         private userDataService: UserDataService,
         private alertService: AlertService,
-        private loggerService: LoggerService
+        private loggerService: LoggerService,
+        private authenticationService: AuthenticationService
     ) {
-        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-        const token = this.jwtHelper.decodeToken(currentUser.token);
-        if (token.admin) this.isAdmin = true;
-        else
-        {
-            this.isAdmin = false;
-            //this.title = token.username;
-        }
+        this.isAdmin = authenticationService.isAdmin();
     }
 
     onClickMe() {

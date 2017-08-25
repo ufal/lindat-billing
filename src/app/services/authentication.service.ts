@@ -3,9 +3,12 @@ import { Http, Headers, RequestOptions, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { User } from '../models/user';
+import { JwtHelper } from 'angular2-jwt';
 
 @Injectable()
 export class AuthenticationService {
+    jwtHelper: JwtHelper = new JwtHelper();
+
     constructor(private http: Http) { }
 
     // login into the app - get the JWT
@@ -33,6 +36,19 @@ export class AuthenticationService {
     // remove user from local storage to log user out
     logout() {
         localStorage.removeItem('currentUser');
+    }
+
+    isAdmin() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const token = this.jwtHelper.decodeToken(currentUser.token);
+        if (token.admin) return true;
+        else return false;
+    }
+
+    getUsername() {
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        const token = this.jwtHelper.decodeToken(currentUser.token);
+        return token.username;
     }
 
     // create authorization header with jwt token
