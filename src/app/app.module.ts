@@ -8,10 +8,10 @@ import { APP_BASE_HREF }  from '@angular/common';
 
 import { HomeComponent, UserDataComponent, AccountInfoComponent,
     AdminInfoComponent, LoginComponent, RegisterComponent,
-    NavBarComponent, PageNotFoundComponent } from './components/index';
+    NavBarComponent, PageNotFoundComponent, AccountsManagementComponent } from './components/index';
 import { AlertComponent }    from './directives/index';
 
-import { AlertService, AuthenticationService, LoggerService, HomeDataService } from './services/index';
+import { AlertService, AuthenticationService, LoggerService, HomeDataService, AccountDataService } from './services/index';
 import { AuthGuard } from './guards/index';
 import { MyDateRangePickerModule } from 'mydaterangepicker';
 
@@ -33,6 +33,7 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
       RegisterComponent,
       NavBarComponent,
       HomeComponent,
+      AccountsManagementComponent,
       PageNotFoundComponent
   ],
   providers: [
@@ -41,6 +42,8 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
       AuthenticationService,
       HomeDataService,
       LoggerService,
+      AccountInfoComponent,
+      AccountDataService,
       {provide: APP_BASE_HREF, useValue: './'}
   ],
   bootstrap:    [ AppComponent ]

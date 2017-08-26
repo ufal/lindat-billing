@@ -146,6 +146,21 @@ db.prototype.getIPs = (what) => {
     });
 };
 
+db.prototype.getAllAccounts = () => {
+    return new Promise((resolve, reject) => {
+        client.any('SELECT * FROM accounts a INNER JOIN users u on a.username = u.owner WHERE a.admin = false')
+            .then(data => {
+                logger.info('Select succesful', data.length);
+                resolve(data);
+            })
+            .catch(error => {
+                logger.info('Select FAILED');
+                logger.error(error);
+                reject(error);
+            });
+    });
+};
+
 // Select of a specific IP (what)
 db.prototype.select = (what) => {
     return new Promise((resolve, reject) => {

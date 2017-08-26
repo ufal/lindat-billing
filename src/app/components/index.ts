@@ -6,3 +6,4 @@ export * from './users/user-data.component';
 export * from './navigation_bar/nav-bar.component';
 export * from './home/home.component';
 export * from './not-found.component';
+export * from './accounts-management/accounts-management.component';

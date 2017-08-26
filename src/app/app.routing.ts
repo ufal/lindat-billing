@@ -1,5 +1,5 @@
 import { Routes, RouterModule } from '@angular/router';
-import { UserDataComponent, LoginComponent, RegisterComponent, HomeComponent, PageNotFoundComponent } from './components/index';
+import { UserDataComponent, LoginComponent, RegisterComponent, HomeComponent, PageNotFoundComponent, AccountsManagementComponent } from './components/index';
 import { AuthGuard } from './guards/index';
 
 const appRoutes: Routes = [
@@ -17,7 +17,7 @@ const appRoutes: Routes = [
 
     { path: 'data', component: UserDataComponent, canActivate: [AuthGuard]},
 
-    { path: 'accounts', component: UserDataComponent, canActivate: [AuthGuard]},
+    { path: 'accounts', component: AccountsManagementComponent, canActivate: [AuthGuard]},
 
     // otherwise redirect to not found
     { path: '**', component: PageNotFoundComponent }

@@ -14,6 +14,31 @@ let logs = [];
 
 const db = new database();
 
+router.get('/users/accounts', function (req, res, next) {
+    logger.debug('got here');
+    db.getAllAccounts()
+        .then(data => {
+            let dataModified = [];
+            let last = "";
+            let ips = [];
+            data.forEach(function (item) {
+                if (item.username !== last) {
+                    if (last.length !== 0)
+                        dataModified.push({ name: item.username, ips: ips, expanded: false });
+                    last = item.username;
+                    ips = [item.ip];
+                } else {
+                    ips.push(item.ip);
+                }
+            });
+            dataModified.push({ name: last, ips: ips, expanded: false });
+            res.json(dataModified);
+        })
+        .catch(err => {
+            res.json(["ERROR", err]);
+        });
+});
+
 router.get('/users/account/*', function (req, res, next) {
     const request = req.url.split(['/']);
     const owner = request[3];

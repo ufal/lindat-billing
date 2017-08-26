@@ -1,0 +1,30 @@
+<nav-bar></nav-bar>
+<div class="row">
+    <div class="col-md-2">
+        <div *ngIf="isAdmin">
+            <admin-info></admin-info>
+        </div>
+        <div *ngIf="!isAdmin">
+            <account-info></account-info>
+        </div>
+    </div>
+
+    <div class="col-md-10">
+        <div class="data-list">
+            <div *ngFor="let user of data">
+                <div class="col-md-10">
+                    <div class = "search-result" (click)="expand(user)">
+                        {{user.name}}
+                    </div>
+                    <div *ngIf="user.expanded">
+                        <ul *ngFor="let item of user.ips">
+                            <div class="search-result-detail">
+                                {{item}}
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
