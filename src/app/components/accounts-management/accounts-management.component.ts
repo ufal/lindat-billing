@@ -34,7 +34,6 @@ export class AccountsManagementComponent {
                 } else {
                     this.alertService.nothing();
                     this.data = data;
-                    console.log(this.data);
                 }
             });
     }

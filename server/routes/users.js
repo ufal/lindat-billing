@@ -15,7 +15,6 @@ let logs = [];
 const db = new database();
 
 router.get('/users/accounts', function (req, res, next) {
-    logger.debug('got here');
     db.getAllAccounts()
         .then(data => {
             let dataModified = [];
