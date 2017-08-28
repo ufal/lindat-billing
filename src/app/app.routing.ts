@@ -20,8 +20,7 @@ const appRoutes: Routes = [
     { path: 'accounts', component: AccountsManagementComponent, canActivate: [AuthGuard]},
 
     // otherwise redirect to not found
-    //{ path: '**', component: PageNotFoundComponent }
-    { path: '**', redirectTo: 'home', pathMatch: 'full' }
+    { path: '**', component: PageNotFoundComponent }
 ];
 
 export const Routing = RouterModule.forRoot(appRoutes);
