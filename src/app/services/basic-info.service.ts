@@ -10,4 +10,8 @@ export class BasicInfoService{
     getVersion() {
         return this.http.get('./api/version').map(res => res.json());
     }
+
+    getStartTime() {
+        return this.http.get('./api/startTime').map(res => res.json());
+    }
 }

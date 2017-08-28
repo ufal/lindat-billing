@@ -14,6 +14,7 @@ export class AdminInfoComponent {
     isAdmin: boolean;
     username: string;
     version: string;
+    startTime: object;
 
     constructor(
         private router: Router,
@@ -23,6 +24,7 @@ export class AdminInfoComponent {
         this.username = authenticationService.getUsername();
         this.isAdmin = authenticationService.isAdmin();
         this.basicInfoService.getVersion().subscribe(version => this.version = version);
+        this.basicInfoService.getStartTime().subscribe(startTime => this.startTime = startTime);
     }
 
     logout() {
