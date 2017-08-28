@@ -57,7 +57,7 @@ db.prototype.getLogins = () => {
     return new Promise((resolve, reject) => {
         client.any('SELECT * FROM Logins')
             .then(data => {
-                resolve(data);
+                resolve(data.reverse()/*.slice(0,10)*/);
             })
             .catch(error => {
                 logger.error(error);
