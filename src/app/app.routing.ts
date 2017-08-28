@@ -4,8 +4,8 @@ import { AuthGuard } from './guards/index';
 
 const appRoutes: Routes = [
     // intro site
-    { path: '', component: HomeComponent, canActivate: [AuthGuard] },
-    //{ path: '', redirectTo: '/home', pathMatch: 'full' },
+    //{ path: '', component: HomeComponent, canActivate: [AuthGuard] },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
 
     // login page (intro side + not logged in)
     { path: 'login', component: LoginComponent},
