@@ -44,7 +44,7 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
       LoggerService,
       AccountInfoComponent,
       AccountDataService,
-      {provide: APP_BASE_HREF, useValue: './'}
+      {provide: APP_BASE_HREF, useValue: '/'}
   ],
   bootstrap:    [ AppComponent ]
 })
