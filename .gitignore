@@ -7,3 +7,5 @@ src/**/*.map
 
 !src/systemjs.config.js
 logs/*
+
+fill-database.sh
