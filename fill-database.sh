@@ -1,5 +1,5 @@
 #!/bin/sh
-psql -p 5433 -q -v "ON_ERROR_STOP=1" lindat-billing-test << EOF
+psql -p 5433 -q -v lindat-billing-test << EOF
 
 INSERT INTO Accounts (username, pass, admin) VALUES('david', crypt('heslo', gen_salt('bf')), true);
 INSERT INTO Accounts (username, pass, admin) VALUES('jm', crypt('heslo', gen_salt('bf')), true);
@@ -27,8 +27,4 @@ INSERT INTO Users (id_u,ip,owner) VALUES('7','127.0.0.21'::inet, 'johny');
 \q
 EOF
 
-if [ $? -gt 0 ];
-then "Error in database filling"
-else
-    echo "Database is filled with test data"
-fi
+echo "Database is filled with test data"
