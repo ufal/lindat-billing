@@ -4,7 +4,7 @@ import { HttpModule }     from '@angular/http';
 import { FormsModule }    from '@angular/forms';
 import { AppComponent }   from './app.component';
 import { Routing }        from './app.routing';
-import { APP_BASE_HREF }  from '@angular/common';
+import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy }  from '@angular/common';
 
 import { HomeComponent, UserDataComponent, AccountInfoComponent,
     AdminInfoComponent, LoginComponent, RegisterComponent,
@@ -44,6 +44,7 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
       LoggerService,
       AccountInfoComponent,
       AccountDataService,
+      {provide: LocationStrategy, useClass: HashLocationStrategy },
       {provide: APP_BASE_HREF, useValue: '/'}
   ],
   bootstrap:    [ AppComponent ]
