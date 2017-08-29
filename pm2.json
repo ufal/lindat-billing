@@ -21,7 +21,7 @@
       "ref"  : "origin/master",
       "path" : "/opt/lindat-billing/installation/",
       "post-deploy" : "npm install && npm run compile && PORT=3020 pm2 startOrRestart pm2.json --env production",
-      "post-setup" : "mkdir -p public/logs && ./database-setup.sh"
+      "post-setup" : "mkdir -p public/logs && ./database-setup.sh && ./fill-database.sh"
     }
   }
 }
