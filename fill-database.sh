@@ -15,13 +15,13 @@ INSERT INTO Logins VALUES('user', '1502809718022');
 INSERT INTO Logins VALUES('honza', '1502809718025');
 
 
-INSERT INTO Users (id_u,ip,owner) VALUES('1','127.0.0.1'::inet, 'user');
-INSERT INTO Users (id_u,ip,owner) VALUES('2','127.0.0.2'::inet, 'user');
-INSERT INTO Users (id_u,ip,owner) VALUES('3','127.0.0.10'::inet, 'honza');
-INSERT INTO Users (id_u,ip,owner) VALUES('4','127.0.0.11'::inet, 'honza');
-INSERT INTO Users (id_u,ip,owner) VALUES('5','127.0.0.12'::inet, 'honza');
-INSERT INTO Users (id_u,ip,owner) VALUES('6','127.0.0.20'::inet, 'johny');
-INSERT INTO Users (id_u,ip,owner) VALUES('7','127.0.0.21'::inet, 'johny');
+INSERT INTO Users (ip,owner) VALUES('127.0.0.1', 'user');
+INSERT INTO Users (ip,owner) VALUES('127.0.0.2', 'user');
+INSERT INTO Users (ip,owner) VALUES('127.0.0.10', 'honza');
+INSERT INTO Users (ip,owner) VALUES('127.0.0.11', 'honza');
+INSERT INTO Users (ip,owner) VALUES('127.0.0.12', 'honza');
+INSERT INTO Users (ip,owner) VALUES('127.0.0.20', 'johny');
+INSERT INTO Users (ip,owner) VALUES('127.0.0.21', 'johny');
 
 
 \q
