@@ -11,19 +11,21 @@ import { AlertService, HomeDataService, LoggerService, AuthenticationService  } 
 export class HomeComponent {
     data: Object[];
     isAdmin: boolean;
+    username: string;
 
     constructor(
         private homeDataService: HomeDataService,
         private alertService: AlertService,
         private authenticationService: AuthenticationService,
         private loggerService: LoggerService) {
-        this.getData();
         this.isAdmin = authenticationService.isAdmin();
+        this.username = authenticationService.getUsername();
+        this.getData();
     }
 
     getData()
     {
-        this.homeDataService.getLogins()
+        this.homeDataService.getLogins(this.isAdmin, this.username)
             .subscribe(log => {
                 if (log[0] == "ERROR") {
                     this.alertService.error(log[1]);
@@ -35,4 +37,5 @@ export class HomeComponent {
                 }
             });
     }
+
 }

@@ -1,7 +1,4 @@
 <nav-bar></nav-bar>
-<h1>
-    Welcome to Lindat Billing!
-</h1>
 <hr>
 <div class="row">
     <div class="col-md-2">
@@ -13,7 +10,22 @@
         </div>
     </div>
     <div class="col-md-10">
-        <div class="data-list">
+        <div *ngIf="isAdmin">
+            <div class="data-list">
+                <div *ngFor="let login of data | slice:0:10">
+                    <div class = "search-result">
+                        {{login.username}} logged in at {{login.datetime | date: 'H:mm on d-M-yyyy'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="!isAdmin">
+            <h2>
+                Welcome to Lindat Billing, {{username}}!
+            </h2>
+            <h3>
+                Your last logins
+            </h3>
             <div *ngFor="let login of data | slice:0:10">
                 <div class = "search-result">
                     {{login.username}} logged in at {{login.datetime | date: 'H:mm on d-M-yyyy'}}

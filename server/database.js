@@ -55,7 +55,22 @@ addLogin = (userID) => {
 
 db.prototype.getLogins = () => {
     return new Promise((resolve, reject) => {
+        logger.debug('SELECT * FROM Logins');
         client.any('SELECT * FROM Logins')
+            .then(data => {
+                resolve(data.reverse()/*.slice(0,10)*/);
+            })
+            .catch(error => {
+                logger.error(error);
+                reject(error);
+            });
+    });
+};
+
+db.prototype.getMyLogins = (username) => {
+    return new Promise((resolve, reject) => {
+        logger.debug('SELECT * FROM Logins WHERE username = username');
+        client.any('SELECT * FROM Logins WHERE username = $1', username)
             .then(data => {
                 resolve(data.reverse()/*.slice(0,10)*/);
             })

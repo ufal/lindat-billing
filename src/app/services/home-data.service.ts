@@ -8,7 +8,8 @@ export class HomeDataService{
         console.log('Home Service Initialized ...');
     }
 
-    getLogins() {
-        return this.http.get('./api/home').map(res => res.json());
+    getLogins(admin: boolean, username: string) {
+        if (admin) return this.http.get('./api/home').map(res => res.json());
+        else return this.http.get('./api/home/' + username).map(res => res.json());
     }
 }

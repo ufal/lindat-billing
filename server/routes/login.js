@@ -32,6 +32,18 @@ router.get('/home', function (req, res, next) {
         });
 });
 
+router.get('/home/*', function (req, res, next) {
+    db.getMyLogins(req.url.split(['/'])[2])
+        .then(data => {
+            res.json(data);
+        })
+        .catch(err => {
+            res.json(["ERROR", err]);
+        });
+});
+
+
+
 router.post('/accounts', function (req, res, next) {
     logger.debug('Adding new user', req.body.username);
     db.addAccount(req.body.username, req.body.password)
