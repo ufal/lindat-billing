@@ -28,7 +28,7 @@
             </h3>
             <div *ngFor="let login of data | slice:0:10">
                 <div class = "search-result">
-                    {{login.username}} logged in at {{login.datetime | date: 'H:mm on d-M-yyyy'}}
+                    Logged in at {{login.datetime | date: 'H:mm on d-M-yyyy'}}
                 </div>
             </div>
         </div>
