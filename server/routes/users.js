@@ -38,6 +38,16 @@ router.get('/users/accounts', function (req, res, next) {
         });
 });
 
+router.post('/users/account/addNewIP', function (req, res, next) {
+    res.status(200);
+    res.json('...');
+});
+
+router.post('/users/account/reportIP', function (req, res, next) {
+    res.status(200);
+    res.json('...');
+});
+
 router.get('/users/account/*', function (req, res, next) {
     const request = req.url.split(['/']);
     const owner = request[3];

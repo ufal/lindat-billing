@@ -12,7 +12,9 @@ import { Router } from "@angular/router";
 export class AccountsManagementComponent {
 
     isAdmin: boolean;
+    username: string;
     data: Object[];
+    ipToAdd: string;
 
     constructor(
         private router: Router,
@@ -21,11 +23,11 @@ export class AccountsManagementComponent {
         private accountDataService: AccountDataService
     ) {
         this.isAdmin = authenticationService.isAdmin();
+        this.username = this.authenticationService.getUsername();
         this.getAllAccounts();
     }
 
-    getAllAccounts()
-    {
+    getAllAccounts() {
         this.accountDataService.getAll()
             .subscribe(data => {
                 if (data[0] == "ERROR") {
@@ -36,6 +38,36 @@ export class AccountsManagementComponent {
                     this.data = data;
                 }
             });
+    }
+
+    addNewIP() {
+        this.accountDataService.addNewIP(this.ipToAdd, this.username)
+            .subscribe(message => {
+                if (message.toString() == "ERROR") {
+                    this.alertService.error('Failed to add IP!');
+                } else if (message.toString() == "SUCCESS") {
+                    this.alertService.success('New IP successfully added!');
+                } else {
+                    this.alertService.error('Not yet implemented');
+                }
+            });
+    }
+
+    reportIP() {
+        this.accountDataService.reportIP(this.ipToAdd, this.username)
+            .subscribe(message => {
+                if (message.toString() == "ERROR") {
+                    this.alertService.error('Failed to report IP!');
+                } else if (message.toString() == "SUCCESS") {
+                    this.alertService.success('The IP was successfully reported!');
+                } else {
+                    this.alertService.error('Not yet implemented');
+                }
+            });
+    }
+
+    changePassword() {
+        this.alertService.error('Not yet implemented');
     }
 
     expand(p: any) {

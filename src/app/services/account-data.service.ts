@@ -11,4 +11,14 @@ export class AccountDataService{
     getAll() {
         return this.http.get('./api/users/accounts').map(res => res.json());
     }
+
+    addNewIP(address: string, username: string) {
+        const body = {username: username, address: address};
+        return this.http.post('./api/users/account/addNewIP', body);
+    }
+
+    reportIP(address: string, username: string) {
+        const body = {username: username, address: address};
+        return this.http.post('./api/users/account/reportIP', body);
+    }
 }
