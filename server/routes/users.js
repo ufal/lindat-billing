@@ -39,8 +39,15 @@ router.get('/users/accounts', function (req, res, next) {
 });
 
 router.post('/users/account/addNewIP', function (req, res, next) {
-    res.status(200);
-    res.json('...');
+    db.addNewIP(req.body)
+        .then(data => {
+            res.status(200);
+            res.json('SUCCESS');
+        })
+        .catch(error => {
+            res.status(400);
+            res.json('ERROR');
+        });
 });
 
 router.post('/users/account/reportIP', function (req, res, next) {

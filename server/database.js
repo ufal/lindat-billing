@@ -146,6 +146,21 @@ db.prototype.insert = (values) => {
         });
 };
 
+db.prototype.addNewIP = (what) => {
+    return new Promise((resolve, reject) => {
+        client.any("INSERT INTO Users (ip, owner) VALUES($1, $2)", [what.address, what.username])
+            .then(data => {
+                logger.info('Adding new IP was succesful');
+                resolve(data);
+            })
+            .catch(error => {
+                logger.info('Adding new IP FAILED');
+                logger.error(error);
+                reject(error);
+            });
+    });
+};
+
 db.prototype.getIPs = (what) => {
     return new Promise((resolve, reject) => {
         client.any(what)

@@ -48,7 +48,7 @@ export class AccountsManagementComponent {
                 } else if (message.toString() == "SUCCESS") {
                     this.alertService.success('New IP successfully added!');
                 } else {
-                    this.alertService.error('Not yet implemented');
+                    this.alertService.error('We are sorry but something unexpected just happened');
                 }
             });
     }
