@@ -24,15 +24,15 @@
     <div class="col-md-10">
     <form class="row" (submit)="searchUser($event)">
         <div class="form-group">
-            <div *ngIf="isAdmin">
-                <div class="col-md-4">
-                    <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
-                </div>
+            <div *ngIf="isAdmin" class="col-md-4">
+                <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
             </div>
-            <div *ngIf="!isAdmin">
-                <div class="col-md-4">
-                    <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
-                </div>
+            <div *ngIf="!isAdmin" class="col-md-4">
+                <select [(ngModel)]="title" [ngModelOptions]="{standalone: true}">
+                    <option *ngFor="let ip of ips" [value]="ip">
+                        {{ip.ip}}
+                    </option>
+                </select>
             </div>
             <div class="col-md-4">
                 <form #myForm="ngForm" novalidate>

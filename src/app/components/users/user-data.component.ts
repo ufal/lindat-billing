@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IMyOptions, IMyDateRangeModel, IMyDateRange, IMyDateSelected, IMyCalendarViewChanged, IMyInputFieldChanged } from 'mydaterangepicker';
 import { UserDataService, AlertService, LoggerService, AuthenticationService } from '../../services/index';
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     moduleId: module.id,
@@ -14,6 +15,8 @@ export class UserDataComponent  {
     data: Object[];
     errorMessage: string;
     isAdmin: boolean;
+    ips: Object[];
+    username: string;
 
     model: IMyDateRange = {
         beginDate: {year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate()},
@@ -28,6 +31,8 @@ export class UserDataComponent  {
         private authenticationService: AuthenticationService
     ) {
         this.isAdmin = authenticationService.isAdmin();
+        this.username = authenticationService.getUsername();
+        this.getIPs();
     }
 
     onClickMe() {
@@ -63,6 +68,21 @@ export class UserDataComponent  {
         console.log(from, "to", to);
 
         this.getData(this.title, from, to);
+    }
+
+    getIPs() {
+        this.userDataService.getAccount(this.username)
+            .subscribe(data => {
+                if (data[0] == "ERROR") {
+                    this.alertService.error(data[1]);
+                    this.ips = ['all'];
+                } else {
+                    this.alertService.nothing();
+                    this.ips = data;
+                    this.ips.push({ip: 'all'});
+                    this.ips.reverse();
+                }
+            });
     }
 
     //  get data of a specific user
