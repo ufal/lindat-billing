@@ -1,8 +1,20 @@
 {
   "Unknown": 0,
   "0": "Unknown",
-  "Service 1": 1,
-  "1": "Service 1",
-  "Service 2": 2,
-  "2": "Service 2"
+  "morphodita": 1,
+  "1": "morphodita",
+  "PDT-Vallex": 2,
+  "2": "PDT-Vallex",
+  "EngVallex": 3,
+  "3": "EngVallex",
+  "moses": 4,
+  "4": "moses",
+  "pmltq": 5,
+  "5": "pmltq",
+  "korektor": 6,
+  "6": "korektor",
+  "parsito": 7,
+  "7": "parsito",
+  "morph": 8,
+  "8": "nametag"
 }
