@@ -4,10 +4,10 @@
 const logger = require('winston');
 const fs = require('fs');
 const readLine = require('readline');
-const stream = require('stream');
-const database = require('../database');
+const Stream = require('stream');
+const Database = require('../database');
 
-const db = new database();
+const db = new Database();
 
 /**
  *
@@ -46,7 +46,7 @@ function parseFile (fileName, start) {
     logger.debug('Parsing logs as FILE beggining at', start, 'bytes');
     return new Promise((resolve, reject) => {
         const inStream = fs.createReadStream(fileName, {});
-        const outStream = new stream;
+        const outStream = new Stream;
         const rl = readLine.createInterface(inStream, outStream);
         let lines = [];
         let logEntry;

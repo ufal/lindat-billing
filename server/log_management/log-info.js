@@ -11,8 +11,7 @@ let reset;
 
 readInfo = () => {
     // else part also sets the default value when not set
-    if ("undefined" !== typeof process.env.RESET_LOGS
-            && process.env.RESET_LOGS.toLowerCase() == 'false')
+    if ("undefined" !== typeof process.env.RESET_LOGS && process.env.RESET_LOGS.toLowerCase() === 'false')
         reset = false;
     else reset = true;
 
@@ -26,7 +25,7 @@ readInfo = () => {
     if (fs.existsSync(path.join(__dirname, jsonName))) {
         try {
             let content = fs.readFileSync(path.join(__dirname, jsonName), 'utf8');
-            if (content != "\"{}\"") infoFile = JSON.parse(content);
+            if (content !== "\"{}\"") infoFile = JSON.parse(content);
         } catch (err) {
             logger.info('Log reading info was invalid and thus reset');
         }
@@ -41,7 +40,7 @@ writeInfo = () => {
 };
 
 getInfo = () => {
-    if (infoFile.data.length == 0) readInfo();
+    if (infoFile.data.length === 0) readInfo();
     return infoFile;
 };
 
@@ -52,7 +51,7 @@ setInfo = (data) => {
 
 setSingleInfo = (filename, alreadyRead) => {
     infoFile.data.forEach(function (item) {
-        if (item.name == filename && item.bytesRead < alreadyRead)
+        if (item.name === filename && item.bytesRead < alreadyRead)
             item.bytesRead = alreadyRead;
         }
     );

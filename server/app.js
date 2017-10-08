@@ -7,7 +7,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const config = require('../settings/backend');
-const logmanager = require('./log_management/manage-logs');
+const logManager = require('./log_management/manage-logs');
 const logger = require('winston');
 
 const users = require('./routes/users');
@@ -49,7 +49,7 @@ app.use('/api', tools);
 app.use('/api', logging);
 
 // initiate logmanager
-logmanager(config.input_dir);
+logManager(config.input_dir);
 
 
 // catch 404 and forward to error handler

@@ -4,7 +4,7 @@
 
 const config = require('../settings/backend');
 const pgp = require('pg\-promise')();
-const logger = require('winston');
+const logger = require('./logger');
 let id_s = require('./log_management/services.json');
 
 // Database connection details;
@@ -14,7 +14,7 @@ client.connect()
         obj.done(); // release the connection
     })
     .catch(error=> {
-    logger.error('Error connecting to database [%s:%s]:', config.db.host, config.db.port, error);
+        logger.error('Error connecting to database [%s:%s]:', config.db.host, config.db.port, error);
 });
 
 // database constructor
@@ -25,7 +25,7 @@ getUser = (ip) => {
     logger.debug("SELECT * FROM users WHERE ip = '" + ip + "'::inet");
     client.any('SELECT * FROM users WHERE ip = $1::inet', ip)
         .then(data => {
-            if (data.Length > 0) {
+            if (data.length > 0) {
                 return data[0].id_u;
             }
             else return "";
@@ -84,7 +84,7 @@ db.prototype.getMyLogins = (username) => {
 // Insert a new log entry into the database
 db.prototype.insert = (values) => {
     // column headers
-    var cs = new pgp.helpers.ColumnSet(['id_u', 'id_s', 'datetime', 'request'], {table: 'logs'});
+    const cs = new pgp.helpers.ColumnSet(['id_u', 'id_s', 'datetime', 'request'], {table: 'logs'});
     // getting user ids
     client.any("SELECT * FROM users")
         .then(data => {
