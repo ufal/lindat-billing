@@ -40,7 +40,7 @@ addUser = (ip, id) => {
     logger.debug("INSERT INTO Users VALUES('" + id + "','" + ip + "')");
     client.any('INSERT INTO Users VALUES($1, $2)', [id, ip])
         .catch(error => {
-            logger.error(error);
+            logger.error('addUser ERROR for id', id, 'and ip', ip, '\n', error);
         });
     logger.verbose("New User:", id);
 };
@@ -48,7 +48,7 @@ addUser = (ip, id) => {
 addLogin = (userID) => {
     client.any('INSERT INTO Logins VALUES($1, $2)', [userID, Date.now()])
         .catch(error => {
-            logger.error(error);
+            logger.error('addLogin ERROR\n', error);
         });
     logger.verbose("New login from", userID);
 };
@@ -95,18 +95,20 @@ db.prototype.insert = (values) => {
             }
             // if the current user is not in the table, add him both into the table and into the database
             for (let i = 0; i < values.length; i++) {
-                if ("undefined" === typeof id_u[values[i].ip]) {
+                let ip = values[i].ip;
+                if ("undefined" === typeof id_u[ip]) {
                     const idx = Object.keys(id_u).length+1;
-                    addUser(values[i].ip, idx);
-                    id_u[values[i].ip] = idx;
+                    addUser(ip, idx);
+                    id_u[ip] = idx;
                 }
                 // add the found id to the data rows to be inserted
                 values[i]['id_u'] = id_u[values[i].ip];
 
                 // looks up service id
                 let serviceId = 0;
-                if (values[i].isService && "undefined" !== typeof id_s[values[i].service]) {
-                    serviceId = id_s[values[i].service];
+                let service = values[i].service;
+                if ("undefined" !== typeof id_s[service]) {
+                    serviceId = id_s[service];
                 }
                 values[i]['id_s'] = serviceId;
             }

@@ -1,21 +1,24 @@
 /**
  * Parsing the logs into a json object.
- * @type {db}
  */
+const logger = require('winston');
+const fs = require('fs');
+const readLine = require('readline');
+const stream = require('stream');
+const database = require('../database');
 
-var database = require('../database');
-
-var db = new database();
+const db = new database();
 
 /**
  *
  * @param data The data do be parsed.
  * @returns {Promise}
  */
-function parser (data) {
+function parseString (data) {
+    logger.debug('Parsing logs as STRING');
     return new Promise((resolve, reject) => {
-        var lines = [];
-        var logEntry;
+        let lines = [];
+        let logEntry;
         data.toString().split('\n').forEach(function (line, idx, array) {
             if (line.length > 0) {
                 if (idx !== array.length-1) {
@@ -31,34 +34,72 @@ function parser (data) {
                     return resolve(Buffer.byteLength(line,'utf-8'));
                 }
             }
-    })});
+        })});
 }
+
+/**
+ *
+ * @param fileName Path to the file to be fully parsed.
+ * @returns {Promise}
+ */
+function parseFile (fileName, start) {
+    logger.debug('Parsing logs as FILE beggining at', start, 'bytes');
+    return new Promise((resolve, reject) => {
+        const inStream = fs.createReadStream(fileName, {});
+        const outStream = new stream;
+        const rl = readLine.createInterface(inStream, outStream);
+        let lines = [];
+        let logEntry;
+        let processed = 0;
+
+        rl.on('line', function (line) {
+            if (processed >= start) {
+                if (line.length > 0) {
+                    logEntry = parseLine(line);
+                    // filtering out not services
+                    if (logEntry.service !== 'NULL')
+                        lines.push(logEntry);
+                }
+            } else {
+                processed += Buffer.byteLength(line,'utf-8');
+            }
+        });
+        db.insert(lines);
+        return resolve();
+    })
+}
+
+
 
 /**
  *
  * @param line
  * @returns {{ip: string, datetime: string, service: boolean, request: string}}
  */
-var parseLine = (line) => {
-    var ip = line.substr(0, line.indexOf(' '));
-    var time = line.substr(line.indexOf('[')+1, line.indexOf(']')-line.indexOf('[')-1);
-    var request = line.substr(line.indexOf('"'));
-    var service = false;
-    if (request.substr(1,3) == "GET") {
+let parseLine = (line) => {
+    const ip = line.substr(0, line.indexOf(' '));
+    const time = line.substr(line.indexOf('[')+1, line.indexOf(']')-line.indexOf('[')-1);
+    const request = line.substr(line.indexOf('"'));
+    let service = 'unknown';
+    if (request.substr(1,3) === "GET") {
         /*var arrRequest = request.substr(5).split(['/']);
         if (arrRequest[1] == "services")
             service = true;*/
         if (request.indexOf('/services/') !== -1)
-            service = true;
+        {
+            service = request.substr(5).split(['/'])[2];
+        } else service = 'NULL';
     }
 
-    var logEntry = {
+    return {
         'ip': ip,
         'datetime': time,
         'service' : service,
         'request': request
     };
-    return logEntry;
 };
 
-module.exports = parser;
+module.exports = {
+    parseFile,
+    parseString
+};

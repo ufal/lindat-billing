@@ -5,7 +5,7 @@
 
 const fs = require('fs');
 const path = require('path');
-const parser = require('./parser');
+const parseString = require('./parser').parseString;
 const logger = require('winston');
 const info = require('./log-info');
 
@@ -37,7 +37,7 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
         if (start < end) logger.verbose("Reading from ", start, " to ", end);
         fileStream.on('data', function(data) {
             // tady to neco chce vylepsit nejak
-            parser(data);
+            parseString(data);
             infoFile.setSingleInfo(filename, end);
             callback(null, filename, data, unSubscribe);
         });

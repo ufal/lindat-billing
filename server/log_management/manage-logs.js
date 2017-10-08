@@ -6,9 +6,9 @@
  */
 const fs = require('fs');
 const tail = require('./tail');
-const parser = require('./parser');
+const fileParser = require('./parser').parseFile;
 const info = require('./log-info');
-const logger = require('winston');
+const logger = require('../logger');
 
 let infoFile = {
     data: []
@@ -45,13 +45,15 @@ function onFileContent(filePath) {
     const filename = filePath.substr(filePath.lastIndexOf('/') + 1);
     let alreadyRead = 0;
     infoFile.data.forEach(function (item) {
-        if (item.name == filename) alreadyRead = item.bytesRead;
+        if (item.name === filename) alreadyRead = item.bytesRead;
     });
     // the size of the file in bytes
     const size = fs.statSync(filePath)["size"];
     if (alreadyRead < size) {
-        const file = fs.readFileSync(filePath);
-        parser(file.toString());
+        fileParser(filePath, alreadyRead)
+            .catch(error => {
+                logger.error(error);
+            });
         infoFile.data.push({name: filename, bytesRead: size});
         info.setInfo(infoFile);
     } else {
