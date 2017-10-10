@@ -18,7 +18,7 @@ client.connect()
 });
 
 // database constructor
-function db () {}
+function DB () {}
 
 // Retrieves all the data of a user with specified id
 getUser = (ip) => {
@@ -53,7 +53,7 @@ addLogin = (userID) => {
     logger.verbose("New login from", userID);
 };
 
-db.prototype.getLogins = () => {
+DB.prototype.getLogins = () => {
     return new Promise((resolve, reject) => {
         logger.debug('SELECT * FROM Logins');
         client.any('SELECT * FROM Logins')
@@ -67,7 +67,7 @@ db.prototype.getLogins = () => {
     });
 };
 
-db.prototype.getMyLogins = (username) => {
+DB.prototype.getMyLogins = (username) => {
     return new Promise((resolve, reject) => {
         logger.debug('SELECT * FROM Logins WHERE username = username');
         client.any('SELECT * FROM Logins WHERE username = $1', username)
@@ -82,7 +82,7 @@ db.prototype.getMyLogins = (username) => {
 };
 
 // Insert a new log entry into the database
-db.prototype.insert = (values) => {
+DB.prototype.insert = (values) => {
     // column headers
     const cs = new pgp.helpers.ColumnSet(['id_u', 'id_s', 'datetime', 'request'], {table: 'logs'});
     // getting user ids
@@ -148,11 +148,11 @@ db.prototype.insert = (values) => {
         });
 };
 
-db.prototype.addNewIP = (what) => {
+DB.prototype.addNewIP = (what) => {
     return new Promise((resolve, reject) => {
         client.any("INSERT INTO Users (ip, owner) VALUES($1, $2)", [what.address, what.username])
             .then(data => {
-                logger.info('Adding new IP was succesful');
+                logger.info('Adding new IP was successful');
                 resolve(data);
             })
             .catch(error => {
@@ -163,7 +163,7 @@ db.prototype.addNewIP = (what) => {
     });
 };
 
-db.prototype.getIPs = (what) => {
+DB.prototype.getIPs = (what) => {
     return new Promise((resolve, reject) => {
         client.any(what)
             .then(data => {
@@ -178,7 +178,7 @@ db.prototype.getIPs = (what) => {
     });
 };
 
-db.prototype.getAllAccounts = () => {
+DB.prototype.getAllAccounts = () => {
     return new Promise((resolve, reject) => {
         client.any('SELECT * FROM accounts a INNER JOIN users u on a.username = u.owner WHERE a.admin = false')
             .then(data => {
@@ -194,7 +194,7 @@ db.prototype.getAllAccounts = () => {
 };
 
 // Select of a specific IP (what)
-db.prototype.select = (what) => {
+DB.prototype.select = (what) => {
     return new Promise((resolve, reject) => {
         client.any("SELECT ip, id_s, datetime, request FROM logs l INNER JOIN users u on l.id_u = u.id_u " + what)
             .then(data => {
@@ -209,7 +209,7 @@ db.prototype.select = (what) => {
     });
 };
 
-db.prototype.addAccount = (username, password) => {
+DB.prototype.addAccount = (username, password) => {
     return new Promise((resolve, reject) => {
         client.any("INSERT INTO Accounts (username, pass, admin) " +
             "VALUES($1, crypt($2, gen_salt('bf')), $3)", [username.toLowerCase(), password, false])
@@ -227,7 +227,7 @@ db.prototype.addAccount = (username, password) => {
     });
 }
 
-db.prototype.authenticate = (username, password) => {
+DB.prototype.authenticate = (username, password) => {
     return new Promise((resolve, reject) => {
         client.any('SELECT * from Accounts where username = $1 and pass = crypt($2, pass)',
             [username.toLowerCase(), password])
@@ -254,19 +254,19 @@ db.prototype.authenticate = (username, password) => {
 };
 
 
-db.prototype.delete = function () {};
+DB.prototype.delete = function () {};
 
 
-db.prototype.update = function () {};
+DB.prototype.update = function () {};
 
 
-db.prototype.getServiceCount = () => {
+DB.prototype.getServiceCount = () => {
     return Object.keys(id_s).length / 2;
 };
 
-db.prototype.getServiceName = (id) => {
+DB.prototype.getServiceName = (id) => {
     return id_s[id];
 };
 
 
-module.exports = db;
+module.exports = DB;

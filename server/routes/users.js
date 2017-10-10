@@ -4,15 +4,13 @@
 
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
-const url = require('url');
-const database = require('../database');
+/*const fs = require('fs');
+const url = require('url');*/
+const Database = require('../database');
 const logger = require('winston');
-const validateIPaddress = require('../tools').validateIPaddress;
+const validateIPAddress = require('../tools').validateIPaddress;
 
-let logs = [];
-
-const db = new database();
+const db = new Database();
 
 router.get('/users/accounts', function (req, res, next) {
     db.getAllAccounts()
@@ -74,7 +72,7 @@ router.get('/users/*', function (req, res, next) {
     const id = request[2];
     const from = request[3].substr(5);
     const to = request[4].substr(3);
-    if (validateIPaddress(id)) {
+    if (validateIPAddress(id)) {
         logger.debug("SELECT * from logs WHERE ip = '" + id + "'::inet and datetime > to_timestamp('"
             + from + "', 'DD-MM-YYYY') and datetime <= to_timestamp('" + to + "', 'DD-M-YYYY')");
         db.select(" WHERE ip = '" + id + "'::inet and datetime > to_timestamp('" + from
