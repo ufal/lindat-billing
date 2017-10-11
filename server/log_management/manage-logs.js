@@ -26,13 +26,14 @@ function readFiles(dirName) {
         fileNames.forEach(function(filename) {
             logger.debug(dirName + '/' + filename);
             if (!process.env.ACCESS_LOG_ONLY || filename === 'access.log') {
-                fs.readFile(dirName + '/' + filename, 'utf-8', (err, content) => {
+                onFileContent(dirName + '/' + filename);
+                /*fs.readFile(dirName + '/' + filename, 'utf-8', (err, content) => {
                     if (err) {
                         onError(err);
                         return;
                     }
                     onFileContent(dirName + '/' + filename, content);
-                });
+                });*/
             }
         });
     });
