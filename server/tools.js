@@ -10,6 +10,19 @@ function validateIPaddress(ipAddress) {
     return (false);
 }
 
+function validateLogLine(line) {
+    let arr = line.split(' ');
+    if (!validateIPaddress(arr[0])) return false;
+    if (!validateDateTime(arr[3].substring(1) + arr[4].substring(0,arr[4].length-1))) return false;
+    return true;
+}
+
+function validateDateTime(datetime) {
+    //TODO finish this up, possibly with 'moment.js'
+    return true;
+}
+
 module.exports = {
-    validateIPaddress
+    validateIPaddress,
+    validateLogLine
 };

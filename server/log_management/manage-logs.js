@@ -9,6 +9,7 @@ const tail = require('./tail');
 const fileParser = require('./parser').parseFile;
 const info = require('./log-info');
 const logger = require('../logger');
+const validateLine = require('../tools').validateLogLine;
 
 let infoFile = {
     data: []
@@ -26,7 +27,7 @@ function readFiles(dirName) {
         fileNames.forEach(function(filename) {
             logger.debug(dirName + '/' + filename);
             if (!process.env.ACCESS_LOG_ONLY || filename === 'access.log') {
-                onFileContent(dirName + '/' + filename);
+                if (checkContent(dirName + '/' + filename)) onFileContent(dirName + '/' + filename);
                 /*fs.readFile(dirName + '/' + filename, 'utf-8', (err, content) => {
                     if (err) {
                         onError(err);
@@ -42,6 +43,22 @@ function readFiles(dirName) {
 function onError(error) {
     // handle specific listen errors with friendly messages
     logger.error(error);
+}
+
+function checkContent(filename) {
+    const fd = fs.openSync(filename, 'r');
+    const bufferSize = 1024;
+    let buffer = new Buffer(bufferSize);
+
+    let read, line, idx;
+    read = fs.readSync(fd, buffer, 0, bufferSize, null);
+    line = buffer.toString('utf8', 0, read);
+    while ((idx = line.indexOf("\n",0)) === -1 ) {
+        read = fs.readSync(fd, buffer, 0, bufferSize, null);
+        line += buffer.toString('utf8', 0, read);
+    }
+    line = line.substring(0, idx);
+    validateLine(line);
 }
 
 function onFileContent(filePath) {
