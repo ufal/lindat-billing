@@ -82,6 +82,7 @@ let parseLine = (line) => {
     const request = line.substr(line.indexOf('"'));
     let service = 'unknown';
     if (request.substr(1,3) === "GET") {
+        //TODO maybe we want post requests, too?
         /*var arrRequest = request.substr(5).split(['/']);
         if (arrRequest[1] == "services")
             service = true;*/

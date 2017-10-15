@@ -50,7 +50,7 @@ app.use('/api', logging);
 
 // initiate logmanager
 logManager(config.input_dir);
-
+//TODO takes relative math, should be configurable
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
