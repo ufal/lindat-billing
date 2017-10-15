@@ -2,10 +2,12 @@
 
 ## Installation
 
-1. clone
-2. install ...
-3. create database in postgres
-4. ...
+1. Clone the repository
+2. Run ```npm install```
+3. Create database in postgres and update *database-setup.sh* accordingly
+4. Make sure the database has the *pgcrypto* extension
+5. Run *database-setup.sh*
+6. Start **lindat-billing**
 
 ## Development
 
@@ -59,6 +61,7 @@ LB_DB_NAME=databasename
 INPUT_LOGS_PATH=pathtoinput
 SECRETS_FILE_PATH=pathtosecretsfile
 RESET_LOGS=true / false
+ACCESS_LOG_ONLY=true / false
 ```
 
 An easy way to do so is include them in exactly this manner in a `.env` file in the main project directory.
