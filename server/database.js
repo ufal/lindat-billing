@@ -196,6 +196,7 @@ DB.prototype.getAllAccounts = () => {
 // Select of a specific IP (what)
 DB.prototype.select = (what) => {
     return new Promise((resolve, reject) => {
+        logger.debug("SELECT ip, id_s, datetime, request FROM logs l INNER JOIN users u on l.id_u = u.id_u " + what);
         client.any("SELECT ip, id_s, datetime, request FROM logs l INNER JOIN users u on l.id_u = u.id_u " + what)
             .then(data => {
                 logger.info("Select succesful", data.length);

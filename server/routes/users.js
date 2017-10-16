@@ -74,9 +74,9 @@ router.get('/users/*', function (req, res, next) {
     const to = request[4].substr(3);
     if (validateIPAddress(id)) {
         logger.debug("SELECT * from logs WHERE ip = '" + id + "'::inet and datetime > to_timestamp('"
-            + from + "', 'DD-MM-YYYY') and datetime <= to_timestamp('" + to + "', 'DD-M-YYYY')");
+            + from + "', 'DD-MM-YYYY') and datetime <= to_timestamp('" + to + "', 'DD-MM-YYYY')");
         db.select(" WHERE ip = '" + id + "'::inet and datetime > to_timestamp('" + from
-            + "', 'DD-MM-YYYY') and datetime <= to_timestamp('" + to + "', 'DD-M-YYYY')")
+            + "', 'DD-MM-YYYY') and datetime <= to_timestamp('" + to + "', 'DD-MM-YYYY')")
             .then(data => {
                 let dataModified = [];
                 let empty = true;
