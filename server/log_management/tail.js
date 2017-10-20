@@ -41,7 +41,7 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
                 .catch(error => {
                     logger.error(error);
             });
-            infoFile.setSingleInfo(filename, end);
+            info.setSingleInfo(filename, end);
             callback(null, filename, data, unSubscribe);
         });
         fileStream.on('error', function(err) {
