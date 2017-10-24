@@ -41,6 +41,7 @@ writeInfo = () => {
 
 getInfo = () => {
     if (infoFile.data.length === 0) readInfo();
+    logger.debug('Getting log reading info:', infoFile);
     return infoFile;
 };
 
