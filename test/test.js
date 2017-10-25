@@ -9,6 +9,7 @@ const parser = rewire("../server/log_management/parser");
 //var users = rewire("../server/routes/users");
 const tools = require('../server/tools');
 const database = require('../server/database');
+const logInfo = require('../server/log_management/log-info');
 
 const db = new database();
 
@@ -21,31 +22,95 @@ describe('Default', function() {
     });
 });*/
 
-describe('Parser', function () {
-    describe('#parseLine()', function () {
-        const line = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /services/test/nesmysly"';
-        const parseLine = parser.__get__('parseLine');
-        const parsed = parseLine(line);
+let infoFile = {
+    data: []
+};
 
-        it('ip is valid', function () {
-            (parsed.ip).should.be.a('string');
-            //(parsed.ip).should.be.equal.to('195.113.20.155');
+describe('Log Management', function () {
+
+    describe('parser', function () {
+        describe('#parseLine()', function () {
+            const line = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /services/test/nesmysly"';
+            const parseLine = parser.__get__('parseLine');
+            const parsed = parseLine(line);
+
+            it('ip is valid', function () {
+                (parsed.ip).should.be.a('string');
+                //(parsed.ip).should.be.equal.to('195.113.20.155');
+            });
+
+            it('datetime is valid', function () {
+                //TODO dk: look up how to check if it's a valid timestamp
+                // ... that is not really the point of it, is it?
+            });
+
+            it('service is valid', function () {
+                (parsed.service).should.be.a('string');
+            });
+
+            it('request is valid', function () {
+                (parsed.request).should.be.a('string');
+                //(parsed.ip).should.be.equal.to('/services/test/nesmysly');
+            });
+        })
+    });
+
+    describe('log-info', function () {
+        let safety;
+
+        before(function () {
+            //safety precaution not to lose data
+            if ("undefined" !== typeof process.env.RESET_LOGS && process.env.RESET_LOGS.toLowerCase() === 'false') {
+                safety = logInfo.getInfo();
+            }
+            logInfo.setupInfo(true);
         });
 
-        it('datetime is valid', function () {
-            //TODO dk: look up how to check if it's a valid timestamp
-            // ... that is not really the point of it, is it?
+        after(() => {
+            if ("undefined" !== typeof process.env.RESET_LOGS && process.env.RESET_LOGS.toLowerCase() === 'false') {
+                logInfo.setupInfo(true);
+                safety.data.forEach(function(item) {
+                    logInfo.setSingleInfo(item.name, item.bytesRead);
+                });
+            }
         });
 
-        it('service is valid', function () {
-            (parsed.service).should.be.a('boolean');
+        it('Getting default info', function () {
+            infoFile = logInfo.getInfo();
+            infoFile.data.should.have.lengthOf(0);
         });
 
-        it('request is valid', function () {
-            (parsed.request).should.be.a('string');
-            //(parsed.ip).should.be.equal.to('/services/test/nesmysly');
+        it('Add new single info', function () {
+            logInfo.setSingleInfo('testname', 137);
+            infoFile = logInfo.getInfo();
+            infoFile.data.should.have.lengthOf(1);
+            infoFile.data[0].name.should.equal('testname');
+            infoFile.data[0].bytesRead.should.equal(137);
         });
-    })
+
+        it('Update existing single info', function () {
+            logInfo.setSingleInfo('testname', 157);
+            infoFile = logInfo.getInfo();
+            infoFile.data.should.have.lengthOf(1);
+            infoFile.data[0].name.should.equal('testname');
+            infoFile.data[0].bytesRead.should.equal(157);
+        });
+
+        it('Additional false setup', function () {
+            logInfo.setupInfo(false);
+            infoFile = logInfo.getInfo();
+            infoFile.data.should.not.have.lengthOf(0);
+        });
+
+        it('All data are unique', function () {
+            logInfo.setSingleInfo('testname', 100);
+            let keys = [];
+            infoFile.data.forEach(function (item) {
+                keys.push(item.name);
+            });
+            keys.should.have.lengthOf(keys.filter(function(elem, pos) { return keys.indexOf(elem) === pos; }).length);
+        });
+    });
 });
 
 describe('Database', function () {
