@@ -16,6 +16,11 @@ let infoFile = {
 };
 
 function readFiles(dirName) {
+    if ("undefined" !== typeof process.env.RESET_LOGS) {
+        if (process.env.RESET_LOGS.toLowerCase() === 'false') info.setupInfo(false);
+        if (process.env.RESET_LOGS.toLowerCase() === 'true') info.setupInfo(true);
+    }
+    else { info.setupInfo(true); } // default if not specified
     infoFile = info.getInfo();
     fs.readdir(dirName, (err, fileNames) => {
         if (err) {
@@ -27,14 +32,8 @@ function readFiles(dirName) {
         fileNames.forEach(function(filename) {
             logger.debug(dirName + '/' + filename);
             if (!process.env.ACCESS_LOG_ONLY || filename === 'access.log') {
-                /*if (checkContent(dirName + '/' + filename))*/ onFileContent(dirName + '/' + filename);
-                /*fs.readFile(dirName + '/' + filename, 'utf-8', (err, content) => {
-                    if (err) {
-                        onError(err);
-                        return;
-                    }
-                    onFileContent(dirName + '/' + filename, content);
-                });*/
+                /*if (checkContent(dirName + '/' + filename))*/
+                    onFileContent(dirName + '/' + filename);
             }
         });
     });
@@ -74,8 +73,7 @@ function onFileContent(filePath) {
             .catch(error => {
                 logger.error(error);
             });
-        infoFile.data.push({name: filename, bytesRead: size});
-        info.setInfo(infoFile);
+        info.setSingleInfo(filename, size);
     } else {
         logger.verbose('File', filename, 'is up to date');
     }
