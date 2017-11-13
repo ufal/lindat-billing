@@ -15,7 +15,7 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "compile": "tsc",
-    "test": "mocha && karma run"
+    "test": "mocha"
   },
   "dependencies": {
     "@angular/common": "~2.4.9",

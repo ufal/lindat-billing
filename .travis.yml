@@ -11,4 +11,4 @@ install:
   - npm run lint || true
 
 script:
-  - echo npm test
+  - npm test
