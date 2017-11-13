@@ -5,6 +5,18 @@ node_js:
   - 6
   - 7
 
+env:
+  LB_DB_HOST=localhost
+  LB_DB_USER=postgres
+  LB_DB_PASS=12345
+  LB_DB_PORT=5432
+  LB_DB_NAME=lindat-billing-test
+  INPUT_LOGS_PATH=public\logs
+  SECRETS_FILE_PATH=.
+  RESET_LOGS=FALSE
+  ACCESS_LOG_ONLY=TRUE
+  BASE_HREF=/
+
 install:
   - npm install
   - npm run compile
