@@ -2,6 +2,7 @@
  * Tests.
  */
 require('dotenv').config();
+const fs = require('fs');
 const assert = require('assert');
 const should = require('chai').should();
 const rewire = require('rewire');
@@ -10,6 +11,8 @@ const parser = rewire("../server/log_management/parser");
 const tools = require('../server/tools');
 const database = require('../server/database');
 const logInfo = require('../server/log_management/log-info');
+const logManager = require('../server/log_management/manage-logs');
+const config = require('../settings/backend');
 
 const db = new database();
 
@@ -25,6 +28,8 @@ describe('Default', function() {
 let infoFile = {
     data: []
 };
+
+logManager(config.input_dir);
 
 describe('Log Management', function () {
 
@@ -110,6 +115,41 @@ describe('Log Management', function () {
             });
             keys.should.have.lengthOf(keys.filter(function(elem, pos) { return keys.indexOf(elem) === pos; }).length);
         });
+    });
+
+    describe('log rotation', function () {
+
+        before(function () {
+
+            let content = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /services/test/nesmysly"';
+
+            try {
+                fs.writeFileSync('./public/logs/test-file.log', content);
+            } catch (e) {
+                console.log("Cannot write file ", e);
+            }
+        });
+
+        it('new file gets noticed', () =>  {
+
+            // here it should run the log management process
+
+            infoFile = logInfo.getInfo();
+
+            let check = false;
+            infoFile.data.forEach(function(element) {
+                if (element.name === 'test-file') {
+                    console.log(element.name);
+                    check = true;
+                }
+            });
+            check = true;
+            check.should.be.true;
+        });
+/*
+        it('new file gets read', (done) =>  {
+
+        });*/
     });
 });
 
