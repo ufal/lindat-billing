@@ -58,18 +58,16 @@ router.post('/accounts', function (req, res, next) {
 onAddSuccess = (data, res) => {
     logger.verbose('Registration successful');
     const token = getToken(data, true); // change to false once not needed!
-    logger.info('Issued token');
-    res.status(200);
-    res.json({
-        success: true,
-        message: 'Enjoy the token!',
-        token: token
-    });
+    issueToken(res, token);
 };
 
 onSuccess = (data, res) => {
     const token = getToken(data[0].username, data[0].admin);
-    logger.info('Issued token');
+    issueToken(res, token);
+};
+
+issueToken = (res, token) => {
+    logger.verbose('Issued token');
     res.status(200);
     res.json({
         success: true,

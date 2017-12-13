@@ -56,7 +56,6 @@ router.post('/users/account/reportIP', function (req, res, next) {
 router.get('/users/account/*', function (req, res, next) {
     const request = req.url.split(['/']);
     const owner = request[3];
-    console.log(owner);
     db.getIPs("SELECT * from Users WHERE owner = '" + owner + "'")
         .then(data => {
             res.json(data);

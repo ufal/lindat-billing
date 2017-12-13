@@ -6,12 +6,13 @@
 /**
  * Module dependencies.
  */
-require('dotenv').config();
+const path = require('path');
+//require('dotenv').config();
+require('dotenv').config({path: path.join(__dirname, '../../.env')})
 const logger = require('../logger');
 const app = require('../app');
 const debug = require('debug')('lindat-billing:server');
 const http = require('http');
-
 
 /**
  * Get port from environment and store in Express.

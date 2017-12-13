@@ -27,13 +27,13 @@ let secret_file_path = null;
 if (process.env.SECRETS_FILE_PATH) {
     if (path.isAbsolute(process.env.SECRETS_FILE_PATH)) {
         secret_file_path = process.env.SECRETS_FILE_PATH;
-    }else {
+    } else {
         secret_file_path = path.join(_this_dir, process.env.SECRETS_FILE_PATH);
     }
 }
 if (path.extname(secret_file_path) === ".json") {
     if (fs.existsSync(secret_file_path)) {
-        console.log("Using secrets from file [%s]", secret_file_path);
+        logger.info("Using secrets from file [%s]", secret_file_path);
         let s = require(secret_file_path);
         settings.db = s;
     } else {

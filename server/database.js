@@ -120,8 +120,8 @@ DB.prototype.insert = (values) => {
             // executing the query:
             client.any(query)
                 .then(data => {
-                    logger.info('Inserted', values.length, 'values');
-                    if (data.length > 0) console.log('Failed to insert: ', data);
+                    logger.verbose('Inserted', values.length, 'values');
+                    if (data.length > 0) logger.info('Failed to insert: ', data);
                     //TODO dk: checking if there's no overusage of services
                     /*else {
                      check() // however this method doesnt work
@@ -138,7 +138,7 @@ DB.prototype.insert = (values) => {
                 })
                 .catch(error => {
                     //console.log(error);
-                    logger.info('Insert FAILED');
+                    logger.warn('Insert FAILED');
                     logger.error(error);
                     //reject();
                 });
@@ -152,11 +152,11 @@ DB.prototype.addNewIP = (what) => {
     return new Promise((resolve, reject) => {
         client.any("INSERT INTO Users (ip, owner) VALUES($1, $2)", [what.address, what.username])
             .then(data => {
-                logger.info('Adding new IP was successful');
+                logger.verbose('Adding new IP was successful');
                 resolve(data);
             })
             .catch(error => {
-                logger.info('Adding new IP FAILED');
+                logger.verbose('Adding new IP FAILED');
                 logger.error(error);
                 reject(error);
             });
@@ -167,11 +167,11 @@ DB.prototype.getIPs = (what) => {
     return new Promise((resolve, reject) => {
         client.any(what)
             .then(data => {
-                logger.info('Select succesful', data.length);
+                logger.verbose('Select succesful', data.length);
                 resolve(data);
             })
             .catch(error => {
-                logger.info('Select FAILED');
+                logger.warn('Select FAILED');
                 logger.error(error);
                 reject(error);
             });
@@ -182,11 +182,11 @@ DB.prototype.getAllAccounts = () => {
     return new Promise((resolve, reject) => {
         client.any('SELECT * FROM accounts a INNER JOIN users u on a.username = u.owner WHERE a.admin = false')
             .then(data => {
-                logger.info('Select succesful', data.length);
+                logger.verbose('Select succesful', data.length);
                 resolve(data);
             })
             .catch(error => {
-                logger.info('Select FAILED');
+                logger.warn('Select FAILED');
                 logger.error(error);
                 reject(error);
             });
@@ -199,11 +199,11 @@ DB.prototype.select = (what) => {
         logger.debug("SELECT ip, id_s, datetime, request FROM logs l INNER JOIN users u on l.id_u = u.id_u " + what);
         client.any("SELECT ip, id_s, datetime, request FROM logs l INNER JOIN users u on l.id_u = u.id_u " + what)
             .then(data => {
-                logger.info("Select succesful", data.length);
+                logger.verbose("Select succesful", data.length);
                 resolve(data);
             })
             .catch(error => {
-                logger.info('Select FAILED');
+                logger.warn('Select FAILED');
                 logger.error(error);
                 reject(error);
             });
