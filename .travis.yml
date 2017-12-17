@@ -16,6 +16,7 @@ env:
   RESET_LOGS=FALSE
   ACCESS_LOG_ONLY=TRUE
   BASE_HREF=/
+  TRAVIS=TRUE
 
 install:
   - npm install
