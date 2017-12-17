@@ -13,16 +13,19 @@
  */
 const logger = require('winston');
 
-logger
-    .remove(logger.transports.Console)
-    .add(logger.transports.Console, {
+logger.remove(logger.transports.Console);
+
+// console logging
+logger.add(logger.transports.Console,   {
+        name: 'console',
         colorize: true,
         level: 'silly',
         humanReadableUnhandledException: true,
         showLevel: true
     });
 
-if (process.env.NODE_ENV == 'production')
+// file logging
+if (process.env.NODE_ENV === 'production')
     logger.add(logger.transports.File, {
         name: 'production',
         timestamp: true,
@@ -36,5 +39,7 @@ else
         level: 'verbose',
         filename: __dirname + "/../logs/debug.log"
     });
+
+
 
 module.exports = logger;
