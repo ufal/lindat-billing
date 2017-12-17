@@ -18,8 +18,9 @@ setupInfo = (reset) => {
 };
 
 resetInfo = () => {
-    fs.writeFile('./server/log_management/' + jsonName, JSON.stringify(infoFile = { data: [] } ), (err) => {
-        if (err) return logger.error(err);
+    fs.writeFile('./server/log_management/' + path.normalize(jsonName), JSON.stringify(infoFile = { data: [] } ), (err) => {
+        if (err)
+            return logger.error(err);
         logger.verbose('Log reading has been RESET');
     });
 };
@@ -36,8 +37,9 @@ readInfo = () => {
 };
 
 writeInfo = () => {
-    fs.writeFile('./server/log_management/' + jsonName, JSON.stringify(infoFile), (err) => {
-        if (err) return logger.error(err);
+    fs.writeFile('./server/log_management/' + path.normalize(jsonName), JSON.stringify(infoFile), (err) => {
+        if (err)
+            return logger.error(err);
         logger.verbose('Writing', infoFile, 'to', jsonName);
     });
 };

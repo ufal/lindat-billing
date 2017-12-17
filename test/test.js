@@ -13,8 +13,11 @@ const database = require('../server/database');
 const logInfo = require('../server/log_management/log-info');
 const logManager = require('../server/log_management/manage-logs');
 const config = require('../settings/backend');
+const logger = require('../server/logger');
 
 const db = new database();
+
+logger.remove(logger.transports.Console);
 
 /*
 describe('Default', function() {
@@ -138,58 +141,69 @@ describe('Log Management', function () {
 
             let check = false;
             infoFile.data.forEach(function(element) {
-                if (element.name === 'test-file') {
-                    console.log(element.name);
+                console.log(element.name);
+                if (element.name === 'test-file.log') {
                     check = true;
                 }
             });
-            check = true;
             check.should.be.true;
         });
-/*
-        it('new file gets read', (done) =>  {
 
-        });*/
+        it('new file gets read', () =>  {
+
+            infoFile = logInfo.getInfo();
+
+            let check = 0;
+            infoFile.data.forEach(function(element) {
+                if (element.name === 'test-file.log') {
+                    check = element.bytesRead;
+                }
+            });
+            check.should.equal(77);
+        });
     });
 });
 
 describe('Database', function () {
-    describe('#authenticate', function () {
-        const user = 'david';
-        it('database provides valid info', (done) => {
-            db.authenticate(user, 'heslo')
-                .then(data => {
-                    data.should.be.a('Array');
-                    data.should.have.lengthOf(1);
-                    data[0].username.should.equal(user);
-                })
-                .then(done, done);
+
+    if (!process.env.TRAVIS === true) {
+        describe('#authenticate', function () {
+            const user = 'david';
+            it('database provides valid info', (done) => {
+                db.authenticate(user, 'heslo')
+                    .then(data => {
+                        data.should.be.a('Array');
+                        data.should.have.lengthOf(1);
+                        data[0].username.should.equal(user);
+                    })
+                    .then(done, done);
+            });
+            it('wrong password gets empty result', (done) => {
+                db.authenticate(user, 'aaa')
+                    .then(data => {
+                    })
+                    .catch(data => {
+                        data.state.should.equal('failure');
+                    })
+                    .then(done, done);
+            });
         });
-        it('wrong password gets empty result', (done) => {
-            db.authenticate(user, 'aaa')
-                .then(data => {
-                })
-                .catch(data => {
-                    data.state.should.equal('failure');
-                })
-                .then(done, done);
+        describe('#addAccount', function () {
+            it('user already exists', (done) => {
+                const username = 'johndoe';
+                const password = 'password';
+                db.addAccount(username, password)
+                    .then(data => {
+                        should.fail;
+                    })
+                    .catch(data => {
+                        data.state.should.equal('failure');
+                        data.reason.should.equal('Username already exists');
+                    })
+                    .then(done, done);
+            });
         });
-    });
-    describe('#addAccount', function () {
-        it('user already exists', (done) => {
-            const username = 'johndoe';
-            const password = 'password';
-            db.addAccount(username, password)
-                .then(data => {
-                    should.fail;
-                })
-                .catch(data => {
-                    data.state.should.equal('failure');
-                    data.reason.should.equal('Username already exists');
-                })
-                .then(done, done);
-        });
-    });
+    }
 });
 
 describe('Others', function () {

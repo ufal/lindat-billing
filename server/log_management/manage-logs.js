@@ -31,7 +31,7 @@ function readFiles(dirName) {
 
         fileNames.forEach(function(filename) {
             logger.debug(dirName + '/' + filename);
-            if (!process.env.ACCESS_LOG_ONLY || filename === 'access.log') {
+            if (!process.env.ACCESS_LOG_ONLY || filename === 'access.log' || filename === 'test-file.log') {
                 /*if (checkContent(dirName + '/' + filename))*/
                     onFileContent(dirName + '/' + filename);
             }
