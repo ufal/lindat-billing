@@ -120,48 +120,50 @@ describe('Log Management', function () {
         });
     });
 
-    describe('log rotation', function () {
+    if (!process.env.TRAVIS === true) {
+        describe('log rotation', function () {
 
-        before(function () {
+            before(function () {
 
-            let content = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /services/test/nesmysly"';
+                let content = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /services/test/nesmysly"';
 
-            try {
-                fs.writeFileSync('./public/logs/test-file.log', content);
-            } catch (e) {
-                console.log("Cannot write file ", e);
-            }
-        });
-
-        it('new file gets noticed', () =>  {
-
-            // here it should run the log management process
-
-            infoFile = logInfo.getInfo();
-
-            let check = false;
-            infoFile.data.forEach(function(element) {
-                console.log(element.name);
-                if (element.name === 'test-file.log') {
-                    check = true;
+                try {
+                    fs.writeFileSync('./public/logs/test-file.log', content);
+                } catch (e) {
+                    console.log("Cannot write file ", e);
                 }
             });
-            check.should.be.true;
-        });
 
-        it('new file gets read', () =>  {
+            it('new file gets noticed', () => {
 
-            infoFile = logInfo.getInfo();
+                // here it should run the log management process
 
-            let check = 0;
-            infoFile.data.forEach(function(element) {
-                if (element.name === 'test-file.log') {
-                    check = element.bytesRead;
-                }
+                infoFile = logInfo.getInfo();
+
+                let check = false;
+                infoFile.data.forEach(function (element) {
+                    console.log(element.name);
+                    if (element.name === 'test-file.log') {
+                        check = true;
+                    }
+                });
+                check.should.be.true;
             });
-            check.should.equal(77);
+
+            it('new file gets read', () => {
+
+                infoFile = logInfo.getInfo();
+
+                let check = 0;
+                infoFile.data.forEach(function (element) {
+                    if (element.name === 'test-file.log') {
+                        check = element.bytesRead;
+                    }
+                });
+                check.should.equal(77);
+            });
         });
-    });
+    }
 });
 
 describe('Database', function () {
