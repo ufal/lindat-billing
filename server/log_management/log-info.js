@@ -18,9 +18,9 @@ setupInfo = (reset) => {
 };
 
 resetInfo = () => {
-    fs.writeFile('./server/log_management/' + path.normalize(jsonName), JSON.stringify(infoFile = { data: [] } ), (err) => {
+    fs.writeFile(path.join(__dirname, jsonName), JSON.stringify(infoFile = { data: [] } ), (err) => {
         if (err)
-            return logger.error(err);
+            return logger.error("ResetInfo: " + err);
         logger.verbose('Log reading has been RESET');
     });
 };
@@ -37,9 +37,9 @@ readInfo = () => {
 };
 
 writeInfo = () => {
-    fs.writeFile('./server/log_management/' + path.normalize(jsonName), JSON.stringify(infoFile), (err) => {
+    fs.writeFile(path.join(__dirname, jsonName), JSON.stringify(infoFile), (err) => {
         if (err)
-            return logger.error(err);
+            return logger.error("WriteInfo: " + err);
         logger.verbose('Writing', infoFile, 'to', jsonName);
     });
 };
@@ -50,11 +50,11 @@ getInfo = () => { // should be called only once
     return infoFile;
 };
 
-setSingleInfo = (filename, alreadyRead) => {
+setSingleInfo = (filename, alreadyRead, rotated) => {
     let added = false;
     infoFile.data.forEach(function (item) {
         if (item.name === filename) {
-            if (item.bytesRead < alreadyRead) {
+            if (item.bytesRead < alreadyRead || rotated) {
                 item.bytesRead = alreadyRead;
             }
             added = true;

@@ -14,7 +14,7 @@ const info = require('./log-info');
  * as the file is modified and new data is available.
  *
  * @param  {String} filePath Absolute path to a file.
- * @param  {Number} bytesToRead How many bytes from the end of the file to read.
+ * @param  {Number} bytesToRead How many bytes from the end of the file to w
  * @param  {Number} beginning
  * @param  {Boolean} follow If true, the provided callback will be continuously called (until un-subscribed) with the new data
  *                          as the file is modified and new data is available (aka tail -F).
@@ -32,16 +32,16 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
      * @param {Number} start Start offset.
      * @param {Number} end End offset.
      */
-    function readFile(start, end) {
+    function readFile(start, end, rotated) {
         const fileStream = fs.createReadStream(filePath, {start: start, end: end});
-        if (start < end) logger.verbose("Reading from ", start, " to ", end);
+        /*if (start !== end)*/ logger.verbose("Reading from ", start, " to ", end);
         fileStream.on('data', function(data) {
             // tady to neco chce vylepsit nejak
             parseString(data)
                 .catch(error => {
                     logger.error(error);
             });
-            info.setSingleInfo(filename, end);
+            info.setSingleInfo(filename, end, rotated);
             callback(null, filename, data, unSubscribe);
         });
         fileStream.on('error', function(err) {
@@ -64,6 +64,7 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
 
     watchFileListener = function(curr, prev) {
         let start, end;
+        let rotated = false;
 
         //const inodeCurr = curr.ino;
         //const inodePrev = prev.ino;
@@ -79,7 +80,8 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
         if ((sizeDiff < 0) || (sizeDiff === 0 && mTimeCurr !== mTimePrev)) {
             // Log file was rotated or truncated
             start = 0;
-            end = (bytesToRead > sizeCurr) ? sizeCurr : bytesToRead;
+            end = sizeCurr;//(bytesToRead > sizeCurr) ? sizeCurr : bytesToRead;
+            rotated = true;
         }
         else if (sizeDiff === 0) {
             // No change in the file size (probably file ownership or permissions were changed), ignore this event
@@ -90,7 +92,7 @@ function tailFile(filePath, bytesToRead, beginning, follow, callback) {
             end = sizeCurr;
         }
 
-        readFile(start, end);
+        readFile(start, end, rotated);
     };
 
     if (follow) {
