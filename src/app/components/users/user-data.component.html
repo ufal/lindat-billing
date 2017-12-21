@@ -22,52 +22,53 @@
     </div>
 
     <div class="col-md-10">
-    <form class="row" (submit)="searchUser($event)">
-        <div class="form-group">
-            <div *ngIf="isAdmin">
-                <div class="col-md-4">
-                    <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
-                </div>
-            </div>
-            <div *ngIf="!isAdmin">
-                <div class="col-md-4">
-                    <input type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
-                </div>
-            </div>
-            <div class="col-md-4">
-                <form #myForm="ngForm" novalidate>
-                    <my-date-range-picker
+        <form class="row">
+            <div class="col-md-6">
+                <span class="input-group">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="button" (click)="searchUser()">Search</button>
+                    </span>
+                    <input *ngIf="isAdmin" type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
+                    <input *ngIf="!isAdmin" type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
+                    <form #myForm="ngForm" novalidate>
+                        <my-date-range-picker
                             name="mydaterange"
                             [options]="myDateRangePickerOptions"
                             (dateRangeChanged)="onDateRangeChanged($event)"
                             [placeholder]="placeholderTxt"
                             [(ngModel)]="model" required>
-                    </my-date-range-picker>
-                </form>
+                        </my-date-range-picker>
+                    </form>
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button" (click)="lastPeriod('month')">Last&nbsp;month</button>
+                    </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button" (click)="lastPeriod('week')">Last&nbsp;week</button>
+                    </span>
+                    <span class="input-group-btn">
+                        <button class="btn btn-secondary" type="button" (click)="lastPeriod('day')">Last&nbsp;day</button>
+                    </span>
+                </span>
             </div>
-            <div class="col-md-2">
-                <button (click)="onClickMe()">Search</button>
-            </div>
-        </div>
-    </form>
-    <hr>
-    <div class="data-list">
-        <div *ngFor="let service of data">
-            <div *ngIf="service.total > 0">
-                <div class="col-md-10">
-                    <div class = "search-result" (click)="expand(service)">
-                        {{service.name}} (total of {{service.total}} requests)
-                    </div>
-                    <div *ngIf="service.expanded">
-                        <ul *ngFor="let data of service.logData">
-                            <div class="search-result-detail">
-                                {{data.datetime}} {{data.request}}
-                            </div>
-                        </ul>
+        </form>
+        <hr>
+        <div class="data-list">
+            <div *ngFor="let service of data">
+                <div *ngIf="service.total > 0">
+                    <div class="col-md-10">
+                        <div class = "search-result" (click)="expand(service)">
+                            {{service.name}} (total of {{service.total}} requests)
+                        </div>
+                        <div *ngIf="service.expanded">
+                            <ul *ngFor="let data of service.logData">
+                                <div class="search-result-detail">
+                                    {{data.datetime}} {{data.request}}
+                                </div>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>
