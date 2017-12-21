@@ -17,10 +17,8 @@
                             {{user.name}}
                         </div>
                         <div *ngIf="user.expanded">
-                            <ul *ngFor="let item of user.ips">
-                                <div class="search-result-detail">
-                                    {{item}}
-                                </div>
+                            <ul *ngFor="let item of user.ips" class="search-result-detail">
+                                {{item}}
                             </ul>
                         </div>
                     </div>
