@@ -1,0 +1,11 @@
+{
+  "0": {"name": "unknown", "value": 0},
+  "1": {"name": "morphodita", "value": 1},
+  "2": {"name": "PDT-Vallex", "value": 10},
+  "3": {"name": "EngVallex", "value": 10},
+  "4": {"name": "moses", "value": 2},
+  "5": {"name": "pmltq", "value": 2},
+  "6": {"name": "korektor", "value": 2},
+  "7": {"name": "parsito", "value": 5},
+  "8": {"name": "nametag", "value": 5}
+}

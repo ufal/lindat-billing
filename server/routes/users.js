@@ -79,12 +79,13 @@ router.get('/users/*', function (req, res, next) {
             .then(data => {
                 let dataModified = [];
                 let empty = true;
-                for(let i = 0; i < db.getServiceCount(); i++) {
+                for(let i = 0; i < db.getServiceCount()-1; i++) {
                     dataModified.push({
                         name: db.getServiceName(i+1),
                         logData: [],
                         expanded: false,
-                        total: 0
+                        total: 0,
+                        price: db.getServicePrice(i+1)
                     });
                 }
                 data.forEach(function (item) {

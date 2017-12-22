@@ -57,7 +57,7 @@
                 <div *ngIf="service.total > 0">
                     <div class="col-md-10">
                         <div class = "search-result" (click)="expand(service)">
-                            {{service.name}} (total of {{service.total}} requests)
+                            {{service.name}} (total of {{service.total}} requests) TOTAL: {{service.total * service.price}}
                         </div>
                         <div *ngIf="service.expanded">
                             <ul *ngFor="let data of service.logData">

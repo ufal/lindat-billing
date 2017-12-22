@@ -6,6 +6,7 @@ const config = require('../settings/backend');
 const pgp = require('pg\-promise')();
 const logger = require('./logger');
 let id_s = require('./log_management/services.json');
+let service_price = require('./service-prices.json');
 
 // Database connection details;
 let client = pgp(config.db);
@@ -267,6 +268,10 @@ DB.prototype.getServiceCount = () => {
 
 DB.prototype.getServiceName = (id) => {
     return id_s[id];
+};
+
+DB.prototype.getServicePrice = (id) => {
+    return service_price[id].value;
 };
 
 
