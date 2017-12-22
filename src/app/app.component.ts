@@ -4,9 +4,9 @@ import { UserDataService }  from "./services/index";
 
 @Component({
   moduleId: module.id,
+  providers: [BasicInfoService, UserDataService],
   selector: "my-app",
   templateUrl: "app.component.html",
-  providers: [BasicInfoService, UserDataService],
 })
 
 export class AppComponent  { }

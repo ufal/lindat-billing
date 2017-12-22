@@ -17,26 +17,27 @@ import { AccountDataService, AlertService, AuthenticationService, HomeDataServic
     LoggerService } from "./services/index";
 
 @NgModule({
+    bootstrap:    [ AppComponent ],
+    declarations: [
+        AccountInfoComponent,
+        AccountsManagementComponent,
+        AdminInfoComponent,
+        AlertComponent,
+        AppComponent,
+        HomeComponent,
+        LoginComponent,
+        NavBarComponent,
+        PageNotFoundComponent,
+        RegisterComponent,
+        ServicePricingComponent,
+        UserDataComponent,
+    ],
   imports: [
       BrowserModule,
       HttpModule,
       FormsModule,
       MyDateRangePickerModule,
       Routing,
-  ],
-  declarations: [
-      AccountInfoComponent,
-      AccountsManagementComponent,
-      AdminInfoComponent,
-      AlertComponent,
-      AppComponent,
-      HomeComponent,
-      LoginComponent,
-      NavBarComponent,
-      PageNotFoundComponent,
-      RegisterComponent,
-      ServicePricingComponent,
-      UserDataComponent,
   ],
   providers: [
       AuthGuard,
@@ -49,7 +50,6 @@ import { AccountDataService, AlertService, AuthenticationService, HomeDataServic
       {provide: LocationStrategy, useClass: HashLocationStrategy },
       {provide: APP_BASE_HREF, useValue: "/"},
   ],
-  bootstrap:    [ AppComponent ],
 })
 
 export class AppModule { }
