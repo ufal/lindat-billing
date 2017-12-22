@@ -1,19 +1,20 @@
-import { NgModule }       from '@angular/core';
-import { BrowserModule }  from '@angular/platform-browser';
-import { HttpModule }     from '@angular/http';
-import { FormsModule }    from '@angular/forms';
-import { AppComponent }   from './app.component';
-import { Routing }        from './app.routing';
-import { APP_BASE_HREF, LocationStrategy, HashLocationStrategy }  from '@angular/common';
+import { APP_BASE_HREF, HashLocationStrategy, LocationStrategy }  from "@angular/common";
+import { NgModule }       from "@angular/core";
+import { FormsModule }    from "@angular/forms";
+import { HttpModule }     from "@angular/http";
+import { BrowserModule }  from "@angular/platform-browser";
+import { AppComponent }   from "./app.component";
+import { Routing }        from "./app.routing";
 
-import { HomeComponent, UserDataComponent, AccountInfoComponent,
-    AdminInfoComponent, LoginComponent, RegisterComponent,
-    NavBarComponent, PageNotFoundComponent, AccountsManagementComponent } from './components/index';
-import { AlertComponent }    from './directives/index';
+import { AccountInfoComponent, AccountsManagementComponent, AdminInfoComponent,
+    HomeComponent, LoginComponent, NavBarComponent,
+    PageNotFoundComponent, RegisterComponent, ServicePricingComponent, UserDataComponent } from "./components/index";
+import { AlertComponent }    from "./directives/index";
 
-import { AlertService, AuthenticationService, LoggerService, HomeDataService, AccountDataService } from './services/index';
-import { AuthGuard } from './guards/index';
-import { MyDateRangePickerModule } from 'mydaterangepicker';
+import { MyDateRangePickerModule } from "mydaterangepicker";
+import { AuthGuard } from "./guards/index";
+import { AccountDataService, AlertService, AuthenticationService, HomeDataService,
+    LoggerService } from "./services/index";
 
 @NgModule({
   imports: [
@@ -21,20 +22,21 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
       HttpModule,
       FormsModule,
       MyDateRangePickerModule,
-      Routing
+      Routing,
   ],
   declarations: [
-      AppComponent,
-      UserDataComponent,
-      AdminInfoComponent,
       AccountInfoComponent,
-      AlertComponent,
-      LoginComponent,
-      RegisterComponent,
-      NavBarComponent,
-      HomeComponent,
       AccountsManagementComponent,
-      PageNotFoundComponent
+      AdminInfoComponent,
+      AlertComponent,
+      AppComponent,
+      HomeComponent,
+      LoginComponent,
+      NavBarComponent,
+      PageNotFoundComponent,
+      RegisterComponent,
+      ServicePricingComponent,
+      UserDataComponent,
   ],
   providers: [
       AuthGuard,
@@ -45,9 +47,9 @@ import { MyDateRangePickerModule } from 'mydaterangepicker';
       AccountInfoComponent,
       AccountDataService,
       {provide: LocationStrategy, useClass: HashLocationStrategy },
-      {provide: APP_BASE_HREF, useValue: '/'}
+      {provide: APP_BASE_HREF, useValue: "/"},
   ],
-  bootstrap:    [ AppComponent ]
+  bootstrap:    [ AppComponent ],
 })
 
 export class AppModule { }
