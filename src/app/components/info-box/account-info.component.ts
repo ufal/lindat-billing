@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
-import { AlertService, AuthenticationService, UserDataService } from "../../services";
+import { AlertService, AuthenticationService, UserDataService } from "../../services/index";
 
 @Component({
     moduleId: module.id,

@@ -1,5 +1,5 @@
 import { Component }    from "@angular/core";
-import { BasicInfoService, UserDataService } from "./services";
+import { BasicInfoService, UserDataService } from "./services/index";
 
 @Component({
   moduleId: module.id,

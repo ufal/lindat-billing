@@ -1,6 +1,6 @@
 import { Component } from "@angular/core";
 import { IMyDateRange, IMyDateRangeModel, IMyOptions } from "mydaterangepicker";
-import { AlertService, AuthenticationService, LoggerService, UserDataService } from "../../services";
+import { AlertService, AuthenticationService, LoggerService, UserDataService } from "../../services/index";
 
 @Component({
     moduleId: module.id,

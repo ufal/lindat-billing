@@ -8,13 +8,13 @@ import { Routing }        from "./app.routing";
 
 import { AccountInfoComponent, AccountsManagementComponent, AdminInfoComponent,
     HomeComponent, LoginComponent, NavBarComponent,
-    PageNotFoundComponent, RegisterComponent, ServicePricingComponent, UserDataComponent } from "./components";
-import { AlertComponent }    from "./directives";
+    PageNotFoundComponent, RegisterComponent, ServicePricingComponent, UserDataComponent } from "./components/index";
+import { AlertComponent }    from "./directives/index";
 
 import { MyDateRangePickerModule } from "mydaterangepicker";
-import { AuthGuard } from "./guards";
+import { AuthGuard } from "./guards/index";
 import { AccountDataService, AlertService, AuthenticationService, HomeDataService,
-    LoggerService } from "./services";
+    LoggerService } from "./services/index";
 
 @NgModule({
     bootstrap:    [ AppComponent ],
