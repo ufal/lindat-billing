@@ -1,17 +1,17 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AlertService, HomeDataService, LoggerService, AuthenticationService  } from '../../services/index';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { AlertService, AuthenticationService, HomeDataService, LoggerService  } from "../../services";
 
 @Component({
     moduleId: module.id,
-    templateUrl: 'home.component.html',
-    styleUrls: [ 'home.component.css' ]
+    styleUrls: [ "home.component.css" ],
+    templateUrl: "home.component.html",
 })
 
 export class HomeComponent {
-    data: Object[];
-    isAdmin: boolean;
-    username: string;
+    private data: Object[];
+    private isAdmin: boolean;
+    private username: string;
 
     constructor(
         private homeDataService: HomeDataService,
@@ -23,14 +23,14 @@ export class HomeComponent {
         this.getData();
     }
 
-    getData()
+    protected getData()
     {
         this.homeDataService.getLogins(this.isAdmin, this.username)
-            .subscribe(log => {
-                if (log[0] == "ERROR") {
+            .subscribe((log) => {
+                if (log[0] === "ERROR") {
                     this.alertService.error(log[1]);
                     this.data = [];
-                    this.loggerService.log('error',log[1]);
+                    this.loggerService.log("error", log[1]);
                 } else {
                     this.alertService.nothing();
                     this.data = log;

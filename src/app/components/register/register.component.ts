@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { AlertService, AuthenticationService } from '../../services/index';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { AlertService, AuthenticationService } from "../../services/index";
 
 @Component({
     moduleId: module.id,
-    templateUrl: 'register.component.html'
+    templateUrl: "register.component.html",
 })
 
 export class RegisterComponent {
-    model: any = {};
-    loading = false;
+    protected model: any = {};
+    protected loading = false;
 
     constructor(
         private router: Router,
@@ -17,17 +17,17 @@ export class RegisterComponent {
         private alertService: AlertService) { }
 
     // register new account
-    register() {
-        console.log('Registration Component - Register');
+    protected register() {
+        console.log("Registration Component - Register");
         if (this.isValid(this.model.password)) {
             this.loading = true;
             this.authenticationService.addAccount(this.model)
                 .subscribe(
-                    data => {
-                        this.alertService.success('Registration successful', true);
-                        this.router.navigate(['/login']);
+                    (data) => {
+                        this.alertService.success("Registration successful", true);
+                        this.router.navigate(["/login"]);
                     },
-                    error => {
+                    (error) => {
                         this.alertService.error(error.json().message.reason);
                         this.loading = false;
                     });
@@ -35,11 +35,11 @@ export class RegisterComponent {
     }
 
     // password validation
-    isValid(password: string)
+    protected isValid(password: string)
     {
         if (password.length < 5)
         {
-            this.alertService.error('Password must be at least 5 characters long!');
+            this.alertService.error("Password must be at least 5 characters long!");
             return false;
         }
         return true;
