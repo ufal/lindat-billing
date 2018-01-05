@@ -16,7 +16,7 @@ export class UserDataComponent  {
     protected isAdmin: boolean;
 
     protected model: IMyDateRange = {
-        beginDate: {year: new Date().getFullYear(), month: new Date().getMonth(), day: new Date().getDate()},
+        beginDate: {year: 0, month: 0, day: 0},
         endDate: {year: new Date().getFullYear(), month: new Date().getMonth() + 1, day: new Date().getDate()},
     };
     protected readonly placeholderTxt: string = "Insert timespan";
@@ -28,6 +28,11 @@ export class UserDataComponent  {
         private authenticationService: AuthenticationService,
     ) {
         this.isAdmin = authenticationService.isAdmin();
+        let today = new Date();
+        today.setMonth(today.getMonth() - 1);
+        this.model.beginDate.year = today.getFullYear();
+        this.model.beginDate.month = today.getMonth() + 1;
+        this.model.beginDate.day = today.getDate();
     }
 
     // expanding details of a service summary
