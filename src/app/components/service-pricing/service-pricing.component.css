@@ -1,0 +1,23 @@
+.headline {
+    padding: 5px;
+    background-color: beige;
+    margin: 3px;
+    color: black;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+}
+.service-name {
+    padding: 5px;
+    background-color: white;
+    margin: 3px;
+    color: cadetblue;
+}
+.service-price {
+    padding: 5px;
+    background-color: white;
+    margin: 3px;
+    color: darkslateblue;
+    text-align: center;
+    font-weight: bold;
+}

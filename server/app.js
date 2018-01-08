@@ -14,6 +14,7 @@ const users = require('./routes/users');
 const login = require('./routes/login');
 const tools = require('./routes/other');
 const logging = require('./routes/logging');
+const pricing = require('./routes/pricing');
 
 const app = express();
 
@@ -45,6 +46,7 @@ logger.info("Using [%s] as input path", config.input_dir);
 // API
 app.use('/api', users);
 app.use('/api', login);
+app.use('/api', pricing);
 app.use('/api', tools);
 app.use('/api', logging);
 

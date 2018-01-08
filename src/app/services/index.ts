@@ -5,3 +5,4 @@ export * from "./basic-info.service";
 export * from "./home-data.service";
 export * from "./logger.service";
 export * from "./account-data.service";
+export * from "./pricing.service";

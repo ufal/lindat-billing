@@ -1,0 +1,38 @@
+<nav-bar></nav-bar>
+<div class="row">
+    <div class="col-md-2">
+        <div *ngIf="isAdmin">
+            <admin-info></admin-info>
+        </div>
+        <div *ngIf="!isAdmin">
+            <account-info></account-info>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="headline"> Service </div>
+                <div class="data-list">
+                    <div *ngFor="let item of data">
+                        <div class="service-name">
+                            {{item.name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="headline"> Price per unit </div>
+                <div class="data-list">
+                    <div *ngFor="let item of data">
+                        <div class="service-price">
+                            {{item.value}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="headline"> Unit</div>
+            </div>
+        </div>
+    </div>
+</div>

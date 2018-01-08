@@ -14,7 +14,7 @@ import { AlertComponent }    from "./directives/index";
 import { MyDateRangePickerModule } from "mydaterangepicker";
 import { AuthGuard } from "./guards/index";
 import { AccountDataService, AlertService, AuthenticationService, HomeDataService,
-    LoggerService } from "./services/index";
+    LoggerService, PricingService } from "./services/index";
 
 @NgModule({
     bootstrap:    [ AppComponent ],
@@ -45,6 +45,7 @@ import { AccountDataService, AlertService, AuthenticationService, HomeDataServic
       AuthenticationService,
       HomeDataService,
       LoggerService,
+      PricingService,
       AccountInfoComponent,
       AccountDataService,
       {provide: LocationStrategy, useClass: HashLocationStrategy },
