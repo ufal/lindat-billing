@@ -17,3 +17,13 @@
     cursor: text;
     margin: 3px;
 }
+.total-sum {
+    border: 1px solid gray;
+    padding: 5px;
+    background-color: lightblue;
+    cursor: text;
+    margin: 3px;
+    font-weight: bold;
+    color: darkblue;
+    /*height: 36px;*/
+}

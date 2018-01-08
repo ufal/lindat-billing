@@ -27,11 +27,11 @@
                     <input *ngIf="!isAdmin" type="text" [(ngModel)]="title" name="title" class="form-control" placeholder="Display User">
                     <form #myForm="ngForm" novalidate>
                         <my-date-range-picker
-                            name="mydaterange"
-                            [options]="myDateRangePickerOptions"
-                            (dateRangeChanged)="onDateRangeChanged($event)"
-                            [placeholder]="placeholderTxt"
-                            [(ngModel)]="model" required>
+                                name="mydaterange"
+                                [options]="myDateRangePickerOptions"
+                                (dateRangeChanged)="onDateRangeChanged($event)"
+                                [placeholder]="placeholderTxt"
+                                [(ngModel)]="model" required>
                         </my-date-range-picker>
                     </form>
                     <span class="input-group-btn">
@@ -47,6 +47,14 @@
             </div>
         </form>
         <hr>
+        <div *ngIf="totalSum > 0">
+            <div class="col-md-10">
+                <div class="total-sum">
+                    Total sum to be paid for the period is {{ totalSum }}
+                </div>
+            </div>
+        </div>
+        <br>
         <div class="data-list">
             <div *ngFor="let service of data">
                 <div *ngIf="service.total > 0">

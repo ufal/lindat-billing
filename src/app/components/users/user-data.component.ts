@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { IMyDateRange, IMyDateRangeModel, IMyOptions } from "mydaterangepicker";
 import { AlertService, AuthenticationService, LoggerService, UserDataService } from "../../services/index";
+import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     moduleId: module.id,
@@ -14,6 +15,7 @@ export class UserDataComponent  {
     protected data: Object[];
     protected errorMessage: string;
     protected isAdmin: boolean;
+    protected totalSum: number;
 
     protected model: IMyDateRange = {
         beginDate: {year: 0, month: 0, day: 0},
@@ -33,6 +35,7 @@ export class UserDataComponent  {
         this.model.beginDate.year = today.getFullYear();
         this.model.beginDate.month = today.getMonth() + 1;
         this.model.beginDate.day = today.getDate();
+        this.totalSum = 0;
     }
 
     // expanding details of a service summary
@@ -85,6 +88,10 @@ export class UserDataComponent  {
                     //this.title = '';
                     this.data = log;
                     console.log(this.data);
+                    this.totalSum = 0;
+                    for (let item of log) {
+                        this.totalSum += item.total * item.price;
+                    }
                 }
             });
     }
@@ -127,13 +134,11 @@ export class UserDataComponent  {
 
     // daterangepicker options
     protected  myDateRangePickerOptions: IMyOptions = {
-        acceptBtnTxt: "Apply",
         dateFormat: "dd.mm.yyyy",
         inline: false,
         markCurrentDay: true,
         maxYear: new Date().getFullYear(),
         minYear: 2015,
-        quickRangeSelect: true,
         showClearBtn: false,
         showClearDateRangeBtn: false,
     };
