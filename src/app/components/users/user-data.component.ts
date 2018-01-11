@@ -1,7 +1,6 @@
 import { Component } from "@angular/core";
 import { IMyDateRange, IMyDateRangeModel, IMyOptions } from "mydaterangepicker";
 import { AlertService, AuthenticationService, LoggerService, UserDataService } from "../../services/index";
-import {forEach} from "@angular/router/src/utils/collection";
 
 @Component({
     moduleId: module.id,
