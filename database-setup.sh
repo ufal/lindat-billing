@@ -1,7 +1,7 @@
 #!/bin/sh
-dropdb -p 5433 lindat-billing-test
-createdb -p 5433 lindat-billing-test
-psql -p 5433 -q -v "ON_ERROR_STOP=1" lindat-billing-test << EOF
+dropdb -p 5432 lindat-billing-test
+createdb -p 5432 lindat-billing-test
+psql -p 5432 -q -v "ON_ERROR_STOP=1" lindat-billing-test << EOF
 
 CREATE SEQUENCE logs_id_seq
     START WITH 1
