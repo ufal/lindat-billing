@@ -1,5 +1,5 @@
 #!/bin/sh
-psql -p 5433 -q -v lindat-billing-test << EOF
+psql -p $1 -q -v $2 << EOF
 
 INSERT INTO Accounts (username, pass, admin) VALUES('david', crypt('heslo', gen_salt('bf')), true);
 INSERT INTO Accounts (username, pass, admin) VALUES('jm', crypt('heslo', gen_salt('bf')), true);

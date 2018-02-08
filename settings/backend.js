@@ -14,8 +14,8 @@ var settings = {
     "input_dir": path.join(_this_dir, '..', process.env.INPUT_LOGS_PATH || 'input_logs'),
 
     "db": {
-        host: process.env.LB_DB_HOST,
-        port: process.env.LB_DB_PORT,
+        host: process.env.LB_DB_HOST || "localhost",
+        port: process.env.LB_DB_PORT || "5432",
         database: process.env.LB_DB_NAME || "lindat-billing",
         user: process.env.LB_DB_USER,
         password: process.env.LB_DB_PASS
