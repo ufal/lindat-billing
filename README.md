@@ -45,6 +45,27 @@ Initial:
 5. setup proxy, careful with '/' at the end, expecting relative paths to node
 
 
+## Additional scripts
+
+**create-admin-account.sh**
+
+Adds a new user with admin privileges.
+```
+sh create-admin-account.sh PORT DBNAME USERNAME PASSWORD
+```
+- _PORT_ The port where the database runs.
+- _DBNAME_ Database name.
+- _USERNAME_ Username to be added.
+- _PASSWORD_ Password for the new admin.
+
+**fill-database.sh**
+
+Adds some user-related data do the database.
+```
+sh fill-database.sh PORT DBNAME
+```
+- _PORT_ The port where the database runs.
+- _DBNAME_ Database name.
 
 # Notes on running
 
