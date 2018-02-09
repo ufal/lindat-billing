@@ -21,7 +21,8 @@ logger.add(logger.transports.Console,   {
         colorize: true,
         level: 'silly',
         humanReadableUnhandledException: true,
-        showLevel: true
+        showLevel: true,
+        timestamp: true
     });
 
 // file logging
