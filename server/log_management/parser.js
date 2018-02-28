@@ -24,7 +24,7 @@ function parseString (data) {
                 if (idx !== array.length-1) {
                     logEntry = parseLine(line);
                     // filtering out not services
-                    if (logEntry.service)
+                    if (logEntry.service !== 'NULL')
                         lines.push(logEntry);
                 }
                 else {
