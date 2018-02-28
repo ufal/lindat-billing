@@ -4,10 +4,27 @@
 
 1. Clone the repository
 2. Run ```npm install```
-3. Create database in postgres and update *database-setup.sh* accordingly
+3. Create a database in postgres and update *database-setup.sh* accordingly
 4. Make sure the database has the *pgcrypto* extension
-5. Run *database-setup.sh*
-6. Start **lindat-billing**
+5. Run ```database-setup.sh```
+6. Either use a "secrets file" or environmental variables, see section [Configuration](#Configuration)
+6. Run ```npm start```
+
+
+## Configuration
+
+### Secrets file
+
+### Environmental variables
+
+If the database is run on the standard port 5432 on localhost, you 
+need to configure only the following variables:
+
+* ```LB_DB_USER``` - database username 
+* ```LB_DB_PASS``` - database password 
+* ```LB_DB_NAME``` - database name 
+
+
 
 ## Development
 
