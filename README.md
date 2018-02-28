@@ -4,10 +4,43 @@
 
 1. Clone the repository
 2. Run ```npm install```
-3. Create database in postgres and update *database-setup.sh* accordingly
+3. Create a database in postgres and update *database-setup.sh* accordingly
 4. Make sure the database has the *pgcrypto* extension
-5. Run *database-setup.sh*
-6. Start **lindat-billing**
+5. Run ```database-setup.sh```
+6. Either use a "secrets file" or environmental variables, see section [Configuration](#Configuration)
+6. Run ```npm start```
+
+
+## Configuration
+
+### Environmental variables
+
+If the database is run on the standard port 5432 on localhost, you 
+need to configure only the following variables:
+
+* ```LB_DB_USER``` - database username 
+* ```LB_DB_PASS``` - database password 
+* ```LB_DB_NAME``` - database name 
+
+Further, the following environmental variables are *recommended* to be set before running the code.
+
+```
+LB_DB_HOST=databasehost
+LB_DB_USER=username
+LB_DB_PASS=password
+LB_DB_PORT=databaseport
+LB_DB_NAME=databasename
+INPUT_LOGS_PATH=pathtoinput
+SECRETS_FILE_PATH=pathtosecretsfile
+RESET_LOGS=true / false
+ACCESS_LOG_ONLY=true / false
+```
+
+An easy way to do so is include them in exactly this manner in a `.env` file in the main project directory.
+
+## Secrets file
+
+Secrets file offer an alternative to environmental variables described above. The path to the secrets file does not need to be specified unless it is used. If so, it has to be passed as an environmental variable named SECRETS_FILE_PATH.
 
 ## Development
 
@@ -66,23 +99,3 @@ sh fill-database.sh PORT DBNAME
 ```
 - _PORT_ The port where the database runs.
 - _DBNAME_ Database name.
-
-# Notes on running
-
-## Environmental variables
-
-The following environmental variables are recommended to be set before running the code.
-
-```
-LB_DB_HOST=databasehost
-LB_DB_USER=username
-LB_DB_PASS=password
-LB_DB_PORT=databaseport
-LB_DB_NAME=databasename
-INPUT_LOGS_PATH=pathtoinput
-SECRETS_FILE_PATH=pathtosecretsfile
-RESET_LOGS=true / false
-ACCESS_LOG_ONLY=true / false
-```
-
-An easy way to do so is include them in exactly this manner in a `.env` file in the main project directory.
