@@ -38,9 +38,9 @@ describe('Log Management', function () {
 
     describe('parser', function () {
         describe('#parseLine()', function () {
-            const line = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /services/test/nesmysly"';
-            const parseLine = parser.__get__('parseLine');
-            const parsed = parseLine(line);
+            let line = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /services/test/nesmysly"';
+            let parseLine = parser.__get__('parseLine');
+            let parsed = parseLine(line);
 
             it('ip is valid', function () {
                 (parsed.ip).should.be.a('string');
@@ -59,6 +59,22 @@ describe('Log Management', function () {
             it('request is valid', function () {
                 (parsed.request).should.be.a('string');
                 //(parsed.ip).should.be.equal.to('/services/test/nesmysly');
+            });
+
+            line = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "POST /services/test/nesmysly"';
+            parseLine = parser.__get__('parseLine');
+            parsed = parseLine(line);
+
+            it('non-GET is not considered useful', function () {
+                (parsed.service).should.equal('NULL');
+            });
+
+            line = '195.113.20.155 - - [08/Mar/2016:14:48:43 +0100] "GET /repository/test/nesmysly"';
+            parseLine = parser.__get__('parseLine');
+            parsed = parseLine(line);
+
+            it('non-service is properly identified', function () {
+                (parsed.service).should.equal('NULL');
             });
         })
     });
