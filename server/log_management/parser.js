@@ -80,24 +80,16 @@ let parseLine = (line) => {
     const ip = line.substr(0, line.indexOf(' '));
     const time = line.substr(line.indexOf('[')+1, line.indexOf(']')-line.indexOf('[')-1);
     const request = line.substr(line.indexOf('"'));
-    let service = 'unknown';
-    if (request.substr(1,3) === "GET") {
-        //TODO maybe we want post requests, too?
-        /*var arrRequest = request.substr(5).split(['/']);
-        if (arrRequest[1] == "services")
-            service = true;*/
-        if (request.indexOf('/services/') !== -1)
-        {
-            service = request.substr(5).split(['/'])[2];
-        } else service = 'NULL';
+    let service = 'NULL';
+    if (request.substr(1,3) === "GET" && request.indexOf('/services/') !== -1) {
+        service = request.substr(5).split(['/'])[2];
     }
-
     return {
         'ip': ip,
         'datetime': time,
         'service' : service,
         'request': request
-    };
+    }
 };
 
 module.exports = {
