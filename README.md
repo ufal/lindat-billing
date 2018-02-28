@@ -13,8 +13,6 @@
 
 ## Configuration
 
-### Secrets file
-
 ### Environmental variables
 
 If the database is run on the standard port 5432 on localhost, you 
@@ -24,7 +22,9 @@ need to configure only the following variables:
 * ```LB_DB_PASS``` - database password 
 * ```LB_DB_NAME``` - database name 
 
+## Secrets file
 
+Secrets file offer an alternative to environmental variables described above. The path to the secrets file does not need to be specified unless it is used. If so, it has to be passed as an environmental variable named SECRETS_FILE_PATH.
 
 ## Development
 
@@ -103,7 +103,3 @@ ACCESS_LOG_ONLY=true / false
 ```
 
 An easy way to do so is include them in exactly this manner in a `.env` file in the main project directory.
-
-## secrets file
-
-Secrets file offer an alternative to environmental variables described above. The path to the secrets file does not need to be specified unless it is used. If so, it has to be passed as an environmental variable named SECRETS_FILE_PATH.
