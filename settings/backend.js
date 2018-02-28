@@ -31,7 +31,7 @@ if (process.env.SECRETS_FILE_PATH) {
         secret_file_path = path.join(_this_dir, process.env.SECRETS_FILE_PATH);
     }
 }
-if (path.extname(secret_file_path) === ".json") {
+if (secret_file_path !== null && path.extname(secret_file_path) === ".json") {
     if (fs.existsSync(secret_file_path)) {
         logger.info("Using secrets from file [%s]", secret_file_path);
         let s = require(secret_file_path);
