@@ -81,15 +81,15 @@ router.get('/users/*', function (req, res, next) {
                 let empty = true;
                 for(let i = 0; i < db.getServiceCount()-1; i++) {
                     dataModified.push({
-                        name: db.getServiceName(i+1),
+                        name: db.getServiceName(i),
                         logData: [],
                         expanded: false,
                         total: 0,
-                        price: db.getServicePrice(i+1)
+                        price: db.getServicePrice(i)
                     });
                 }
                 data.forEach(function (item) {
-                    dataModified[item.id_s].logData.push(item);
+                    if (item.id_s > 0) dataModified[item.id_s].logData.push(item);
                 });
                 dataModified.forEach(function (item) {
                     item.total = item.logData.length;
