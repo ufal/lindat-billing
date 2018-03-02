@@ -98,7 +98,7 @@ DB.prototype.insert = (values) => {
             for (let i = 0; i < values.length; i++) {
                 let ip = values[i].ip;
                 if ("undefined" === typeof id_u[ip]) {
-                    const idx = Object.keys(id_u).length+1;
+                    const idx = Math.max(...Object.keys(id_u).map(Number)) + 1;
                     addUser(ip, idx);
                     id_u[ip] = idx;
                 }
