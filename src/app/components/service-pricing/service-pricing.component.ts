@@ -37,4 +37,14 @@ export class ServicePricingComponent {
                 }
             });
     }
+
+    protected increase()
+    {
+
+    }
+
+    protected decrease()
+    {
+
+    }
 }
