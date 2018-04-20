@@ -49,6 +49,13 @@ CREATE TABLE Logins
     datetime bigint
 );
 
+CREATE TABLE Pricing
+(
+username text,
+pricing text,
+CONSTRAINT pricing_pkey PRIMARY KEY (username)
+);
+
 \q
 EOF
 if [ $? -gt 0 ];
