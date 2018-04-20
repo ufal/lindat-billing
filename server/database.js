@@ -98,7 +98,13 @@ DB.prototype.insert = (values) => {
             for (let i = 0; i < values.length; i++) {
                 let ip = values[i].ip;
                 if ("undefined" === typeof id_u[ip]) {
-                    const idx = Math.max(...Object.keys(id_u).map(Number)) + 1;
+                    let idx;
+                    /*console.log(Object.values(id_u));
+                    console.log(Object.values(id_u).map(Number));
+                    console.log(...Object.values(id_u).map(Number));
+                    console.log(Math.max(...Object.values(id_u).map(Number)));*/
+                    if (Object.keys(id_u).length > 0) idx = Math.max(...Object.values(id_u).map(Number)) + 1;
+                    else idx = 1;
                     addUser(ip, idx);
                     id_u[ip] = idx;
                 }
@@ -273,6 +279,23 @@ DB.prototype.getServiceName = (id) => {
 DB.prototype.getServicePrice = (id) => {
     return service_price[id].value;
 };
+
+DB.prototype.getPricing = (id) => {
+    return new Promise((resolve, reject) => {
+        client.one('SELECT pricing from Pricing where username = $1', [id])
+            .then(data => {
+                resolve(data.pricing); // data
+            })
+            .catch(error => {
+                logger.error(error);
+                reject({
+                    state: 'failure',
+                    reason: 'Database error',
+                    extra: error
+                });
+            });
+    });
+}
 
 
 module.exports = DB;

@@ -52,7 +52,7 @@ CREATE TABLE Logins
 CREATE TABLE Pricing
 (
 username text,
-pricing text,
+pricing json,
 CONSTRAINT pricing_pkey PRIMARY KEY (username)
 );
 
