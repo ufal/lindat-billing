@@ -38,13 +38,20 @@ export class ServicePricingComponent {
             });
     }
 
-    protected increase()
+    protected increase(item: any)
     {
-
+        item.value = item.value + 1;
     }
 
-    protected decrease()
+    protected decrease(item: any)
     {
+        if (item.value > 0) {
+            item.value = item.value - 1;
+        }
+    }
 
+    protected updateDatabase(item: any)
+    {
+        //this.pricingService.setPrices()
     }
 }

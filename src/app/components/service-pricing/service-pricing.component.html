@@ -35,15 +35,15 @@
             <div class="col-md-3">
                 <div class="data-list">
                     <div *ngFor="let item of data">
-                    <span class="input-group">
-                         <div class="service-price">
-                            {{item.value}}
-                        </div>
-                        <span class="input-group-btn">
-                            <button class="btn btn-secondary" type="button" (click)="increase()">+</button>
-                            <button class="btn btn-secondary" type="button" (click)="decrease()">-</button>
+                        <span class="input-group">
+                            <div class="service-price">
+                                {{item.value}}
+                            </div>
+                            <div class="input-group-btn">
+                                <button class="btn btn-secondary" type="button" (click)="increase(item)">+</button>
+                                <button class="btn btn-secondary" type="button" (click)="decrease(item)">-</button>
+                            </div>
                         </span>
-                     </span>
                     </div>
                 </div>
             </div>
