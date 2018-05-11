@@ -10,7 +10,7 @@ import { AlertService, AuthenticationService, LoggerService, PricingService } fr
 
 export class ServicePricingComponent {
     protected isAdmin: boolean;
-    protected data: Object[];
+    protected data: any[];
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -41,17 +41,35 @@ export class ServicePricingComponent {
     protected increase(item: any)
     {
         item.value = item.value + 1;
+        this.updateDatabase(item);
     }
 
     protected decrease(item: any)
     {
         if (item.value > 0) {
             item.value = item.value - 1;
+            this.updateDatabase(item);
         }
     }
 
-    protected updateDatabase(item: any)
+    protected updateDatabase(changed: any)
     {
-        //this.pricingService.setPrices()
+        for (let item of this.data)
+        {
+            if (item.name === changed.name) {
+                item.value = changed.value;
+            }
+        }
+        this.pricingService.setPrices("", this.data)
+            .subscribe((pricing) => {
+                if (pricing[0] === "ERROR") {
+                    this.alertService.error(pricing[1]);
+                    this.loggerService.log("debug", pricing[1]);
+                    console.log(this.data);
+                } else {
+                    this.alertService.nothing();
+                    console.log(this.data);
+                }
+            });
     }
 }

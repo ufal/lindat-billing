@@ -13,4 +13,10 @@ export class PricingService{
             .map((res) => res.json());
     }
 
+    public setPrices(name: string, pricingData: any) {
+        let data = JSON.stringify(pricingData);
+        const body = {name, data};
+        console.log(body);
+        return this.http.post("./api/pricing", body);
+    }
 }

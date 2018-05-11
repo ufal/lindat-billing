@@ -295,7 +295,20 @@ DB.prototype.getPricing = (id) => {
                 });
             });
     });
-}
+};
+
+DB.prototype.setPricing = (name, data) => {
+    logger.debug("Name is: " + name);
+    logger.debug("Data is: " + data);
+    logger.debug('UPDATE Pricing SET pricing = $1 where username = $2', [data, name]);
+    client.none('UPDATE Pricing SET pricing = $1 where username = $2', [data, name])
+        .then(data => {
+            logger.debug('Update of pricing done');
+        })
+        .catch(error => {
+            logger.error(error);
+        });
+};
 
 
 module.exports = DB;
