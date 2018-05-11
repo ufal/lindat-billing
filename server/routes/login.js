@@ -42,8 +42,6 @@ router.get('/home/*', function (req, res, next) {
         });
 });
 
-
-
 router.post('/accounts', function (req, res, next) {
     logger.debug('Adding new user', req.body.username);
     db.addAccount(req.body.username, req.body.password)

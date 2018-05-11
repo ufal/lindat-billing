@@ -8,7 +8,6 @@ const router = express.Router();
 const logger = require('winston');
 
 router.post('/log', function (req, res) {
-    console.log(req);
     switch (req.body.level) {
         case 'silly':
             logger.silly(req.body.text);
