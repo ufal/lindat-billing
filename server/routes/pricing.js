@@ -9,10 +9,12 @@ const db = new Database();
 
 router.post('/pricing', function (req, res, next) {
     logger.debug("Setting pricing is working");
-    logger.debug(req.body);
-    logger.debug(req.body.name);
-    logger.debug(req.body.data);
-    db.setPricing(req.body.name, req.body.data);
+    let username = req.body.name;
+    let body = req.body.data;
+    if (username === '') username = 'default';
+    logger.debug(body);
+
+    db.setPricing(username, body);
     /*    .then(() => {
             res.json();
         })
