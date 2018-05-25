@@ -7,6 +7,7 @@ const pgp = require('pg\-promise')();
 const logger = require('./logger');
 let id_s = require('./log_management/services.json');
 let service_price = require('./service-prices.json');
+const defaultPricing = require('../settings/defaultPricing.json');
 
 // Database connection details;
 let client = pgp(config.db);
@@ -233,7 +234,33 @@ DB.prototype.addAccount = (username, password) => {
                 });
             });
     });
-}
+};
+
+DB.prototype.addAccountNew = (username, password) => {
+    return new Promise((resolve, reject) => {
+        client.task(t => {
+            return t.any("INSERT INTO Accounts (username, pass, admin) " +
+                "VALUES($1, crypt($2, gen_salt('bf')), $3)", [username.toLowerCase(), password, false])
+                .then(data => {
+                    return t.any("INSERT INTO Pricing (username, pricing) VALUES($1, $2)", [username, defaultPricing])
+                        .then(accs => {
+                            return data;
+                        })
+                })
+        })
+        .then(data => {
+            resolve(data);
+        })
+        .catch(error => {
+            logger.error(error);
+            reject({
+                state: 'failure',
+                reason: 'Username already exists',
+                extra: null
+            });
+        });
+    });
+};
 
 DB.prototype.authenticate = (username, password) => {
     return new Promise((resolve, reject) => {

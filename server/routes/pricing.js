@@ -8,7 +8,6 @@ const Database = require('../database');
 const db = new Database();
 
 router.post('/pricing', function (req, res, next) {
-    logger.debug("Setting pricing is working");
     let username = req.body.name;
     let body = req.body.data;
     if (username === '') username = 'default';
@@ -23,18 +22,17 @@ router.post('/pricing', function (req, res, next) {
     }
     json += "\n}";
     logger.debug(json);
-    db.setPricing(username, json);
-    /*    .then(() => {
+    db.setPricing(username, json)
+        .then(() => {
             res.json();
         })
         .catch(err => {
             logger.error(err);
             res.json(["ERROR", err]);
-        });*/
+        });
 });
 
 router.get('/pricing/*', function (req, res, next) {
-    logger.debug("Getting pricing information");
     const request = req.url.split(['/']);
     const id = request[2].length > 0 ? request[2] : 'default';
     db.getPricing(id)

@@ -14,7 +14,7 @@ export class PricingService{
     }
 
     public setPrices(name: string, pricingData: any) {
-        let data = JSON.stringify(pricingData);
+        let data = JSON.stringify(pricingData, null, "");
         const body = {name, data};
         console.log(body);
         return this.http.post("./api/pricing", body);

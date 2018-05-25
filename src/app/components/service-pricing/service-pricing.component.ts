@@ -33,7 +33,6 @@ export class ServicePricingComponent {
                 } else {
                     this.alertService.nothing();
                     this.data = pricing;
-                    console.log(this.data);
                 }
             });
     }
@@ -65,10 +64,8 @@ export class ServicePricingComponent {
                 if (pricing[0] === "ERROR") {
                     this.alertService.error(pricing[1]);
                     this.loggerService.log("debug", pricing[1]);
-                    console.log(this.data);
                 } else {
                     this.alertService.nothing();
-                    console.log(this.data);
                 }
             });
     }
