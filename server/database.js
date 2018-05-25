@@ -6,7 +6,6 @@ const config = require('../settings/backend');
 const pgp = require('pg\-promise')();
 const logger = require('./logger');
 let id_s = require('./log_management/services.json');
-let service_price = require('./service-prices.json');
 const defaultPricing = require('../settings/defaultPricing.json');
 
 // Database connection details;
@@ -304,7 +303,7 @@ DB.prototype.getServiceName = (id) => {
 };
 
 DB.prototype.getServicePrice = (id) => {
-    return service_price[id].value;
+    return defaultPricing[id].value;
 };
 
 DB.prototype.getPricing = (id) => {
