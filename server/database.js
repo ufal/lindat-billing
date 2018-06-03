@@ -308,9 +308,9 @@ DB.prototype.getServicePrice = (id) => {
 
 DB.prototype.getPricing = (id) => {
     return new Promise((resolve, reject) => {
-        client.one('SELECT pricing from Pricing where username = $1', [id])
+        client.oneOrNone('SELECT pricing from Pricing where username = $1', [id])
             .then(data => {
-                resolve(data.pricing); // data
+                resolve(data); // data
             })
             .catch(error => {
                 logger.error(error);
@@ -325,13 +325,25 @@ DB.prototype.getPricing = (id) => {
 
 DB.prototype.setPricing = (name, data) => {
     logger.debug('UPDATE Pricing SET pricing = $1 where username = $2', [data, name]);
-    client.none('UPDATE Pricing SET pricing = $1 where username = $2', [data, name])
-        .then(data => {
-            logger.debug('Update of pricing done');
-        })
-        .catch(error => {
-            logger.error(error);
-        });
+    return new Promise((resolve, reject) => {
+        client.none('UPDATE Pricing SET pricing = $1 where username = $2', [data, name])
+            .then(() => {
+                logger.debug('Update of pricing done');
+                resolve();
+            })
+            .catch(error => {
+                logger.error(error);
+                reject({
+                    state: 'failure',
+                    reason: 'Database error',
+                    extra: error
+                });
+            });
+    });
+};
+
+DB.prototype.addPricing = (username) => {
+    client.any("INSERT INTO Pricing (username, pricing) VALUES($1, $2)", [username, defaultPricing])
 };
 
 

@@ -11,6 +11,7 @@ import { AlertService, AuthenticationService, LoggerService, PricingService } fr
 export class ServicePricingComponent {
     protected isAdmin: boolean;
     protected data: any[];
+    protected username: string;
 
     constructor(
         private authenticationService: AuthenticationService,
@@ -19,12 +20,13 @@ export class ServicePricingComponent {
         private pricingService: PricingService)
     {
         this.isAdmin = authenticationService.isAdmin();
+        this.username = authenticationService.getUsername();
         this.getData();
     }
 
     protected getData()
     {
-        this.pricingService.getPrices("")
+        this.pricingService.getPrices(this.username)
             .subscribe((pricing) => {
                 if (pricing[0] === "ERROR") {
                     this.alertService.error(pricing[1]);
@@ -59,7 +61,7 @@ export class ServicePricingComponent {
                 item.value = changed.value;
             }
         }
-        this.pricingService.setPrices("", this.data)
+        this.pricingService.setPrices(this.username, this.data)
             .subscribe((pricing) => {
                 if (pricing[0] === "ERROR") {
                     this.alertService.error(pricing[1]);
