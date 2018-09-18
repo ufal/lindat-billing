@@ -4,6 +4,7 @@
 const logger = require('winston');
 const router = require('express').Router();
 const Database = require('../database');
+const unitSizes = require('../../settings/unitSizes.json');
 
 const db = new Database();
 
@@ -50,6 +51,14 @@ router.get('/pricing/*', function (req, res, next) {
             logger.error(err);
             res.json(["ERROR", err]);
         });
+});
+
+router.get('/unitsizes', function (req, res, next) {
+    let data = [];
+    for(let id in unitSizes) {
+        data.push(unitSizes[id]);
+    }
+    res.json(data);
 });
 
 reply = (prices, id, res) => {

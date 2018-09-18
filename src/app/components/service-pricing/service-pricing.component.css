@@ -21,3 +21,11 @@
     text-align: center;
     font-weight: bold;
 }
+.service-unit {
+    padding: 5px;
+    background-color: white;
+    margin: 3px;
+    color: darkslateblue;
+    text-align: center;
+    font-weight: bold;
+}

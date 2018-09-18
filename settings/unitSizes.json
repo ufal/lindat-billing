@@ -1,0 +1,10 @@
+{
+  "1": {"name": "morphodita", "unit": 1},
+  "2": {"name": "PDT-Vallex", "unit": 10},
+  "3": {"name": "EngVallex", "unit": 1},
+  "4": {"name": "moses", "unit": 1},
+  "5": {"name": "pmltq", "unit": 1},
+  "6": {"name": "korektor", "unit": 1},
+  "7": {"name": "parsito", "unit": 1},
+  "8": {"name": "nametag", "unit": 1}
+}

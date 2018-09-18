@@ -19,4 +19,9 @@ export class PricingService{
         console.log(body);
         return this.http.post("./api/pricing", body);
     }
+
+    public getUnitSizes() {
+        return this.http.get("./api/unitsizes")
+            .map((res) => res.json());
+    }
 }

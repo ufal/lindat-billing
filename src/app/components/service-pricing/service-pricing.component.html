@@ -8,7 +8,7 @@
             <account-info></account-info>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="row">
             <div class="col-md-3">
                 <div class="headline"> Service </div>
@@ -16,12 +16,12 @@
             <div class="col-md-3">
                 <div class="headline"> Price per unit </div>
             </div>
-            <div class="col-md-2">
-                <div class="headline"> Unit</div>
+            <div class="col-md-3">
+                <div class="headline">   Unit   </div>
             </div>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="row">
             <div class="col-md-3">
                 <div class="data-list">
@@ -39,9 +39,20 @@
                             <div class="service-price">
                                 {{item.value}}
                             </div>
-                            <div class="input-group-btn">
-                                <button class="btn btn-secondary" type="button" (click)="increase(item)">+</button>
-                                <button class="btn btn-secondary" type="button" (click)="decrease(item)">-</button>
+                            <div *ngIf="isAdmin" class="input-group-btn">
+                                <button class="btn btn-secondary" type="button" (click)="increasePrice(item)">+</button>
+                                <button class="btn btn-secondary" type="button" (click)="decreasePrice(item)">-</button>
+                            </div>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="data-list">
+                    <div *ngFor="let item of sizes">
+                        <span class="input-group">
+                            <div class="service-unit">
+                                {{item.unit}}
                             </div>
                         </span>
                     </div>
